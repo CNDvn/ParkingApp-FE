@@ -66,7 +66,7 @@ const LoginPage = (): JSX.Element => {
                             fontSize="16px"
                             textAlign={matchDownSM ? 'center' : 'inherit'}
                           >
-                            Sign in with Email address
+                            Sign in with UserName address
                           </Typography>
                         </Stack>
                       </Grid>
