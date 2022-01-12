@@ -8,9 +8,12 @@ import {
   incrementAsync,
   incrementIfOdd,
   selectCount,
+  selectStatus,
 } from './counterSlice';
 import styles from './Counter.module.css';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
+import { useLoadingToast } from 'hook/useLoading';
+import { StatusRequest } from 'constants/statusRequest';
 
 export function Counter(): JSX.Element {
   const count = useAppSelector(selectCount);
@@ -18,7 +21,16 @@ export function Counter(): JSX.Element {
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
-
+  const statusRequst = useAppSelector(selectStatus);
+  console.log(statusRequst);
+  const { showToast } = useLoadingToast({
+    loading: statusRequst === StatusRequest.PENDING ? true : false,
+    loadingMessage: 'Loading request',
+    successMessage: 'Loading success',
+    errorMessage: 'Loading failed',
+    status: statusRequst,
+    path: '/login',
+  });
   return (
     <div>
       <div className={styles.row}>
@@ -51,15 +63,18 @@ export function Counter(): JSX.Element {
         />
         <button
           className={styles.button}
-          onClick={(): { payload: number; type: string } =>
-            dispatch(incrementByAmount(incrementValue))
-          }
+          onClick={(): void => {
+            dispatch(incrementByAmount(incrementValue));
+          }}
         >
           Add Amount
         </button>
         <button
           className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
+          onClick={() => {
+            showToast();
+            dispatch(incrementAsync(incrementValue));
+          }}
         >
           Add Async
         </button>
