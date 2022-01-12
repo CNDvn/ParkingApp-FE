@@ -1,11 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 import { Breakpoint } from '../constants/breakpoint';
 
-
 declare module '@mui/material/styles/createPalette' {
   interface CommonColors {
     // Define your new color here
     lightGrey: string;
+    backgroundColorLogin: string;
   }
 }
 
@@ -28,6 +28,7 @@ const colors = {
   white: '#FFFFFF',
   grey: '#716F7D',
   lightGrey: '#FBFCFC',
+  backgroundColorLogin: 'rgb(227, 242, 253)',
 };
 
 const defaultTheme = createTheme({
@@ -42,12 +43,17 @@ const defaultTheme = createTheme({
   },
   palette: {
     primary: {
-      main: '#5429DA',
+      main: '#3da9fc',
       contrastText: colors.white,
     },
-    common: {},
+    common: {
+      backgroundColorLogin: colors.backgroundColorLogin,
+    },
     secondary: {
       main: '#000',
+    },
+    error: {
+      main: '#ff604f',
     },
   },
   dimension: {
