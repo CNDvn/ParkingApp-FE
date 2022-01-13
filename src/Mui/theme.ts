@@ -6,6 +6,7 @@ declare module '@mui/material/styles/createPalette' {
     // Define your new color here
     lightGrey: string;
     backgroundColorLogin: string;
+    orange: string;
   }
 }
 
@@ -29,6 +30,7 @@ const colors = {
   grey: '#716F7D',
   lightGrey: '#FBFCFC',
   backgroundColorLogin: 'rgb(227, 242, 253)',
+  orange: '#e65100',
 };
 
 const defaultTheme = createTheme({
@@ -51,6 +53,7 @@ const defaultTheme = createTheme({
     },
     secondary: {
       main: '#000',
+      contrastText: colors.orange,
     },
     error: {
       main: '#ff604f',
@@ -64,6 +67,16 @@ const defaultTheme = createTheme({
 const theme = createTheme({
   ...defaultTheme,
   typography: {
+  //   mediumAvatar: {
+  //     width: '34px',
+  //     height: '34px',
+  //     fontSize: '1.2rem'
+  // },
+  // largeAvatar: {
+  //     width: '44px',
+  //     height: '44px',
+  //     fontSize: '1.5rem'
+  // },
     fontFamily: '"SF Pro Display", sans-serif',
     allVariants: {
       color: colors.black,

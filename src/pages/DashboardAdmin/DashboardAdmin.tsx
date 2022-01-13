@@ -1,10 +1,12 @@
-import { Counter } from 'feature/counter/Counter';
+// import { Counter } from 'feature/counter/Counter';
 import React from 'react';
+import Header from './Header';
 
 const DashboardAdmin = (): JSX.Element => {
   return (
     <div>
-      <Counter />
+      {/* <Counter /> */}
+      <Header />
     </div>
   );
 };
