@@ -1,9 +1,11 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
+import SearchSection from './SearchSection';
 const Header = (): JSX.Element => {
     const theme = useTheme();
     return (
+        <>
         <Box
             sx={{
                 width: 228,
@@ -18,7 +20,10 @@ const Header = (): JSX.Element => {
             </Box>
         </Box>
 
-        
+        <SearchSection />
+        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 1 }} />
+        </> 
     );
 };
 

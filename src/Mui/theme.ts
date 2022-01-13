@@ -7,6 +7,7 @@ declare module '@mui/material/styles/createPalette' {
     lightGrey: string;
     backgroundColorLogin: string;
     orange: string;
+    successDark: string;
   }
 }
 
@@ -31,6 +32,8 @@ const colors = {
   lightGrey: '#FBFCFC',
   backgroundColorLogin: 'rgb(227, 242, 253)',
   orange: '#e65100',
+  successDark: 'rgb(94, 53, 177)',
+  successLight: 'rgb(237, 231, 246)',
 };
 
 const defaultTheme = createTheme({
@@ -58,6 +61,10 @@ const defaultTheme = createTheme({
     error: {
       main: '#ff604f',
     },
+    success: {
+      main: colors.successDark,
+      contrastText: colors.successLight,
+    },
   },
   dimension: {
     appBarHeight: '80px',
@@ -67,16 +74,16 @@ const defaultTheme = createTheme({
 const theme = createTheme({
   ...defaultTheme,
   typography: {
-  //   mediumAvatar: {
-  //     width: '34px',
-  //     height: '34px',
-  //     fontSize: '1.2rem'
-  // },
-  // largeAvatar: {
-  //     width: '44px',
-  //     height: '44px',
-  //     fontSize: '1.5rem'
-  // },
+    //   mediumAvatar: {
+    //     width: '34px',
+    //     height: '34px',
+    //     fontSize: '1.2rem'
+    // },
+    // largeAvatar: {
+    //     width: '44px',
+    //     height: '44px',
+    //     fontSize: '1.5rem'
+    // },
     fontFamily: '"SF Pro Display", sans-serif',
     allVariants: {
       color: colors.black,
