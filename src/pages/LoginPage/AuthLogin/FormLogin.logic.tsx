@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { StatusRequest } from 'constants/statusRequest';
 import { useLoadingToast } from 'hook/useLoading';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
-import { loginAsync } from 'components/UserProvider/userProvider.action';
+import { fetchLoginAsync } from 'components/UserProvider/userProvider.action';
 import { LoginRequestPayload } from 'components/UserProvider/userProvider.type';
 import {
   selectMessageUser,
@@ -44,7 +44,7 @@ const FormLoginLogic = (): JSX.Element => {
     validateOnMount: true,
     validateOnBlur: true,
     onSubmit: (values: LoginRequestPayload) => {
-      dispatch(loginAsync(values));
+      dispatch(fetchLoginAsync(values));
       formik.resetForm();
       showToast();
     },

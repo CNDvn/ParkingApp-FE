@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StatusRequest } from 'constants/statusRequest';
 import { User } from 'models/user';
-import { loginAsync } from './userProvider.action';
+import { fetchLoginAsync, fetchProfileAsync } from './userProvider.action';
 import { ErrorBase } from './userProvider.type';
 
 export interface UserSlice {
@@ -20,14 +20,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(loginAsync.pending, (state) => {
+    // login
+    builder.addCase(fetchLoginAsync.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
-    builder.addCase(loginAsync.fulfilled, (state, action) => {
+    builder.addCase(fetchLoginAsync.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
       state.message = action.payload.data;
     });
-    builder.addCase(loginAsync.rejected, (state, action) => {
+    builder.addCase(fetchLoginAsync.rejected, (state, action) => {
+      state.status = StatusRequest.FAILED;
+      state.message = (action.payload as ErrorBase<string>).message;
+    });
+    // get profile
+    builder.addCase(fetchProfileAsync.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchProfileAsync.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      state.user = action.payload.data;
+    });
+    builder.addCase(fetchProfileAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
       state.message = (action.payload as ErrorBase<string>).message;
     });

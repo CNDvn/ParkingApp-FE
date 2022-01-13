@@ -1,3 +1,5 @@
+import { User } from 'models/user';
+
 export interface BaseResponse<T> {
   message: string;
   data: T;
@@ -19,5 +21,9 @@ export interface Error<T> {
     data: ErrorBase<T>;
   };
 }
+
 export type LoginSuccessPayload = BaseResponse<string>;
 export type LoginFailPayload = Error<string>;
+
+export type ProfileSuccessPayload = BaseResponse<User>;
+export type ProfileFailPayload = BaseResponse<string>;
