@@ -1,4 +1,5 @@
 import AppProvider from 'components/AppProvider/AppProvider';
+import { PATH_NAME } from 'config/path';
 import DashboardAdmin from 'pages/DashboardAdmin/DashboardAdmin';
 import Example from 'pages/Example/Example';
 import LoginPage from 'pages/LoginPage/LoginPage';
@@ -10,9 +11,9 @@ const App = (): JSX.Element => {
   return (
     <AppProvider>
       <Routes>
-        <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
-        <Route path="/Example" element={<Example />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path={PATH_NAME.DashboardAdmin} element={<DashboardAdmin />} />
+        <Route path={PATH_NAME.Example} element={<Example />} />
+        <Route path={PATH_NAME.Login} element={<LoginPage />} />
       </Routes>
     </AppProvider>
   );

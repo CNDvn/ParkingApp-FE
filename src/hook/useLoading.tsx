@@ -41,10 +41,11 @@ export const useLoadingToast = ({
           type: 'success',
           autoClose: 3000,
           closeOnClick: true,
-          icon: '👌',
         });
         if (path !== '') {
-          navigate(path);
+          setTimeout(() => {
+            navigate(path);
+          }, 3000);
         }
         break;
       case StatusRequest.FAILED:

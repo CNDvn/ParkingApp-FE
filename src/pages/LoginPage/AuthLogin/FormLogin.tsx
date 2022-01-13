@@ -19,19 +19,24 @@ import { FormikProps } from 'formik';
 import React, { FocusEvent, useState } from 'react';
 import { LoginContentType } from './FormLogin.type';
 import { useStyles } from './style';
+
 interface PropsFormLogin {
   formik: FormikProps<LoginContentType>;
 }
+
 const FormLogin: React.FC<PropsFormLogin> = ({ formik }: PropsFormLogin) => {
   const [checked, setChecked] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState(false);
-  console.log(formik);
+
   const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
     formik;
-  //
+
   const theme = useTheme();
+  
   const matchSM = useMediaQuery(theme.breakpoints.only('sm'));
+  
   const classes = useStyles();
+  
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -119,7 +124,6 @@ const FormLogin: React.FC<PropsFormLogin> = ({ formik }: PropsFormLogin) => {
           <Box sx={{ mt: 1 }}>
             <Button
               disableElevation
-              // disabled={isSubmitting}
               className={classes.button}
               fullWidth
               size="large"

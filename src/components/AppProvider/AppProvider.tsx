@@ -30,6 +30,7 @@ const AppProvider: React.FC<PropsWithChildren<AppProviderProps>> = (props) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        rtl={false}
       />
       <CssBaseline />
     </ReduxProvider>

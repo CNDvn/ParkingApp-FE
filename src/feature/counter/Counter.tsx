@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
-
 import {
   decrement,
   increment,
@@ -21,14 +19,14 @@ export function Counter(): JSX.Element {
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
-  const statusRequst = useAppSelector(selectStatus);
-  console.log(statusRequst);
+  const statusRequest = useAppSelector(selectStatus);
+  console.log(statusRequest);
   const { showToast } = useLoadingToast({
-    loading: statusRequst === StatusRequest.PENDING ? true : false,
+    loading: statusRequest === StatusRequest.PENDING ? true : false,
     loadingMessage: 'Loading request',
     successMessage: 'Loading success',
     errorMessage: 'Loading failed',
-    status: statusRequst,
+    status: statusRequest,
     path: '/login',
   });
   return (
@@ -71,7 +69,7 @@ export function Counter(): JSX.Element {
         </button>
         <button
           className={styles.asyncButton}
-          onClick={() => {
+          onClick={(): void => {
             showToast();
             dispatch(incrementAsync(incrementValue));
           }}
