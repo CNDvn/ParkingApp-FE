@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StatusRequest } from 'constants/statusRequest';
+import { ErrorBase } from 'models/error';
 import { User } from 'models/user';
 import { fetchLoginAsync, fetchProfileAsync } from './userProvider.action';
-import { ErrorBase } from './userProvider.type';
 
 export interface UserSlice {
   user: Partial<User>;
