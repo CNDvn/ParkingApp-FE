@@ -7,7 +7,10 @@ interface PropsMainCardChildren {
 }
 
 const MainCard = forwardRef(
-  ({ children, sx, content }: PropsMainCardChildren): JSX.Element => {
+  (
+    { children, sx, content }: PropsMainCardChildren,
+    ref: React.Ref<HTMLDivElement>
+  ): JSX.Element => {
     const theme = useTheme();
     return (
       <Card
@@ -19,6 +22,7 @@ const MainCard = forwardRef(
           },
           ...sx,
         }}
+        ref={ref}
       >
         {!content && children}
       </Card>

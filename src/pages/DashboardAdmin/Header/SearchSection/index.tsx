@@ -14,13 +14,13 @@ import { shouldForwardProp } from '@mui/system';
 import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
 import Transitions from 'pages/ui-component/extended/Transitions';
-// import { PopupState } from 'material-ui-popup-state/core';
+import { PopupState as PopupStateAll } from 'material-ui-popup-state/core';
 
 interface ISearchSection {
   value: string;
   // eslint-disable-next-line no-unused-vars
   setValue: (value: string) => void;
-  popupState: PopupState;
+  popupState: PopupStateAll;
 }
 
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -140,7 +140,7 @@ const SearchSection = (): JSX.Element => {
     <>
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <PopupState variant="popper" popupId="demo-popup-popper">
-          {(popupState: PopupState): JSX.Element => (
+          {(popupState: PopupStateAll): JSX.Element => (
             <>
               <Box sx={{ ml: 2 }}>
                 <ButtonBase sx={{ borderRadius: '12px' }}>
