@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -28,12 +27,15 @@ import UpgradePlanCard from './UpgradePlanCard';
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 import Transitions from 'pages/ui-component/extended/Transitions';
 import MainCard from 'pages/ui-component/cards/MainCard';
+import ChipSection from './Chip';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = (): JSX.Element => {
   const theme = useTheme();
-  const customization = useSelector((state) => state.customization);
+  const customization = useSelector(
+    (state: RootStateOrAny) => state.customization
+  );
   const navigate = useNavigate();
 
   const [sdm, setSdm] = useState(true);
@@ -80,56 +82,7 @@ const ProfileSection = (): JSX.Element => {
 
   return (
     <>
-      <Chip
-        sx={{
-          height: '48px',
-          alignItems: 'center',
-          borderRadius: '27px',
-          transition: 'all .2s ease-in-out',
-          borderColor: theme.palette.primary.light,
-          backgroundColor: theme.palette.primary.light,
-          '&[aria-controls="menu-list-grow"], &:hover': {
-            borderColor: theme.palette.primary.main,
-            background: `${theme.palette.primary.main}!important`,
-            color: theme.palette.primary.light,
-            '& svg': {
-              stroke: theme.palette.primary.light,
-            },
-          },
-          '& .MuiChip-label': {
-            lineHeight: 0,
-          },
-        }}
-        icon={
-          <Avatar
-            src="../../../../../svg/user-round.svg"
-            sx={{
-              width: '34px',
-              height: '34px',
-              fontSize: '1.2rem',
-              margin: '8px 0 8px 8px !important',
-              cursor: 'pointer',
-            }}
-            ref={anchorRef}
-            aria-controls={open ? 'menu-list-grow' : undefined}
-            aria-haspopup="true"
-            color="inherit"
-          />
-        }
-        label={
-          <IconSettings
-            stroke={1.5}
-            size="1.5rem"
-            color={theme.palette.primary.main}
-          />
-        }
-        variant="outlined"
-        ref={anchorRef}
-        aria-controls={open ? 'menu-list-grow' : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-        color="primary"
-      />
+      <ChipSection handleToggle={handleToggle} open={open}></ChipSection>
       <Popper
         placement="bottom-end"
         open={open}

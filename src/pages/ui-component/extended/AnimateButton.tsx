@@ -3,17 +3,17 @@ import React, { forwardRef } from 'react';
 import { motion, useCycle } from 'framer-motion';
 
 // ==============================|| ANIMATION BUTTON ||============================== //
-interface IAnimatevButton {
+interface IAnimateButton {
   children: React.ReactNode;
   type?: string;
   direction?: string;
-  offset: number;
-  scale?: number | object;
+  offset?: number;
+  scale?: any;
 }
 
 const AnimateButton = forwardRef(
   (
-    { children, type = 'scale', direction, offset, scale }: IAnimatevButton,
+    { children, type = 'scale', direction, offset, scale }: IAnimateButton,
     ref: React.Ref<HTMLDivElement>
   ) => {
     let offset1;
