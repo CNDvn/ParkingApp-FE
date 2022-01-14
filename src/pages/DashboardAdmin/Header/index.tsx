@@ -1,30 +1,36 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
+import NotificationSection from './NotificationSection';
 import SearchSection from './SearchSection';
 const Header = (): JSX.Element => {
-    const theme = useTheme();
-    return (
-        <>
+  const theme = useTheme();
+  return (
+    <>
+      <Box
+        sx={{
+          width: 228,
+          display: 'flex',
+          [theme.breakpoints.down('md')]: {
+            width: 'auto',
+          },
+        }}
+      >
         <Box
-            sx={{
-                width: 228,
-                display: 'flex',
-                [theme.breakpoints.down('md')]: {
-                    width: 'auto'
-                }
-            }}
+          component="span"
+          sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}
         >
-            <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-                <img src="../../../svg/logo.svg" alt="" srcSet="" />
-            </Box>
+          <img src="../../../svg/logo.svg" alt="" srcSet="" />
         </Box>
+      </Box>
 
-        <SearchSection />
-        <Box sx={{ flexGrow: 1 }} />
-        <Box sx={{ flexGrow: 1 }} />
-        </> 
-    );
+      <SearchSection />
+      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ flexGrow: 1 }} />
+
+      <NotificationSection />
+    </>
+  );
 };
 
 export default Header;

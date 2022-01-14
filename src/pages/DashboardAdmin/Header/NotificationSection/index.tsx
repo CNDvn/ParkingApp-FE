@@ -18,10 +18,11 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-
+import { IconBell } from '@tabler/icons';
 import NotificationList from './Notification';
 import MainCard from 'pages/ui-component/cards/MainCard';
 import Transitions from 'pages/ui-component/extended/Transitions';
+import AvatarSection from './Avatar';
 
 // notification status options
 const status = [
@@ -91,7 +92,11 @@ const NotificationSection = (): JSX.Element => {
           },
         }}
       >
-        <ButtonBase sx={{ borderRadius: '12px' }}></ButtonBase>
+        <ButtonBase sx={{ borderRadius: '12px' }}>
+          <AvatarSection handleToggle={handleToggle} open={open}>
+            <IconBell stroke={1.5} size="1.3rem" />
+          </AvatarSection>
+        </ButtonBase>
       </Box>
       <Popper
         placement={matchesXs ? 'bottom' : 'bottom-end'}
