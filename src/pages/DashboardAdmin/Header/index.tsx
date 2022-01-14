@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 import NotificationSection from './NotificationSection';
+import ProfileSection from './ProfileSection';
 import SearchSection from './SearchSection';
 const Header = (): JSX.Element => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const Header = (): JSX.Element => {
       <Box sx={{ flexGrow: 1 }} />
 
       <NotificationSection />
+      <ProfileSection />
     </>
   );
 };
