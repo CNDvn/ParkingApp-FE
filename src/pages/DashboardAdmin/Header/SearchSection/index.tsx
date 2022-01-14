@@ -61,11 +61,11 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(
     width: '34px',
     height: '34px',
     fontSize: '1.2rem',
-    background: theme.palette.secondary.light,
-    color: theme.palette.secondary.dark,
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.dark,
     '&:hover': {
-      background: theme.palette.secondary.dark,
-      color: theme.palette.secondary.light,
+      background: theme.palette.primary.main,
+      color: theme.palette.primary.light,
     },
   })
 );
@@ -210,7 +210,11 @@ const SearchSection = (): JSX.Element => {
           }
           endAdornment={
             <InputAdornment position="end">
-              <ButtonBase sx={{ borderRadius: '12px' }}>
+              <ButtonBase
+                sx={{
+                  borderRadius: '12px',
+                }}
+              >
                 <HeaderAvatarStyle variant="rounded">
                   <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
                 </HeaderAvatarStyle>

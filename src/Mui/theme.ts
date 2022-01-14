@@ -8,6 +8,7 @@ declare module '@mui/material/styles/createPalette' {
     backgroundColorLogin: string;
     orange: string;
     successDark: string;
+    backgroundColorAdmin: string;
   }
 }
 
@@ -34,6 +35,7 @@ const colors = {
   orange: '#e65100',
   successDark: 'rgb(94, 53, 177)',
   successLight: 'rgb(237, 231, 246)',
+  backgroundColorAdmin: 'rgb(255, 255, 255)',
 };
 
 const defaultTheme = createTheme({
@@ -53,6 +55,7 @@ const defaultTheme = createTheme({
     },
     common: {
       backgroundColorLogin: colors.backgroundColorLogin,
+      backgroundColorAdmin: colors.backgroundColorAdmin,
     },
     secondary: {
       main: '#000',

@@ -1,13 +1,11 @@
-// import { Counter } from 'feature/counter/Counter';
 import React from 'react';
-import Header from './Header';
+import MainLayout from './MainLayout';
 
 const DashboardAdmin = (): JSX.Element => {
   return (
-    <div>
-      {/* <Counter /> */}
-      <Header />
-    </div>
+    <>
+      <MainLayout />
+    </>
   );
 };
 

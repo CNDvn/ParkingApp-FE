@@ -3,7 +3,7 @@ import { Avatar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 interface IAvatarSection {
-  open: boolean;
+  open?: boolean;
   handleToggle: VoidFunction;
   children: React.ReactNode;
 }
@@ -23,11 +23,11 @@ const AvatarSection = React.forwardRef<Ref, PropsWithChildren<IAvatarSection>>(
           height: '34px',
           fontSize: '1.2rem',
           transition: 'all .2s ease-in-out',
-          background: theme.palette.secondary.light,
-          color: theme.palette.secondary.dark,
+          background: theme.palette.primary.main,
+          color: theme.palette.primary.dark,
           '&[aria-controls="menu-list-grow"],&:hover': {
-            background: theme.palette.secondary.dark,
-            color: theme.palette.secondary.light,
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.light,
           },
         }}
         ref={ref}
