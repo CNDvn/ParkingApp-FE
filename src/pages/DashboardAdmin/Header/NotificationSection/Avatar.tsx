@@ -1,20 +1,20 @@
-import React, { forwardRef } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Avatar } from '@mui/material';
-import { IconBell } from '@tabler/icons';
 import { useTheme } from '@mui/material/styles';
 
 interface IAvatarSection {
   open: boolean;
-  handleToggle: VoidFunction; 
+  handleToggle: VoidFunction;
+  children: React.ReactNode;
 }
-
-type AvatarRef = React.HTMLProps<HTMLElement>
-
-const AvatarSection = forwardRef<HTMLElement,React.PropsWithChildren<IAvatarSection>>(({open, handleToggle}: IAvatarSection, anchorRef: React.Ref<HTMLElement>): JSX.Element => {
-  const theme = useTheme();
-  return (
-    <>
+export type Ref = HTMLDivElement;
+const AvatarSection = React.forwardRef<Ref, PropsWithChildren<IAvatarSection>>(
+  (props, ref): React.ReactElement | null => {
+    const theme = useTheme();
+    const { open, handleToggle, children, ...rest } = props;
+    return (
       <Avatar
+        {...rest}
         variant="rounded"
         sx={{
           cursor: 'pointer',
@@ -30,16 +30,17 @@ const AvatarSection = forwardRef<HTMLElement,React.PropsWithChildren<IAvatarSect
             color: theme.palette.secondary.light,
           },
         }}
-        ref={anchorRef}
+        ref={ref}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
         color="inherit"
       >
-        <IconBell stroke={1.5} size="1.3rem" />
+        {children}
       </Avatar>
-    </>
-  );
-});
+    );
+  }
+);
+
 AvatarSection.displayName = 'AvatarSection';
 export default AvatarSection;

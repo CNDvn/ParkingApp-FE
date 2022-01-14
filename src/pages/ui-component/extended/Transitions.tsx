@@ -10,7 +10,7 @@ interface ITransition {
     position?: string;
     type?: string;
     direction?: 'up' | 'right' | 'left' | 'down' | undefined;
-    sx: object;
+    sx?: object;
 }
 
 const Transitions = forwardRef(({ children, position = 'top-left', type = 'grow', direction = 'up', ...others }: ITransition, ref) => {

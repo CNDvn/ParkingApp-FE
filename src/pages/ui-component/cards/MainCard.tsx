@@ -22,12 +22,13 @@ interface IMainCard {
   children: React.ReactNode;
   content: boolean;
   contentClass?: string;
-  contentSX: object;
-  darkTitle: boolean;
-  secondary: object | React.ReactNode | string;
+  contentSX?: object;
+  darkTitle?: boolean;
+  secondary?: object | React.ReactNode | string;
   shadow?: string;
-  sx: object;
-  title: object | React.ReactNode | string;
+  sx?: object;
+  title?: object | React.ReactNode | string;
+  elevation: number;
 }
 
 const MainCard = forwardRef(

@@ -43,8 +43,6 @@ const status = [
   },
 ];
 
-
-
 // ==============================|| NOTIFICATION ||============================== //
 
 const NotificationSection = (): JSX.Element => {
@@ -58,12 +56,13 @@ const NotificationSection = (): JSX.Element => {
    * */
   const anchorRef = useRef<HTMLElement | null>(null);
 
+  // eslint-disable-next-line no-unused-vars
   const handleToggle = (): void => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (event: any): void => {
+    if (anchorRef.current && anchorRef.current.contains(event?.target)) {
       return;
     }
     setOpen(false);
@@ -92,9 +91,7 @@ const NotificationSection = (): JSX.Element => {
           },
         }}
       >
-        <ButtonBase sx={{ borderRadius: '12px' }}>
-          
-        </ButtonBase>
+        <ButtonBase sx={{ borderRadius: '12px' }}></ButtonBase>
       </Box>
       <Popper
         placement={matchesXs ? 'bottom' : 'bottom-end'}
@@ -114,7 +111,7 @@ const NotificationSection = (): JSX.Element => {
           ],
         }}
       >
-        {({ TransitionProps }) => (
+        {({ TransitionProps }): JSX.Element => (
           <Transitions
             position={matchesXs ? 'top' : 'top-right'}
             in={open}
