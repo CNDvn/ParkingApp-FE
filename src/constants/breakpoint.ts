@@ -6,3 +6,6 @@ export enum Breakpoint {
   lg = 'lg',
   xl = 'xl',
 }
+export const gridSpacing = 3;
+export const drawerWidth = 260;
+export const appDrawerWidth = 320;

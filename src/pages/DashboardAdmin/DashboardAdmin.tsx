@@ -1,3 +1,4 @@
+import MainLayout from './MainLayout';
 import { fetchProfileAsync } from 'components/UserProvider/userProvider.action';
 import {
   selectMessageUser,
@@ -5,7 +6,7 @@ import {
   selectUser,
 } from 'components/UserProvider/userProvider.selector';
 import { StatusRequest } from 'constants/statusRequest';
-import { Counter } from 'feature/counter/Counter';
+// import { Counter } from 'feature/counter/Counter';
 import { useAppSelector } from 'hook/hookRedux';
 import { useLoadingToast } from 'hook/useLoading';
 import { useMounting } from 'hook/useMounting';
@@ -33,9 +34,9 @@ const DashboardAdmin = (): JSX.Element => {
     showToast();
   });
   return (
-    <div>
-      <Counter />
-    </div>
+    <>
+      <MainLayout />
+    </>
   );
 };
 

@@ -18,11 +18,11 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "linebreak-style": 0,
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "no-unused-vars": "error",
     "eqeqeq": "error",
-    "@typescript-eslint/explicit-function-return-type": "error"
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "linebreak-style": 0
   }
 }
