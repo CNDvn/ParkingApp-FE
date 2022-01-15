@@ -54,19 +54,12 @@ const LoginPage = (): JSX.Element => {
                           spacing={1}
                         >
                           <Typography
-                            fontSize="1.5rem"
-                            color={theme.palette.primary.main}
-                            gutterBottom
-                            variant={matchDownSM ? 'h3' : 'h2'}
-                          >
-                            Hi, Welcome Back
-                          </Typography>
-                          <Typography
                             variant="caption"
+                            color={theme.palette.primary.main}
                             fontSize="16px"
                             textAlign={matchDownSM ? 'center' : 'inherit'}
                           >
-                            Sign in with UserName address
+                            Sign In With UserName
                           </Typography>
                         </Stack>
                       </Grid>

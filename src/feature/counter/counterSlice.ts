@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { StatusRequest } from 'constants/statusRequest';
 import { AppDispatch, AppThunk, RootState } from 'store/store';
 // import { RootState, AppThunk } from '../../app/store';
 import { fetchCount } from './counterAPI';
 
 export interface CounterState {
   value: number;
-  status: 'idle' | 'loading' | 'failed';
+  status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
 }
 
 const initialState: CounterState = {
   value: 0,
-  status: 'idle',
+  status: StatusRequest.PENDING,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -52,10 +53,13 @@ export const counterSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(incrementAsync.pending, (state) => {
-        state.status = 'loading';
+        // console.log('pending');
+
+        state.status = StatusRequest.PENDING;
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
+        // console.log('success');
+        state.status = StatusRequest.SUCCESS;
         state.value += action.payload;
       });
   },
@@ -67,7 +71,8 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectCount = (state: RootState): number => state.counter.value;
-
+export const selectStatus = (state: RootState): StatusRequest =>
+  state.counter.status;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 export const incrementIfOdd =
