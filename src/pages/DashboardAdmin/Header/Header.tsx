@@ -23,7 +23,7 @@ const Header = ({ handleLeftDrawerToggle }: IHeader): JSX.Element => {
           [theme.breakpoints.down('md')]: {
             width: 'auto',
           },
-          padding: '24px',
+          // padding: '10px',
         }}
       >
         <Box

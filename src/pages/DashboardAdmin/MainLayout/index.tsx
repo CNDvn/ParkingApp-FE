@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import Header from '../Header/Header';
 import Sidebar from '../SlideBar/SlideBar';
+import Dashboard from './Dashboard/Dashboard';
 
 const MainLayout = (): JSX.Element => {
   const theme = useTheme();
@@ -10,6 +11,7 @@ const MainLayout = (): JSX.Element => {
   const handleLeftDrawerToggle = (): void => {
     setLeftDrawerOpened(!leftDrawerOpened);
   };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -31,6 +33,7 @@ const MainLayout = (): JSX.Element => {
         leftDrawerOpened={leftDrawerOpened}
         handleLeftDrawerToggle={handleLeftDrawerToggle}
       />
+      <Dashboard />
     </Box>
   );
 };

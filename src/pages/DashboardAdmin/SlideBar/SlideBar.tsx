@@ -11,6 +11,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { drawerWidth } from 'constants/breakpoint';
 
+// import Fade from '@mui/material/Fade';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -58,6 +59,7 @@ const Sidebar = ({
         flexShrink: { md: 0 },
         width: matchUpMd ? drawerWidth : 'auto',
         zIndex: '100',
+        display: leftDrawerOpened ? 'block' : 'none',
       }}
       aria-label="mailbox folders"
     >
@@ -71,7 +73,6 @@ const Sidebar = ({
             width: drawerWidth,
             background: theme.palette.background.default,
             color: theme.palette.text.primary,
-            borderRight: 'none',
             [theme.breakpoints.up('md')]: {
               top: '88px',
             },
@@ -80,6 +81,7 @@ const Sidebar = ({
         ModalProps={{ keepMounted: true }}
         color="inherit"
       >
+        {/* <Fade in={leftDrawerOpened}>{drawer}</Fade> */}
         {drawer}
       </Drawer>
     </Box>
