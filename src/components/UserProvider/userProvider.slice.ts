@@ -1,3 +1,9 @@
+import {
+  FetchEmptyListUser,
+  instanceOfFetchEmptyListUser,
+  instanceOfPagnigationData,
+  PagnigationData,
+} from './userProvider.type';
 import { createSlice } from '@reduxjs/toolkit';
 import { StatusRequest } from 'constants/statusRequest';
 import { ErrorBase } from 'models/error';
@@ -66,10 +72,26 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.count = action.payload.data.count;
-      state.listUser = action.payload.data.result;
-      state.currentPage = action.payload.data.currentPage;
-      state.lastPage = action.payload.data.lastPage;
+      if (
+        instanceOfPagnigationData(
+          action.payload.data as PagnigationData<User[]>
+        )
+      ) {
+        const data = action.payload.data as PagnigationData<User[]>;
+        state.count = data.count;
+        state.listUser = data.result;
+        state.currentPage = data.currentPage;
+        state.lastPage = data.lastPage;
+        state.message = '';
+      } else if (
+        instanceOfFetchEmptyListUser(action.payload.data as FetchEmptyListUser)
+      ) {
+        const data = action.payload.data as FetchEmptyListUser;
+        state.message = data.message;
+        state.listUser = [];
+        state.count = 0;
+        state.lastPage = 0;
+      }
     });
     builder.addCase(fetchListUserAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;

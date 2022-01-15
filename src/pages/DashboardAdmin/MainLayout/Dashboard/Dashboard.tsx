@@ -32,16 +32,6 @@ const Dashboard = ({ leftDrawerOpened }: IDashboard): JSX.Element => {
         padding: '20px',
       }}
     >
-      {/* <Grid item xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item lg={6} md={6} sm={6} xs={12}>
-            <h1>hello world</h1>
-          </Grid>
-          <Grid item lg={6} md={6} sm={6} xs={12}>
-            <h1>hello world</h1>
-          </Grid>
-        </Grid>
-      </Grid> */}
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>

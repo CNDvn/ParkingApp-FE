@@ -7,6 +7,7 @@ import {
 } from './userProvider.service';
 import {
   FetchListUserRequest,
+  FetchSuccessEmptyPayload,
   FetchSuccessPayload,
   LoginFailPayload,
   LoginRequestPayload,
@@ -45,7 +46,7 @@ export const fetchListUserAsync = createAsyncThunk(
   'user/fetchListUser',
   async (payload: FetchListUserRequest, { rejectWithValue }) => {
     try {
-      const response: FetchSuccessPayload = await fetchListUser(
+      const response: FetchSuccessPayload | FetchSuccessEmptyPayload = await fetchListUser(
         restAPI,
         payload
       );

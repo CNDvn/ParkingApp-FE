@@ -1,6 +1,7 @@
 import { RestClient } from 'config/api';
 import {
   FetchListUserRequest,
+  FetchSuccessEmptyPayload,
   FetchSuccessPayload,
   LoginRequestPayload,
   LoginSuccessPayload,
@@ -30,9 +31,11 @@ export const fetchProfileUser = async (
 export const fetchListUser = async (
   restClient: RestClient,
   payload: FetchListUserRequest
-): Promise<FetchSuccessPayload> => {
-  const { data: response } = await restClient.get<FetchSuccessPayload>(
-    `/users/pagination?sizePage=5&numberPage=${payload.newPage}&roles=NO&sortBy=ASC`
+): Promise<FetchSuccessPayload | FetchSuccessEmptyPayload> => {
+  const { data: response } = await restClient.get<
+    FetchSuccessPayload | FetchSuccessEmptyPayload
+  >(
+    `/users/pagination?sizePage=${payload.sizePage}&numberPage=${payload.numberPage}&userName=${payload.userName}&roles=${payload.role}&sortBy=${payload.sort}`
   );
   return response;
 };

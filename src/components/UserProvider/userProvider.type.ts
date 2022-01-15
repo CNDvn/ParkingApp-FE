@@ -8,6 +8,9 @@ export interface PagnigationData<T> {
   lastPage: number;
   result: T;
 }
+export interface FetchEmptyListUser {
+  message: string;
+}
 export interface BaseResponse<T> {
   message: string;
   data: T;
@@ -18,7 +21,11 @@ export interface LoginRequestPayload {
   password: string;
 }
 export interface FetchListUserRequest {
-  newPage: number;
+  numberPage: number;
+  sizePage: number;
+  userName: string;
+  sort: string;
+  role: string;
 }
 
 export type LoginSuccessPayload = BaseResponse<string>;
@@ -28,3 +35,16 @@ export type ProfileSuccessPayload = BaseResponse<User>;
 export type ProfileFailPayload = BaseResponse<string>;
 
 export type FetchSuccessPayload = BaseResponse<PagnigationData<User[]>>;
+export type FetchSuccessEmptyPayload = BaseResponse<FetchEmptyListUser>;
+
+export function instanceOfPagnigationData(
+  data: PagnigationData<User[]>
+): data is PagnigationData<User[]> {
+  return 'count' in data;
+}
+
+export function instanceOfFetchEmptyListUser(
+  data: FetchEmptyListUser
+): data is FetchEmptyListUser {
+  return 'message' in data;
+}
