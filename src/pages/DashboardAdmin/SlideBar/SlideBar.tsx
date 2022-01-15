@@ -1,7 +1,7 @@
 import React from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, useMediaQuery } from '@mui/material';
+import { Box, Drawer, Theme, useMediaQuery } from '@mui/material';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
@@ -20,8 +20,8 @@ const Sidebar = ({
   handleLeftDrawerToggle,
   leftDrawerOpened,
 }: ISidebar): JSX.Element => {
-  const theme = useTheme();
-  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  const theme: Theme = useTheme();
+  const matchUpMd: boolean = useMediaQuery(theme.breakpoints.up('md'));
 
   const drawer = (
     <>
@@ -54,7 +54,11 @@ const Sidebar = ({
   return (
     <Box
       component="nav"
-      sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : 'auto' }}
+      sx={{
+        flexShrink: { md: 0 },
+        width: matchUpMd ? drawerWidth : 'auto',
+        zIndex: '100',
+      }}
       aria-label="mailbox folders"
     >
       <Drawer

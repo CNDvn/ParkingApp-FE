@@ -48,10 +48,10 @@ const status = [
 
 const NotificationSection = (): JSX.Element => {
   const theme = useTheme();
-  const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
+  const matchesXs: boolean = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -62,8 +62,11 @@ const NotificationSection = (): JSX.Element => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: any): void => {
-    if (anchorRef.current && anchorRef.current.contains(event?.target)) {
+  const handleClose = (event: MouseEvent | TouchEvent): void => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event?.target as Node)
+    ) {
       return;
     }
     setOpen(false);
