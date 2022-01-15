@@ -9,3 +9,10 @@ export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
 
 export const selectUser = (state: RootState): Partial<User> => state.user?.user;
+
+export const selectListUser = (state: RootState): User[] => state.user.listUser;
+
+export const selectLastPage = (state: RootState): number | null =>
+  state.user.lastPage;
+
+export const selectCount = (state: RootState): number => state.user.count;

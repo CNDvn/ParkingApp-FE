@@ -26,7 +26,7 @@ const Sidebar = ({
 
   const drawer = (
     <>
-      <Box sx={{ width: 250 }} role="presentation">
+      <Box sx={{ width: 250, mt: '20px' }} role="presentation">
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>

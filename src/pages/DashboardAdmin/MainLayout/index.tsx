@@ -33,7 +33,7 @@ const MainLayout = (): JSX.Element => {
         leftDrawerOpened={leftDrawerOpened}
         handleLeftDrawerToggle={handleLeftDrawerToggle}
       />
-      <Dashboard />
+      <Dashboard leftDrawerOpened={leftDrawerOpened}/>
     </Box>
   );
 };

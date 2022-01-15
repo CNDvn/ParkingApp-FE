@@ -49,6 +49,7 @@ const ProfileSection = (): JSX.Element => {
     console.log('Logout');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClose = (event: any): void => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -58,6 +59,7 @@ const ProfileSection = (): JSX.Element => {
 
   const handleListItemClick = (
     event: React.ChangeEvent<HTMLInputElement>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     index: any,
     route = ''
   ): void => {

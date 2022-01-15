@@ -5,15 +5,18 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'constants/breakpoint';
 import { useTheme } from '@mui/material/styles';
+import TableUser from './TableUser/tableUser';
+import MainCard from 'pages/ui-component/cards/MainCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
-
-const Dashboard = (): JSX.Element => {
+interface IDashboard {
+  leftDrawerOpened: boolean;
+}
+const Dashboard = ({ leftDrawerOpened }: IDashboard): JSX.Element => {
   const theme = useTheme();
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(false);
+  // }, []);
 
   return (
     <Grid
@@ -21,37 +24,36 @@ const Dashboard = (): JSX.Element => {
       spacing={gridSpacing}
       sx={{
         bgcolor: theme.palette.common.backgroundColorDashboard,
-        marginTop: '88px',
+        marginTop: '100px',
         marginRight: '20px',
+        marginLeft: leftDrawerOpened ? '0px' : '20px',
+        borderRadius: '12px',
+        minHeight: 'calc(100vh - 88px)',
+        padding: '20px',
       }}
     >
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <h1>hello world</h1>
           </Grid>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
+          <Grid item lg={6} md={6} sm={6} xs={12}>
             <h1>hello world</h1>
-          </Grid>
-          <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <h1>hello world</h1>
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <h1>hello world</h1>
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
-          <Grid item xs={12} md={8}>
-            <h1>hello world</h1>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <h1>hello world</h1>
+          <Grid item xs={12}>
+            <MainCard
+              border={false}
+              elevation={16}
+              content={false}
+              boxShadow
+              shadow={theme.shadows[16]}
+            >
+              <TableUser />
+            </MainCard>
           </Grid>
         </Grid>
       </Grid>
