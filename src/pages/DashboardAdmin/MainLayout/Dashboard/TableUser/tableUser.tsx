@@ -65,6 +65,7 @@ const TableUser = (): JSX.Element => {
     value: string
   ): void => {
     setRole(value);
+    setNumberPage(1);
   };
 
   const handleChangeNumberPage = (
@@ -263,6 +264,7 @@ const TableUser = (): JSX.Element => {
             </Select>
           </FormControl>
           <Pagination
+            page={numberPage}
             count={lastPage as number}
             color="primary"
             onChange={handleChangeNumberPage}
