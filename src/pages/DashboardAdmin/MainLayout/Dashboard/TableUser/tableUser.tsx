@@ -31,7 +31,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { stringAvatar } from 'utils/handleAvarta';
 import { useState } from 'react';
 import { FetchListUserRequest } from 'components/UserProvider/userProvider.type';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -57,7 +56,6 @@ const TableUser = (): JSX.Element => {
   const [role, setRole] = React.useState<string>('NO');
   const [openForm, setOpenForm] = React.useState<boolean>(false);
   const [userSelect, setUserSelect] = React.useState<User>();
-  let countNumber = 0;
 
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
@@ -195,15 +193,14 @@ const TableUser = (): JSX.Element => {
         </TableHead>
         <TableBody>
           {listUser.length > 0 &&
-            listUser.map((item: User) => {
-              countNumber += 1;
+            listUser.map((item: User, index: number) => {
               return (
                 <TableRow
                   key={item.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {countNumber}
+                    {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
                   <TableCell align="left">{item.userName}</TableCell>
                   <TableCell align="left">{item.fullName}</TableCell>
@@ -246,8 +243,13 @@ const TableUser = (): JSX.Element => {
       >
         <Typography>Total: {count}</Typography>
         <Box display="flex" alignItems="baseline">
-          <FormControl sx={{ width: '100px' }}>
-            <InputLabel id="demo-simple-select-label">RowsPerPage</InputLabel>
+          <Typography>RowsPerPage: </Typography>
+          <FormControl
+            sx={{
+              width: '100px',
+              marginLeft: '5px',
+            }}
+          >
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
