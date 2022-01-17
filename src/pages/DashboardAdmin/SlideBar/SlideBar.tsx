@@ -66,7 +66,7 @@ const Sidebar = ({
                 height="40px"
               />
             </ListItemIcon>
-            <ListItemText>Paring</ListItemText>
+            <ListItemText>Parking</ListItemText>
           </ListItem>
           <ListItem
             button
@@ -85,7 +85,7 @@ const Sidebar = ({
                 height="40px"
               />
             </ListItemIcon>
-            <ListItemText>Paring</ListItemText>
+            <ListItemText>Wallet</ListItemText>
           </ListItem>
           <Divider />
         </List>
