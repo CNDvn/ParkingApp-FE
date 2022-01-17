@@ -1,26 +1,64 @@
+import AppProvider from 'components/AppProvider/AppProvider';
+import { PATH_NAME } from 'config/path';
+import DashboardAdmin from 'pages/DashboardAdmin/DashboardAdmin';
+import TableParking from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/TableParking';
+import TablePayment from 'pages/DashboardAdmin/MainLayout/Dashboard/TablePayment/tablePayment';
+import TableUser from 'pages/DashboardAdmin/MainLayout/Dashboard/TableUser/tableUser';
+import LoginPage from 'pages/LoginPage/LoginPage';
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
+import PrivateRoute from 'template/privateRouting';
 import './App.css';
-
-function App() {
+const AdminTemplate = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <DashboardAdmin>{children}</DashboardAdmin>
+    </>
   );
-}
+};
+const App = (): JSX.Element => {
+  return (
+    <AppProvider>
+      <Routes>
+        <Route
+          path={PATH_NAME.DashboardAdminUser}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <TableUser />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH_NAME.DashboardAdminParking}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <TableParking />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH_NAME.DashboardAdminPayment}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <TablePayment />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+
+        <Route path="/" element={<LoginPage />} />
+      </Routes>
+    </AppProvider>
+  );
+};
 
 export default App;
