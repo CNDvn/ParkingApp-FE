@@ -3,7 +3,6 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'constants/breakpoint';
 import { useTheme } from '@mui/material/styles';
-// import TableUser from './TableUser/tableUser';
 import MainCard from 'pages/ui-component/cards/MainCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Header from '../Header/Header';
 import Sidebar from '../SlideBar/SlideBar';
 import Dashboard from './Dashboard/Dashboard';
-// import TableUser from './Dashboard/TableUser/tableUser';
+
 interface MainLayout {
   children: React.ReactNode;
 }

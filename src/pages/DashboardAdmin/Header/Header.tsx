@@ -8,7 +8,6 @@ import { IconMenu2 } from '@tabler/icons';
 import LogoSection from '../LogoSection';
 import AvatarSection from './NotificationSection/Avatar';
 interface IHeader {
-  // eslint-disable-next-line no-unused-vars
   handleLeftDrawerToggle: VoidFunction;
 }
 const Header = ({ handleLeftDrawerToggle }: IHeader): JSX.Element => {
@@ -23,7 +22,6 @@ const Header = ({ handleLeftDrawerToggle }: IHeader): JSX.Element => {
           [theme.breakpoints.down('md')]: {
             width: 'auto',
           },
-          // padding: '10px',
         }}
       >
         <Box

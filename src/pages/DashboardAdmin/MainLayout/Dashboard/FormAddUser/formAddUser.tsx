@@ -68,7 +68,6 @@ export default function FormAddUser({
             <FormControl
               fullWidth
               className={classes.formControl}
-              //   error={Boolean(touched.username && errors.username)}
             >
               <InputLabel htmlFor="outlined-adornment-email-login">
                 UserName
@@ -76,25 +75,10 @@ export default function FormAddUser({
               <OutlinedInput
                 className={classes.input}
                 id="outlined-adornment-email-login"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                //   handleChange(e);
-                // }}
-                // onBlur={(e: FocusEvent<HTMLInputElement>): void => {
-                //   handleBlur(e);
-                // }}
-                // value={values.username}
                 name="username"
                 label="Username"
                 inputProps={{}}
               />
-              {/* {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {errors.username}
-                </FormHelperText>
-              )} */}
             </FormControl>
             <FormControl
               fullWidth
@@ -107,30 +91,14 @@ export default function FormAddUser({
               <OutlinedInput
                 className={classes.input}
                 id="outlined-adornment-email-login"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                //   handleChange(e);
-                // }}
-                // onBlur={(e: FocusEvent<HTMLInputElement>): void => {
-                //   handleBlur(e);
-                // }}
-                // value={values.username}
                 name="username"
                 label="Username"
                 inputProps={{}}
               />
-              {/* {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {errors.username}
-                </FormHelperText>
-              )} */}
             </FormControl>
             <FormControl
               fullWidth
               className={classes.formControl}
-              //   error={Boolean(touched.username && errors.username)}
             >
               <InputLabel htmlFor="outlined-adornment-email-login">
                 firstName
@@ -138,30 +106,14 @@ export default function FormAddUser({
               <OutlinedInput
                 className={classes.input}
                 id="outlined-adornment-email-login"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                //   handleChange(e);
-                // }}
-                // onBlur={(e: FocusEvent<HTMLInputElement>): void => {
-                //   handleBlur(e);
-                // }}
-                // value={values.username}
                 name="username"
                 label="Username"
                 inputProps={{}}
               />
-              {/* {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {errors.username}
-                </FormHelperText>
-              )} */}
             </FormControl>
             <FormControl
               fullWidth
               className={classes.formControl}
-              //   error={Boolean(touched.username && errors.username)}
             >
               <InputLabel htmlFor="outlined-adornment-email-login">
                 lastName
@@ -169,30 +121,14 @@ export default function FormAddUser({
               <OutlinedInput
                 className={classes.input}
                 id="outlined-adornment-email-login"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                //   handleChange(e);
-                // }}
-                // onBlur={(e: FocusEvent<HTMLInputElement>): void => {
-                //   handleBlur(e);
-                // }}
-                // value={values.username}
                 name="username"
                 label="Username"
                 inputProps={{}}
               />
-              {/* {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {errors.username}
-                </FormHelperText>
-              )} */}
             </FormControl>
             <FormControl
               fullWidth
               className={classes.formControl}
-              //   error={Boolean(touched.username && errors.username)}
             >
               <InputLabel htmlFor="outlined-adornment-email-login">
                 phone
@@ -200,25 +136,10 @@ export default function FormAddUser({
               <OutlinedInput
                 className={classes.input}
                 id="outlined-adornment-email-login"
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                //   handleChange(e);
-                // }}
-                // onBlur={(e: FocusEvent<HTMLInputElement>): void => {
-                //   handleBlur(e);
-                // }}
-                // value={values.username}
                 name="username"
                 label="Username"
                 inputProps={{}}
               />
-              {/* {touched.username && errors.username && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text-username-login"
-                >
-                  {errors.username}
-                </FormHelperText>
-              )} */}
             </FormControl>
           </form>
         </Box>
