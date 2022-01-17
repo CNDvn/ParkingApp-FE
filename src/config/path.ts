@@ -1,5 +1,7 @@
 export const PATH_NAME = {
-  DashboardAdmin: '/DashboardAdmin',
+  DashboardAdminUser: '/DashboardAdmin/user',
+  DashboardAdminParking: '/DashboardAdmin/parking',
+  DashboardAdminPayment: '/DashboardAdmin/payment',
   ERROR_404: '/404',
   HOME: '/home',
   Login: '/Login',

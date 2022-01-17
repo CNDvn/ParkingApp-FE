@@ -4,8 +4,11 @@ import React, { useState } from 'react';
 import Header from '../Header/Header';
 import Sidebar from '../SlideBar/SlideBar';
 import Dashboard from './Dashboard/Dashboard';
-
-const MainLayout = (): JSX.Element => {
+// import TableUser from './Dashboard/TableUser/tableUser';
+interface MainLayout {
+  children: React.ReactNode;
+}
+const MainLayout = ({ children }: MainLayout): JSX.Element => {
   const theme = useTheme();
   const [leftDrawerOpened, setLeftDrawerOpened] = useState<boolean>(true);
   const handleLeftDrawerToggle = (): void => {
@@ -33,7 +36,10 @@ const MainLayout = (): JSX.Element => {
         leftDrawerOpened={leftDrawerOpened}
         handleLeftDrawerToggle={handleLeftDrawerToggle}
       />
-      <Dashboard leftDrawerOpened={leftDrawerOpened}/>
+      <Dashboard leftDrawerOpened={leftDrawerOpened}>
+        {/* <TableUser /> */}
+        {children}
+      </Dashboard>
     </Box>
   );
 };

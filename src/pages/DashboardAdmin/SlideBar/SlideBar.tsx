@@ -1,17 +1,17 @@
 import React from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, Theme, useMediaQuery } from '@mui/material';
+import { Box, Button, Drawer, Theme, useMediaQuery } from '@mui/material';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { drawerWidth } from 'constants/breakpoint';
+import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
+import { PATH_NAME } from 'config/path';
 
-// import Fade from '@mui/material/Fade';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -23,32 +23,80 @@ const Sidebar = ({
 }: ISidebar): JSX.Element => {
   const theme: Theme = useTheme();
   const matchUpMd: boolean = useMediaQuery(theme.breakpoints.up('md'));
-
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number
+  ): void => {
+    setSelectedIndex(index);
+  };
+  const navigate = useNavigate();
   const drawer = (
     <>
       <Box sx={{ width: 250, mt: '20px' }} role="presentation">
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <Divider />
+          <ListItem
+            button
+            selected={selectedIndex === 0}
+            onClick={(event): void => {
+              handleListItemClick(event, 0);
+              navigate(PATH_NAME.DashboardAdminUser);
+            }}
+          >
+            <ListItemIcon>
+              <PersonIcon sx={{ fontSize: '32px' }} />
+            </ListItemIcon>
+            <ListItemText>User</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            selected={selectedIndex === 1}
+            onClick={(event): void => {
+              handleListItemClick(event, 1);
+              navigate(PATH_NAME.DashboardAdminParking);
+            }}
+          >
+            <ListItemIcon>
+              <img
+                src="../../../../images/signage.png"
+                alt=""
+                srcSet=""
+                width="40px"
+                height="40px"
+              />
+            </ListItemIcon>
+            <ListItemText>Paring</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            selected={selectedIndex === 2}
+            onClick={(event): void => {
+              handleListItemClick(event, 2);
+              navigate(PATH_NAME.DashboardAdminPayment);
+            }}
+          >
+            <ListItemIcon>
+              <img
+                src="../../../../images/wallet.png"
+                alt=""
+                srcSet=""
+                width="40px"
+                height="40px"
+              />
+            </ListItemIcon>
+            <ListItemText>Paring</ListItemText>
+          </ListItem>
+          <Divider />
         </List>
       </Box>
+      <Button
+        onClick={(): void => {
+          navigate('/');
+        }}
+      >
+        Logout
+      </Button>
     </>
   );
 

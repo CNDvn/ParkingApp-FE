@@ -1,22 +1,18 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
 import React from 'react';
 // material-ui
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'constants/breakpoint';
 import { useTheme } from '@mui/material/styles';
-import TableUser from './TableUser/tableUser';
+// import TableUser from './TableUser/tableUser';
 import MainCard from 'pages/ui-component/cards/MainCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 interface IDashboard {
-  leftDrawerOpened: boolean;
+  leftDrawerOpened?: boolean;
+  children: React.ReactNode;
 }
-const Dashboard = ({ leftDrawerOpened }: IDashboard): JSX.Element => {
+const Dashboard = ({ leftDrawerOpened, children }: IDashboard): JSX.Element => {
   const theme = useTheme();
-  // useEffect(() => {
-  //   setLoading(false);
-  // }, []);
 
   return (
     <Grid
@@ -34,7 +30,7 @@ const Dashboard = ({ leftDrawerOpened }: IDashboard): JSX.Element => {
     >
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ paddingLeft: '0px !important' }}>
             <MainCard
               border={false}
               elevation={16}
@@ -42,7 +38,7 @@ const Dashboard = ({ leftDrawerOpened }: IDashboard): JSX.Element => {
               boxShadow
               shadow={theme.shadows[16]}
             >
-              <TableUser />
+              {children}
             </MainCard>
           </Grid>
         </Grid>

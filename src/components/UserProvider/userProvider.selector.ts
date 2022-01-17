@@ -5,8 +5,14 @@ import { RootState } from 'store/store';
 export const selectStatusUser = (state: RootState): StatusRequest =>
   state.user.status;
 
+export const selectStatusLoginUser = (state: RootState): StatusRequest =>
+  state.user.statusLogin;
+
 export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
+
+export const selectMessageLogin = (state: RootState): string | undefined =>
+  state.user?.messageLogin;
 
 export const selectUser = (state: RootState): Partial<User> => state.user?.user;
 

@@ -17,6 +17,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.2",
     "@types/redux-logger": "^3.0.9",
     "axios": "^0.24.0",
     "formik": "^2.2.9",
@@ -33,6 +34,7 @@
     "redux-logger": "^3.0.6",
     "tabler-icons-react": "^1.37.0",
     "typescript": "^4.4.2",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.11"
   },

@@ -13,11 +13,17 @@ import {
   fetchLoginAsync,
   fetchProfileAsync,
 } from './userProvider.action';
+import { ROLE } from 'config/roleContants';
 
 export interface UserSlice {
   user: Partial<User>;
   message: string | undefined;
+  messageLogin: string | undefined;
   status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
+  statusLogin:
+    | StatusRequest.PENDING
+    | StatusRequest.SUCCESS
+    | StatusRequest.FAILED;
   listUser: User[];
   currentPage: number;
   nextPage: number;
@@ -28,7 +34,9 @@ export interface UserSlice {
 const initialState: UserSlice = {
   user: {},
   message: '',
+  messageLogin: '',
   status: StatusRequest.PENDING,
+  statusLogin: StatusRequest.PENDING,
   listUser: [],
   currentPage: 0,
   nextPage: 0,
@@ -44,15 +52,22 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     // login
     builder.addCase(fetchLoginAsync.pending, (state) => {
-      state.status = StatusRequest.PENDING;
+      state.statusLogin = StatusRequest.PENDING;
     });
     builder.addCase(fetchLoginAsync.fulfilled, (state, action) => {
-      state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.data;
+      console.log(action.payload.profile);
+      if (action.payload.profile.role === ROLE.ADMIN) {
+        state.statusLogin = StatusRequest.SUCCESS;
+        state.messageLogin = action.payload.data;
+        state.user = action.payload.profile;
+      } else {
+        state.statusLogin = StatusRequest.FAILED;
+        state.messageLogin = 'NOT PERMISSION';
+      }
     });
     builder.addCase(fetchLoginAsync.rejected, (state, action) => {
-      state.status = StatusRequest.FAILED;
-      state.message = (action.payload as ErrorBase<string>).message;
+      state.statusLogin = StatusRequest.FAILED;
+      state.messageLogin = (action.payload as ErrorBase<string>).message;
     });
     // get profile
     builder.addCase(fetchProfileAsync.pending, (state) => {
@@ -99,5 +114,4 @@ export const userSlice = createSlice({
     });
   },
 });
-
 export default userSlice.reducer;

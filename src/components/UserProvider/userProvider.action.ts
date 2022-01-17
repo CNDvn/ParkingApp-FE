@@ -23,7 +23,10 @@ export const fetchLoginAsync = createAsyncThunk(
         payload,
         restAPI
       );
-      return response;
+      const responseProfile: ProfileSuccessPayload = await fetchProfileUser(
+        restAPI
+      );
+      return { ...response, profile: responseProfile.data };
     } catch (error) {
       return rejectWithValue((error as LoginFailPayload).response.data);
     }
@@ -46,10 +49,8 @@ export const fetchListUserAsync = createAsyncThunk(
   'user/fetchListUser',
   async (payload: FetchListUserRequest, { rejectWithValue }) => {
     try {
-      const response: FetchSuccessPayload | FetchSuccessEmptyPayload = await fetchListUser(
-        restAPI,
-        payload
-      );
+      const response: FetchSuccessPayload | FetchSuccessEmptyPayload =
+        await fetchListUser(restAPI, payload);
       return response;
     } catch (error) {
       return rejectWithValue((error as LoginFailPayload).response.data);

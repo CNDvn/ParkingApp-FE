@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
 import { fetchLoginAsync } from 'components/UserProvider/userProvider.action';
 import { LoginRequestPayload } from 'components/UserProvider/userProvider.type';
 import {
-  selectMessageUser,
-  selectStatusUser,
+  selectMessageLogin,
+  selectStatusLoginUser,
 } from 'components/UserProvider/userProvider.selector';
 import { PATH_NAME } from 'config/path';
 
@@ -25,8 +25,11 @@ const schema = yup.object().shape({
 });
 
 const FormLoginLogic = (): JSX.Element => {
-  const statusRequest: StatusRequest = useAppSelector(selectStatusUser);
-  const messageResponse: string | undefined = useAppSelector(selectMessageUser);
+  const statusRequest: StatusRequest = useAppSelector(selectStatusLoginUser);
+
+  const messageResponse: string | undefined =
+    useAppSelector(selectMessageLogin);
+
   const dispatch = useAppDispatch();
 
   const { showToast } = useLoadingToast({
@@ -35,7 +38,7 @@ const FormLoginLogic = (): JSX.Element => {
     successMessage: messageResponse + '👌',
     errorMessage: messageResponse,
     status: statusRequest,
-    path: PATH_NAME.DashboardAdmin,
+    path: PATH_NAME.DashboardAdminUser,
   });
 
   const formik: FormikProps<LoginContentType> = useFormik({
