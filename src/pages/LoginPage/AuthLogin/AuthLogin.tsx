@@ -8,12 +8,19 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from 'firebaseConfig/firebaseConfig';
 import React from 'react';
 import FormLoginLogic from './FormLogin.logic';
 
 const AuthLogin = (): JSX.Element => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const loginGG = async (): Promise<void> => {
+    const provider = new GoogleAuthProvider();
+    const data = await signInWithPopup(auth,provider);
+    console.log(data);
+  };
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -75,8 +82,9 @@ const AuthLogin = (): JSX.Element => {
               backgroundColor: theme.palette.grey[50],
               borderColor: theme.palette.grey[100],
             }}
+            onClick={():void=>{loginGG();}}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }} >
               <Box sx={{ mr: { xs: 1, sm: 2, width: 20 }, mt: '2px' }}>
                 <img
                   width={30}

@@ -20,6 +20,7 @@
     "@types/react-router-dom": "^5.3.2",
     "@types/redux-logger": "^3.0.9",
     "axios": "^0.24.0",
+    "firebase": "^9.6.6",
     "formik": "^2.2.9",
     "framer-motion": "^5.6.0",
     "material-ui-popup-state": "^2.0.0",
