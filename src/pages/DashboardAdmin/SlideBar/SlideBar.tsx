@@ -11,7 +11,8 @@ import { drawerWidth } from 'constants/breakpoint';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
-
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -58,13 +59,7 @@ const Sidebar = ({
             }}
           >
             <ListItemIcon>
-              <img
-                src="../../../../images/signage.png"
-                alt=""
-                srcSet=""
-                width="40px"
-                height="40px"
-              />
+              <LocalParkingIcon sx={{ fontSize: '32px' }} />      
             </ListItemIcon>
             <ListItemText>Parking</ListItemText>
           </ListItem>
@@ -77,13 +72,7 @@ const Sidebar = ({
             }}
           >
             <ListItemIcon>
-              <img
-                src="../../../../images/wallet.png"
-                alt=""
-                srcSet=""
-                width="40px"
-                height="40px"
-              />
+              <AccountBalanceWalletIcon sx={{ fontSize: '32px' }}/>
             </ListItemIcon>
             <ListItemText>Wallet</ListItemText>
           </ListItem>
@@ -129,7 +118,6 @@ const Sidebar = ({
         ModalProps={{ keepMounted: true }}
         color="inherit"
       >
-        {/* <Fade in={leftDrawerOpened}>{drawer}</Fade> */}
         {drawer}
       </Drawer>
     </Box>

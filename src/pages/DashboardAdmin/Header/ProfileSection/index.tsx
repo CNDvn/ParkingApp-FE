@@ -3,7 +3,7 @@ import { selectUser } from 'components/UserProvider/userProvider.selector';
 import { useAppSelector } from 'hook/hookRedux';
 import { User } from 'models/user';
 import React from 'react';
-import { stringAvatar } from 'utils/handleAvarta';
+import { stringAvatar } from 'utils/handleAvartar';
 
 // ==============================|| PROFILE MENU ||============================== //
 

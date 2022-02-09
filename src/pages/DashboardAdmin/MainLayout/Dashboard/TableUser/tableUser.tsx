@@ -20,6 +20,7 @@ import {
   Avatar,
   Box,
   ButtonBase,
+  Chip,
   Pagination,
   PaginationItem,
   Typography,
@@ -28,7 +29,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { stringAvatar } from 'utils/handleAvarta';
+import { stringAvatar } from 'utils/handleAvartar';
 import { useState } from 'react';
 import { FetchListUserRequest } from 'components/UserProvider/userProvider.type';
 import MenuItem from '@mui/material/MenuItem';
@@ -120,8 +121,19 @@ const TableUser = (): JSX.Element => {
         sx={{ display: 'flex', justifyContent: 'space-between', mx: '12px' }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <GroupIcon />
-          <Typography>List User</Typography>
+          <GroupIcon  sx={{fontSize: '25px'}}/>
+          <Typography component="h1" sx={{fontSize: '25px'}}>List User</Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              value={userNameSearch}
+              onChange={handleChangeSearch}
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
         </Box>
         {/* search role */}
         <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}>
@@ -136,17 +148,6 @@ const TableUser = (): JSX.Element => {
             <ToggleButton value="NO">NO</ToggleButton>
             <ToggleButton value="CLIENT">CLIENT</ToggleButton>
           </ToggleButtonGroup>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              value={userNameSearch}
-              onChange={handleChangeSearch}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
         </Box>
       </Box>
       {/* table */}
@@ -211,10 +212,10 @@ const TableUser = (): JSX.Element => {
                       src={item.avatar}
                     />
                   </TableCell>
-                  <TableCell align="left">{item.role}</TableCell>
-                  <TableCell align="left">{item.status}</TableCell>
+                  <TableCell align="left"> <Chip label={item.role} color="primary" variant="outlined" /></TableCell>
+                  <TableCell align="left"> <Chip label={item.status} color="primary"  /></TableCell>
                   <TableCell align="left">
-                    <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ display: 'flex',    justifyContent: 'space-evenly' }}>
                       <Button
                         variant="contained"
                         onClick={(): void => {
@@ -224,7 +225,7 @@ const TableUser = (): JSX.Element => {
                       >
                         Update
                       </Button>
-                      <Button variant="text" endIcon={<DeleteIcon />}>
+                      <Button variant="contained"  color="error" endIcon={<DeleteIcon />}>
                         Delete
                       </Button>
                     </Box>
