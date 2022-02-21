@@ -1,19 +1,22 @@
-import {
-  FetchEmptyListUser,
-  instanceOfFetchEmptyListUser,
-  instanceOfPagnigationData,
-  PagnigationData,
-} from './userProvider.type';
+
+// import {
+//   FetchEmptyListUser,
+//   instanceOfFetchEmptyListUser,
+//   instanceOfPagnigationData,
+//   PagnigationData,
+// } from './userProvider.type';
 import { createSlice } from '@reduxjs/toolkit';
+import { KEYS } from 'config/key';
 import { StatusRequest } from 'constants/statusRequest';
 import { ErrorBase } from 'models/error';
 import { User } from 'models/user';
 import {
   fetchListUserAsync,
   fetchLoginAsync,
+  fetchLoginGoogleAsync,
   fetchProfileAsync,
 } from './userProvider.action';
-import { ROLE } from 'config/roleContants';
+// import { ROLE } from 'config/roleContants';
 
 export interface UserSlice {
   user: Partial<User>;
@@ -55,15 +58,10 @@ export const userSlice = createSlice({
       state.statusLogin = StatusRequest.PENDING;
     });
     builder.addCase(fetchLoginAsync.fulfilled, (state, action) => {
-      console.log(action.payload.profile);
-      if (action.payload.profile.role === ROLE.ADMIN) {
-        state.statusLogin = StatusRequest.SUCCESS;
-        state.messageLogin = action.payload.data;
-        state.user = action.payload.profile;
-      } else {
-        state.statusLogin = StatusRequest.FAILED;
-        state.messageLogin = 'NOT PERMISSION';
-      }
+      localStorage.setItem(KEYS.token, JSON.stringify(action.payload.result.access_token));
+      localStorage.setItem(KEYS.refresh_token, JSON.stringify(action.payload.result.refresh_token));
+      state.statusLogin = StatusRequest.SUCCESS;
+      state.messageLogin = 'Login Successfully';
     });
     builder.addCase(fetchLoginAsync.rejected, (state, action) => {
       state.statusLogin = StatusRequest.FAILED;
@@ -73,10 +71,10 @@ export const userSlice = createSlice({
     builder.addCase(fetchProfileAsync.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
-    builder.addCase(fetchProfileAsync.fulfilled, (state, action) => {
-      state.status = StatusRequest.SUCCESS;
-      state.user = action.payload.data;
-    });
+    // builder.addCase(fetchProfileAsync.fulfilled, (state, action) => {
+    //   state.status = StatusRequest.SUCCESS;
+    //   // state.user = action.payload.data;
+    // });
     builder.addCase(fetchProfileAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
       state.message = (action.payload as ErrorBase<string>).message;
@@ -85,32 +83,46 @@ export const userSlice = createSlice({
     builder.addCase(fetchListUserAsync.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
-    builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
-      state.status = StatusRequest.SUCCESS;
-      if (
-        instanceOfPagnigationData(
-          action.payload.data as PagnigationData<User[]>
-        )
-      ) {
-        const data = action.payload.data as PagnigationData<User[]>;
-        state.count = data.count;
-        state.listUser = data.result;
-        state.currentPage = data.currentPage;
-        state.lastPage = data.lastPage;
-        state.message = '';
-      } else if (
-        instanceOfFetchEmptyListUser(action.payload.data as FetchEmptyListUser)
-      ) {
-        const data = action.payload.data as FetchEmptyListUser;
-        state.message = data.message;
-        state.listUser = [];
-        state.count = 0;
-        state.lastPage = 0;
-      }
-    });
+    // builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
+    //   state.status = StatusRequest.SUCCESS;
+    //   if (
+    //     instanceOfPagnigationData(
+    //       action.payload.data as PagnigationData<User[]>
+    //     )
+    //   ) {
+    //     const data = action.payload.data as PagnigationData<User[]>;
+    //     state.count = data.count;
+    //     state.listUser = data.result;
+    //     state.currentPage = data.currentPage;
+    //     state.lastPage = data.lastPage;
+    //     state.message = '';
+    //   } else if (
+    //     instanceOfFetchEmptyListUser(action.payload.data as FetchEmptyListUser)
+    //   ) {
+    //     const data = action.payload.data as FetchEmptyListUser;
+    //     state.message = data.message;
+    //     state.listUser = [];
+    //     state.count = 0;
+    //     state.lastPage = 0;
+    //   }
+    // });
     builder.addCase(fetchListUserAsync.rejected, (state, action) => {
-      state.status = StatusRequest.FAILED;
+      state.statusLogin = StatusRequest.FAILED;
       state.message = (action.payload as ErrorBase<string>).message;
+    });
+    // login google
+    builder.addCase(fetchLoginGoogleAsync.pending,(state)=>{
+      state.statusLogin = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchLoginGoogleAsync.fulfilled,(state,action)=>{
+      localStorage.setItem(KEYS.token, JSON.stringify(action.payload.result.access_token));
+      localStorage.setItem(KEYS.refresh_token, JSON.stringify(action.payload.result.refresh_token));
+      state.statusLogin = StatusRequest.SUCCESS;
+      state.messageLogin = 'Login Successfully';
+    });
+    builder.addCase(fetchLoginGoogleAsync.rejected, (state)=>{
+      state.status =  StatusRequest.FAILED;
+      state.messageLogin = 'Login Fail';
     });
   },
 });

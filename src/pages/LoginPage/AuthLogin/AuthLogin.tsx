@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
@@ -8,18 +9,51 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { fetchLoginGoogleAsync } from 'components/UserProvider/userProvider.action';
+import {
+  selectMessageLogin,
+  selectStatusLoginUser,
+} from 'components/UserProvider/userProvider.selector';
+import { PATH_NAME } from 'config/path';
+import { StatusRequest } from 'constants/statusRequest';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from 'firebaseConfig/firebaseConfig';
+import { useAppSelector } from 'hook/hookRedux';
+import { useLoadingToast } from 'hook/useLoading';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import FormLoginLogic from './FormLogin.logic';
 
 const AuthLogin = (): JSX.Element => {
+  const statusRequestLogin: StatusRequest = useAppSelector(
+    selectStatusLoginUser
+  );
+  console.log(statusRequestLogin);
+
+  const messageResponseLogin: string | undefined =
+    useAppSelector(selectMessageLogin);
+
+  const { showToast } = useLoadingToast({
+    loading: statusRequestLogin === StatusRequest.PENDING ? true : false,
+    loadingMessage: 'Loading request .....',
+    successMessage: messageResponseLogin + '👌',
+    errorMessage: messageResponseLogin,
+    status: statusRequestLogin,
+    path: PATH_NAME.DashboardAdminUser,
+  });
+
   const theme = useTheme();
+  const dispatch = useDispatch();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const loginGG = async (): Promise<void> => {
     const provider = new GoogleAuthProvider();
-    const data = await signInWithPopup(auth,provider);
-    console.log(data);
+    const data = await signInWithPopup(auth, provider);
+    // console.log(data);
+    console.log(await data.user.getIdToken());
+    showToast();
+    await dispatch(
+      fetchLoginGoogleAsync({ token: await data.user.getIdToken() })
+    );
   };
   return (
     <>
@@ -82,9 +116,11 @@ const AuthLogin = (): JSX.Element => {
               backgroundColor: theme.palette.grey[50],
               borderColor: theme.palette.grey[100],
             }}
-            onClick={():void=>{loginGG();}}
+            onClick={(): void => {
+              loginGG();
+            }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center' }} >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ mr: { xs: 1, sm: 2, width: 20 }, mt: '2px' }}>
                 <img
                   width={30}

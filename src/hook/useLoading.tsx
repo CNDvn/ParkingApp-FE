@@ -32,7 +32,6 @@ export const useLoadingToast = ({
     if (loading || !status || !toastId) {
       return;
     }
-
     switch (status) {
       case StatusRequest.SUCCESS:
         toast.update(toastId, {

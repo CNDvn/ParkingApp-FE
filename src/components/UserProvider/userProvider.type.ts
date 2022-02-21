@@ -12,13 +12,13 @@ export interface FetchEmptyListUser {
   message: string;
 }
 export interface BaseResponse<T> {
-  message: string;
-  data: T;
+  result: T;
   statusCode: number;
 }
 export interface LoginRequestPayload {
   username: string;
   password: string;
+  role: string;
 }
 export interface FetchListUserRequest {
   numberPage: number;
@@ -27,8 +27,17 @@ export interface FetchListUserRequest {
   sort: string;
   role: string;
 }
+export interface FetchRequestLoginGoogle{
+  token: string;
+}
+export interface LoginSuccessfulPayload {
+  access_token:  string;
+  refresh_token: string;
+  message:       string;
+}
 
-export type LoginSuccessPayload = BaseResponse<string>;
+
+export type LoginSuccessPayload = BaseResponse<LoginSuccessfulPayload>;
 export type LoginFailPayload = Error<string>;
 
 export type ProfileSuccessPayload = BaseResponse<User>;

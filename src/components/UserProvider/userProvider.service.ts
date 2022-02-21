@@ -1,6 +1,7 @@
 import { RestClient } from 'config/api';
 import {
   FetchListUserRequest,
+  FetchRequestLoginGoogle,
   FetchSuccessEmptyPayload,
   FetchSuccessPayload,
   LoginRequestPayload,
@@ -13,7 +14,7 @@ export const fetchUserLogin = async (
   restClient: RestClient
 ): Promise<LoginSuccessPayload> => {
   const { data: response } = await restClient.post<LoginSuccessPayload>(
-    '/auth/login',
+    '/auths/login',
     payload
   );
   return response;
@@ -24,6 +25,17 @@ export const fetchProfileUser = async (
 ): Promise<ProfileSuccessPayload> => {
   const { data: response } = await restClient.get<ProfileSuccessPayload>(
     '/auth/profile'
+  );
+  return response;
+};
+
+export const fetchLoginGoogleUser = async (
+  restClient: RestClient,
+  payload: FetchRequestLoginGoogle
+): Promise<LoginSuccessPayload> => {
+  const { data: response } = await restClient.post<LoginSuccessPayload>(
+    '/auths/loginGoogle',
+    payload
   );
   return response;
 };
