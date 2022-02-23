@@ -1,1 +1,1 @@
-export const API_AIRBNB = 'https://airbnbteam.herokuapp.com';
+export const API_PARKING = 'https://parking-app-project.herokuapp.com/api';

@@ -14,6 +14,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
+import { KEYS } from 'config/key';
 interface IDashboardAdmin {
   children: JSX.Element | JSX.Element[];
 }
@@ -24,23 +25,28 @@ const DashboardAdmin = ({ children }: IDashboardAdmin): JSX.Element => {
   const userResponse: Partial<User> = useAppSelector(selectUser);
   const messageResponse: string | undefined = useAppSelector(selectMessageUser);
   const navigate = useNavigate();
+
   const { showToast } = useLoadingToast({
     loading: statusRequest === StatusRequest.PENDING ? true : false,
     loadingMessage: 'Loading request .....',
-    successMessage: `Welcome Admin ${userResponse.userName}` + '👌',
+    successMessage: `Welcome Admin ${userResponse.username}` + '👌',
     errorMessage: messageResponse,
     status: statusRequest,
     path: '',
   });
+
   useMounting(() => {
     console.log('run');
-    dispatch(fetchProfileAsync());
-    showToast();
-    console.log(pathname);
-    if (pathname !== PATH_NAME.DashboardAdminUser) {
-      navigate(PATH_NAME.DashboardAdminUser);
+    const token = localStorage.getItem(KEYS.token);
+    if (token) {
+      dispatch(fetchProfileAsync(JSON.parse(token)));
+      showToast();
+      if (pathname !== PATH_NAME.DashboardAdminUser) {
+        navigate(PATH_NAME.DashboardAdminUser);
+      }
     }
   });
+
   return (
     <>
       <MainLayout>{children}</MainLayout>

@@ -1,6 +1,7 @@
 import AppProvider from 'components/AppProvider/AppProvider';
 import { PATH_NAME } from 'config/path';
 import DashboardAdmin from 'pages/DashboardAdmin/DashboardAdmin';
+import ProfileLogic from 'pages/DashboardAdmin/MainLayout/Dashboard/Profile/Profile.logic';
 import TableParking from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/TableParking';
 import TablePayment from 'pages/DashboardAdmin/MainLayout/Dashboard/TablePayment/tablePayment';
 import TableUser from 'pages/DashboardAdmin/MainLayout/Dashboard/TableUser/tableUser';
@@ -50,6 +51,17 @@ const App = (): JSX.Element => {
             <PrivateRoute>
               <AdminTemplate>
                 <TablePayment />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={PATH_NAME.Profile}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <ProfileLogic />
               </AdminTemplate>
             </PrivateRoute>
           }

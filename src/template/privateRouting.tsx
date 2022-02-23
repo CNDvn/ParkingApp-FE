@@ -7,7 +7,6 @@ import { useAppSelector } from 'hook/hookRedux';
 const PrivateRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const location = useLocation();
   const userResponse: Partial<User> = useAppSelector(selectUser);
-  console.log(userResponse);
 
   if (!userResponse) {
     return <Navigate to="/" state={{ from: location }} />;

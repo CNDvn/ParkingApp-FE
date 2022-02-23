@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
@@ -8,12 +9,49 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { fetchLoginGoogleAsync } from 'components/UserProvider/userProvider.action';
+import {
+  selectMessageLogin,
+  selectStatusLoginUser,
+} from 'components/UserProvider/userProvider.selector';
+import { PATH_NAME } from 'config/path';
+import { StatusRequest } from 'constants/statusRequest';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from 'firebaseConfig/firebaseConfig';
+import { useAppSelector } from 'hook/hookRedux';
+import { useLoadingToast } from 'hook/useLoading';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import FormLoginLogic from './FormLogin.logic';
 
 const AuthLogin = (): JSX.Element => {
+  const statusRequestLogin: StatusRequest = useAppSelector(
+    selectStatusLoginUser
+  );
+
+  const messageResponseLogin: string | undefined =
+    useAppSelector(selectMessageLogin);
+
+  const { showToast } = useLoadingToast({
+    loading: statusRequestLogin === StatusRequest.PENDING ? true : false,
+    loadingMessage: 'Loading request .....',
+    successMessage: messageResponseLogin + '👌',
+    errorMessage: messageResponseLogin,
+    status: statusRequestLogin,
+    path: PATH_NAME.DashboardAdminUser,
+  });
+
   const theme = useTheme();
+  const dispatch = useDispatch();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const loginGG = async (): Promise<void> => {
+    const provider = new GoogleAuthProvider();
+    const data = await signInWithPopup(auth, provider);
+    showToast();
+    await dispatch(
+      fetchLoginGoogleAsync({ token: await data.user.getIdToken() })
+    );
+  };
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -74,6 +112,9 @@ const AuthLogin = (): JSX.Element => {
               color: 'grey.700',
               backgroundColor: theme.palette.grey[50],
               borderColor: theme.palette.grey[100],
+            }}
+            onClick={(): void => {
+              loginGG();
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>

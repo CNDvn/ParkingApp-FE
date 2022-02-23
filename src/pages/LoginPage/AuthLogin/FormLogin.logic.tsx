@@ -17,6 +17,7 @@ import { PATH_NAME } from 'config/path';
 const LOGIN_FORM_INITIAL_VALUES = {
   username: '',
   password: '',
+  role: 'admin',
 };
 
 const schema = yup.object().shape({

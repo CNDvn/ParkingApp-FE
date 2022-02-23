@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { User } from 'models/user';
 import { Avatar, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import { useStyles } from 'pages/LoginPage/AuthLogin/style';
-import { stringAvatar } from 'utils/handleAvartar';
+import { stringAvatar } from 'utils/handleAvatar';
 
 const style = {
   position: 'absolute' as const,
