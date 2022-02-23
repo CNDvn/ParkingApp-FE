@@ -191,6 +191,8 @@ const Profile = ({ formik, user }: PropsProfile): JSX.Element => {
               label="Year Of Birthday"
               value={formik.values.DOB}
               onChange={(newValue): void => {
+                console.log(newValue);
+                console.log(new Date(newValue as string).toLocaleDateString());
                 formik.setFieldValue(
                   'DOB',
                   new Date(newValue as string).toLocaleDateString()

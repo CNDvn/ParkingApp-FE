@@ -8,6 +8,7 @@ import {
   fetchLoginAsync,
   fetchLoginGoogleAsync,
   fetchProfileAsync,
+  fetchUpdateProfile,
   fetchUploadAvatar,
 } from './userProvider.action';
 // import { ROLE } from 'config/roleContants';
@@ -27,7 +28,8 @@ export interface UserSlice {
   prevPage: number | null;
   lastPage: number | null;
   count: number;
-  isAvatar: boolean  
+  isAvatar: boolean;
+  statusUploadProfile: boolean;
 }
 const initialState: UserSlice = {
   user: {
@@ -52,6 +54,7 @@ const initialState: UserSlice = {
   messageLogin: '',
   status: StatusRequest.PENDING,
   statusLogin: StatusRequest.PENDING,
+  statusUploadProfile: false,
   listUser: [],
   currentPage: 0,
   nextPage: 0,
@@ -173,8 +176,8 @@ export const userSlice = createSlice({
       state.messageLogin = 'Login Successfully';
     });
     builder.addCase(fetchLoginGoogleAsync.rejected, (state) => {
-      state.status = StatusRequest.FAILED;
-      state.messageLogin = 'Login Fail';
+      state.statusLogin = StatusRequest.FAILED;
+      state.messageLogin = 'Sorry You Can Not Permission';
     });
 
     builder.addCase(fetchUploadAvatar.pending, (state)=>{
@@ -188,6 +191,18 @@ export const userSlice = createSlice({
     builder.addCase(fetchUploadAvatar.rejected, (state)=>{
       state.status = StatusRequest.FAILED;
       // state.message = action.payload;
+    });
+
+    builder.addCase(fetchUpdateProfile.pending, (state)=>{
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchUpdateProfile.fulfilled, (state, action)=>{
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+      state.statusUploadProfile = true;
+    });
+    builder.addCase(fetchUpdateProfile.rejected, (state)=>{
+      state.status = StatusRequest.FAILED;
     });
   },
 });

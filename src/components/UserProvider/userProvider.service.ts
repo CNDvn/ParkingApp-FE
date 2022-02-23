@@ -82,7 +82,7 @@ export const updateProfile = async (
 ): Promise<UpdateProfileSuccessPayload> => {
   const { data: response } = await 
   restClient.put<UpdateProfileSuccessPayload>(
-    '/users/avatar',
+    '/users/profile',
     data,
     {headers: {Authorization: 'Bearer ' + token}}
   );

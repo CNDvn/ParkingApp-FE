@@ -8,6 +8,10 @@ export const selectStatusUser = (state: RootState): StatusRequest =>
 export const selectStatusLoginUser = (state: RootState): StatusRequest =>
   state.user.statusLogin;
 
+
+  export const selectStatusUpdateProfile = (state: RootState): boolean =>
+  state.user.statusUploadProfile;
+
 export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
 
