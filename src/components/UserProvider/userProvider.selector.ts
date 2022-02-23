@@ -14,7 +14,7 @@ export const selectMessageUser = (state: RootState): string | undefined =>
 export const selectMessageLogin = (state: RootState): string | undefined =>
   state.user?.messageLogin;
 
-export const selectUser = (state: RootState): Partial<User> => state.user?.user;
+export const selectUser = (state: RootState): User => state.user.user;
 
 export const selectListUser = (state: RootState): User[] => state.user.listUser;
 
@@ -22,3 +22,6 @@ export const selectLastPage = (state: RootState): number | null =>
   state.user.lastPage;
 
 export const selectCount = (state: RootState): number => state.user.count;
+
+export const selectStatusAvatar = (state: RootState): boolean | undefined =>
+  state.user?.isAvatar;

@@ -13,7 +13,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import {
   selectCount,
   selectLastPage,
-  selectListUser,
+  // selectListUser,
   selectMessageUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
@@ -29,7 +29,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { stringAvatar } from 'utils/handleAvartar';
+import { stringAvatar } from 'utils/handleAvatar';
 import { useState } from 'react';
 import { FetchListUserRequest } from 'components/UserProvider/userProvider.type';
 import MenuItem from '@mui/material/MenuItem';
@@ -43,10 +43,11 @@ import { toast } from 'react-toastify';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FormAddUser from '../FormAddUser/formAddUser';
-
+import axios from 'axios';
+import { KEYS } from 'config/key';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const listUser = useAppSelector(selectListUser);
+  // const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
@@ -57,7 +58,7 @@ const TableUser = (): JSX.Element => {
   const [role, setRole] = React.useState<string>('NO');
   const [openForm, setOpenForm] = React.useState<boolean>(false);
   const [userSelect, setUserSelect] = React.useState<User>();
-
+  const [listUser, setListUser] = useState([]);
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
 
@@ -103,6 +104,19 @@ const TableUser = (): JSX.Element => {
     fetchListUserAsync,
     role,
   ]);
+  React.useEffect(() => {
+    const token = localStorage.getItem(KEYS.token);
+    if (token) {
+      axios({
+        method: 'GET',
+        url: 'https://parking-app-project.herokuapp.com/api/v1/users?sizePage=5&currentPage=1&sort=ASC&field=firstName&status=no&role=no',
+        headers: { Authorization: 'Bearer ' + JSON.parse(token) },
+      }).then((res) => {
+        console.log(res);
+        setListUser(res.data.result.data);
+      });
+    }
+  }, []);
 
   React.useEffect(() => {
     if (message !== '') {
@@ -121,8 +135,10 @@ const TableUser = (): JSX.Element => {
         sx={{ display: 'flex', justifyContent: 'space-between', mx: '12px' }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <GroupIcon  sx={{fontSize: '25px'}}/>
-          <Typography component="h1" sx={{fontSize: '25px'}}>List User</Typography>
+          <GroupIcon sx={{ fontSize: '25px' }} />
+          <Typography component="h1" sx={{ fontSize: '25px' }}>
+            List User
+          </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -204,7 +220,7 @@ const TableUser = (): JSX.Element => {
                   <TableCell component="th" scope="row">
                     {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
-                  <TableCell align="left">{item.userName}</TableCell>
+                  <TableCell align="left">{item.username}</TableCell>
                   <TableCell align="left">{item.fullName}</TableCell>
                   <TableCell align="left">
                     <Avatar
@@ -212,10 +228,22 @@ const TableUser = (): JSX.Element => {
                       src={item.avatar}
                     />
                   </TableCell>
-                  <TableCell align="left"> <Chip label={item.role} color="primary" variant="outlined" /></TableCell>
-                  <TableCell align="left"> <Chip label={item.status} color="primary"  /></TableCell>
                   <TableCell align="left">
-                    <Box sx={{ display: 'flex',    justifyContent: 'space-evenly' }}>
+                    {' '}
+                    <Chip
+                      label={item.role.name}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    {' '}
+                    <Chip label={item.status} color="primary" />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Box
+                      sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+                    >
                       <Button
                         variant="contained"
                         onClick={(): void => {
@@ -225,7 +253,11 @@ const TableUser = (): JSX.Element => {
                       >
                         Update
                       </Button>
-                      <Button variant="contained"  color="error" endIcon={<DeleteIcon />}>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        endIcon={<DeleteIcon />}
+                      >
                         Delete
                       </Button>
                     </Box>

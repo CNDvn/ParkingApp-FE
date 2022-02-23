@@ -2,7 +2,7 @@ import { Error } from 'models/error';
 import { User } from 'models/user';
 export interface PagnigationData<T> {
   count: number;
-  currentPage: number;
+  currentPage: string;
   nextPage: number;
   prevPage: number;
   lastPage: number;
@@ -36,12 +36,25 @@ export interface LoginSuccessfulPayload {
   message:       string;
 }
 
+export interface UpdateProfileRequest {
+  firstName:   string;
+  lastName:    string;
+  DOB:         string;
+  phoneNumber: string;
+  email:       string;
+  address:     string;
+  avatar:      string;
+}
+
+export type UpdateProfileSuccessPayload = BaseResponse<string>
 
 export type LoginSuccessPayload = BaseResponse<LoginSuccessfulPayload>;
 export type LoginFailPayload = Error<string>;
 
 export type ProfileSuccessPayload = BaseResponse<User>;
 export type ProfileFailPayload = BaseResponse<string>;
+
+export type UploadAvatarPayload = BaseResponse<string>;
 
 export type FetchSuccessPayload = BaseResponse<PagnigationData<User[]>>;
 export type FetchSuccessEmptyPayload = BaseResponse<FetchEmptyListUser>;

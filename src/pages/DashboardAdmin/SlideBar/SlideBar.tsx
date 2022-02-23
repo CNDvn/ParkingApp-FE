@@ -59,7 +59,7 @@ const Sidebar = ({
             }}
           >
             <ListItemIcon>
-              <LocalParkingIcon sx={{ fontSize: '32px' }} />      
+              <LocalParkingIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>Parking</ListItemText>
           </ListItem>
@@ -72,7 +72,7 @@ const Sidebar = ({
             }}
           >
             <ListItemIcon>
-              <AccountBalanceWalletIcon sx={{ fontSize: '32px' }}/>
+              <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>Wallet</ListItemText>
           </ListItem>

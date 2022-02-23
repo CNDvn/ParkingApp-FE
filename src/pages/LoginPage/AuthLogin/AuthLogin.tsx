@@ -28,7 +28,6 @@ const AuthLogin = (): JSX.Element => {
   const statusRequestLogin: StatusRequest = useAppSelector(
     selectStatusLoginUser
   );
-  console.log(statusRequestLogin);
 
   const messageResponseLogin: string | undefined =
     useAppSelector(selectMessageLogin);
@@ -48,8 +47,6 @@ const AuthLogin = (): JSX.Element => {
   const loginGG = async (): Promise<void> => {
     const provider = new GoogleAuthProvider();
     const data = await signInWithPopup(auth, provider);
-    // console.log(data);
-    console.log(await data.user.getIdToken());
     showToast();
     await dispatch(
       fetchLoginGoogleAsync({ token: await data.user.getIdToken() })

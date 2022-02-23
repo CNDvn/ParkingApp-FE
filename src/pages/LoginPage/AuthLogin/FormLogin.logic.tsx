@@ -13,7 +13,6 @@ import {
   selectStatusLoginUser,
 } from 'components/UserProvider/userProvider.selector';
 import { PATH_NAME } from 'config/path';
-import axios from 'axios';
 
 const LOGIN_FORM_INITIAL_VALUES = {
   username: '',
@@ -54,22 +53,7 @@ const FormLoginLogic = (): JSX.Element => {
       showToast();
     },
   });
-  React.useEffect(() => {
-    axios({
-      method: 'POST',
-      url: 'http://localhost:3000/user/login',
-      data: {
-        username: 'strindsadsag',
-        password: 'string',
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log({...err});
-      });
-  }, []);
+
   return (
     <>
       <FormLogin formik={formik} />
