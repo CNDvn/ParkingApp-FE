@@ -128,7 +128,7 @@ export const userSlice = createSlice({
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // eslint-disable-next-line no-unused-vars
-    builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
+    builder.addCase(fetchListUserAsync.fulfilled, (state) => {
       state.status = StatusRequest.SUCCESS;
       state.listUser = [];
       // if (
