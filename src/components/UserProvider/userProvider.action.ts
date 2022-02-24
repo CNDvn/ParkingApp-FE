@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { restAPI } from 'config/api';
 import { KEYS } from 'config/key';
+import { IUserPagnigation } from 'models/base';
 import {
   fetchListUser,
   fetchLoginGoogleUser,
@@ -12,7 +11,6 @@ import {
   uploadAvatar,
 } from './userProvider.service';
 import {
-  FetchListUserRequest,
   FetchRequestLoginGoogle,
   FetchSuccessEmptyPayload,
   FetchSuccessPayload,
@@ -45,7 +43,6 @@ export const fetchProfileAsync = createAsyncThunk(
   async (payload: string, { rejectWithValue }) => {
     try {
       const response: ProfileSuccessPayload = await fetchProfileUser(restAPI,payload);
-      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue((error as LoginFailPayload).response.data);
@@ -55,7 +52,7 @@ export const fetchProfileAsync = createAsyncThunk(
 
 export const fetchListUserAsync = createAsyncThunk(
   'user/fetchListUser',
-  async (payload: FetchListUserRequest, { rejectWithValue }) => {
+  async (payload: IUserPagnigation & {search: string}, { rejectWithValue }) => {
     try {
       const token =  localStorage.getItem(KEYS.token);
       if (token) {

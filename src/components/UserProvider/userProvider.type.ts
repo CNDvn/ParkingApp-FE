@@ -2,11 +2,11 @@ import { Error } from 'models/error';
 import { User } from 'models/user';
 export interface PagnigationData<T> {
   count: number;
-  currentPage: string;
+  currentPage: number;
   nextPage: number;
   prevPage: number;
   lastPage: number;
-  result: T;
+  data:  T;
 }
 export interface FetchEmptyListUser {
   message: string;
