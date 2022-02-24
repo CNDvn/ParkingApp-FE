@@ -19,5 +19,6 @@ export interface User {
 export interface Business {}
 
 export interface Role {
+  id: string;
   name: string;
 }

@@ -8,18 +8,18 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
 import { fetchListUserAsync } from 'components/UserProvider/userProvider.action';
-import { User } from 'models/user';
+import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
 import {
   selectCount,
+  selectCurrentPage,
   selectLastPage,
-  // selectListUser,
+  selectListUser,
   selectMessageUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
   Avatar,
   Box,
-  ButtonBase,
   Chip,
   Pagination,
   PaginationItem,
@@ -31,7 +31,6 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { stringAvatar } from 'utils/handleAvatar';
 import { useState } from 'react';
-import { FetchListUserRequest } from 'components/UserProvider/userProvider.type';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -40,92 +39,92 @@ import { Search, SearchIconWrapper, StyledInputBase } from './searchUser';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { toast } from 'react-toastify';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FormAddUser from '../FormAddUser/formAddUser';
-import axios from 'axios';
-import { KEYS } from 'config/key';
+import { IUserPagnigation } from 'models/base';
+import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
+import { restAPI } from 'config/api';
+import useDebounce from 'hook/useDebounce';
+import { resetMessage } from 'components/UserProvider/userProvider.slice';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  // const listUser = useAppSelector(selectListUser);
+  const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
-  const [sizePage, setSizePage] = React.useState<number>(5);
-  const [numberPage, setNumberPage] = useState<number>(1);
-  const [userNameSearch, setUserNameSearch] = useState<string>('');
-  const [sort, setSort] = React.useState<string>('ASC');
-  const [role, setRole] = React.useState<string>('NO');
+  const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
   const [userSelect, setUserSelect] = React.useState<User>();
-  const [listUser, setListUser] = useState([]);
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
+  const [listRoles, setListRoles] = useState<Role[]>([]);
+  const [pagnigation, setPagnigation] = useState<IUserPagnigation>({
+    sizePage: 5,
+    currentPage: 1,
+    field: 'firstName',
+    role: 'customer',
+    sort: 'DESC',
+    status: 'active',
+  });
+  const [search, setSearch] = useState<string>('');
+  const debouncedSearch = useDebounce<string>(search, 2000);
 
   const handleChangeRole = (
     event: React.MouseEvent<HTMLElement>,
     value: string
   ): void => {
-    setRole(value);
-    setNumberPage(1);
+    setPagnigation({ ...pagnigation, role: value });
   };
 
   const handleChangeNumberPage = (
     event: React.ChangeEvent<unknown> | null,
     numberPage: number
   ): void => {
-    setNumberPage(numberPage);
+    setPagnigation({ ...pagnigation, currentPage: numberPage });
   };
 
   const handleChangeSizePage = (event: SelectChangeEvent): void => {
-    setSizePage(parseInt(event.target.value));
+    setPagnigation({ ...pagnigation, sizePage: parseInt(event.target.value) });
   };
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(e.target.value);
-    setUserNameSearch(e.target.value);
+    setSearch(e.target.value);
   };
 
   React.useEffect(() => {
-    const paramFetchListUser: FetchListUserRequest = {
-      numberPage: numberPage,
-      sizePage: sizePage,
-      userName: userNameSearch,
-      sort: sort,
-      role: role,
-    };
-    dispatch(fetchListUserAsync(paramFetchListUser));
-  }, [
-    numberPage,
-    sizePage,
-    userNameSearch,
-    sort,
-    dispatch,
-    fetchListUserAsync,
-    role,
-  ]);
+    dispatch(resetMessage());
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [pagnigation]);
+
   React.useEffect(() => {
-    const token = localStorage.getItem(KEYS.token);
-    if (token) {
-      axios({
-        method: 'GET',
-        url: 'https://parking-app-project.herokuapp.com/api/v1/users?sizePage=5&currentPage=1&sort=ASC&field=firstName&status=no&role=no',
-        headers: { Authorization: 'Bearer ' + JSON.parse(token) },
-      }).then((res) => {
-        console.log(res);
-        setListUser(res.data.result.data);
-      });
-    }
+    dispatch(resetMessage());
+    dispatch(fetchListUserAsync({ ...pagnigation, search: search }));
+  }, [debouncedSearch]);
+
+  React.useEffect(() => {
+    const callAPI = async (): Promise<void> => {
+      const data = await fetchListRole(restAPI);
+      setListRoles(data.result);
+    };
+    callAPI();
   }, []);
 
   React.useEffect(() => {
     if (message !== '') {
-      toast.warn(message, {
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
+      if (message === 'Load List User Success') {
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      } else {
+        toast.warn(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      }
     }
   }, [message]);
 
@@ -144,7 +143,7 @@ const TableUser = (): JSX.Element => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              value={userNameSearch}
+              value={search}
               onChange={handleChangeSearch}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
@@ -155,14 +154,17 @@ const TableUser = (): JSX.Element => {
         <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}>
           <ToggleButtonGroup
             color="primary"
-            value={role}
+            value={pagnigation.role}
             exclusive
             onChange={handleChangeRole}
           >
-            <ToggleButton value="ADMIN">ADMIN</ToggleButton>
-            <ToggleButton value="HOST">HOST</ToggleButton>
-            <ToggleButton value="NO">NO</ToggleButton>
-            <ToggleButton value="CLIENT">CLIENT</ToggleButton>
+            {[...listRoles, { name: 'no' }].map((item, id) => {
+              return (
+                <ToggleButton key={id} value={item.name}>
+                  {item.name}
+                </ToggleButton>
+              );
+            })}
           </ToggleButtonGroup>
         </Box>
       </Box>
@@ -174,7 +176,7 @@ const TableUser = (): JSX.Element => {
             <TableCell>STT</TableCell>
             <TableCell>
               UserName
-              {sort === 'ASC' ? (
+              {/* {sort === 'ASC' ? (
                 <ButtonBase
                   sx={{
                     fontSize: '16px',
@@ -200,9 +202,13 @@ const TableUser = (): JSX.Element => {
                 >
                   <ArrowDownwardIcon />
                 </ButtonBase>
-              )}
+              )} */}
             </TableCell>
             <TableCell align="left">FullName</TableCell>
+            <TableCell align="left">FirstName</TableCell>
+            <TableCell align="left">LastName</TableCell>
+            <TableCell align="left">Phone</TableCell>
+            <TableCell align="left">Email</TableCell>
             <TableCell align="left">Avatar</TableCell>
             <TableCell align="left">Role</TableCell>
             <TableCell align="left">Status</TableCell>
@@ -218,10 +224,14 @@ const TableUser = (): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {index + sizePage * (numberPage - 1) + 1}
+                    {index + 1}
                   </TableCell>
                   <TableCell align="left">{item.username}</TableCell>
                   <TableCell align="left">{item.fullName}</TableCell>
+                  <TableCell align="left">{item.firstName}</TableCell>
+                  <TableCell align="left">{item.lastName}</TableCell>
+                  <TableCell align="left">{item.phoneNumber}</TableCell>
+                  <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">
                     <Avatar
                       {...stringAvatar(item.fullName)}
@@ -254,7 +264,7 @@ const TableUser = (): JSX.Element => {
                         Update
                       </Button>
                       <Button
-                        variant="contained"
+                        variant="outlined"
                         color="error"
                         endIcon={<DeleteIcon />}
                       >
@@ -287,7 +297,7 @@ const TableUser = (): JSX.Element => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={sizePage.toString()}
+              value={pagnigation.sizePage.toString()}
               label="SizePage"
               onChange={handleChangeSizePage}
             >
@@ -297,7 +307,7 @@ const TableUser = (): JSX.Element => {
             </Select>
           </FormControl>
           <Pagination
-            page={numberPage}
+            page={currentPage}
             count={lastPage as number}
             color="primary"
             onChange={handleChangeNumberPage}

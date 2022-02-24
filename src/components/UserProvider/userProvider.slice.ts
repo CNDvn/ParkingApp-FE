@@ -8,9 +8,11 @@ import {
   fetchLoginAsync,
   fetchLoginGoogleAsync,
   fetchProfileAsync,
+  fetchUpdateProfile,
   fetchUploadAvatar,
 } from './userProvider.action';
-// import { ROLE } from 'config/roleContants';
+import { FetchEmptyListUser, instanceOfFetchEmptyListUser, instanceOfPagnigationData, PagnigationData } from './userProvider.type';
+
 
 export interface UserSlice {
   user: User;
@@ -21,13 +23,9 @@ export interface UserSlice {
     | StatusRequest.PENDING
     | StatusRequest.SUCCESS
     | StatusRequest.FAILED;
-  listUser: User[];
-  currentPage: number;
-  nextPage: number;
-  prevPage: number | null;
-  lastPage: number | null;
-  count: number;
-  isAvatar: boolean  
+  listUserPagination: PagnigationData<User[]>
+  isAvatar: boolean;
+  statusUploadProfile: boolean;
 }
 const initialState: UserSlice = {
   user: {
@@ -43,6 +41,7 @@ const initialState: UserSlice = {
     fullName: '',
     lastName: '',
     role: {
+      id:'',
       name: ''
     },
     status: '',
@@ -52,12 +51,15 @@ const initialState: UserSlice = {
   messageLogin: '',
   status: StatusRequest.PENDING,
   statusLogin: StatusRequest.PENDING,
-  listUser: [],
-  currentPage: 0,
-  nextPage: 0,
-  prevPage: null,
-  lastPage: 0,
-  count: 0,
+  statusUploadProfile: false,
+  listUserPagination: {
+    count: 0,
+    currentPage: 0,
+    nextPage: 0,
+    lastPage: 0,
+    prevPage: 0,
+    data: []
+  },
   isAvatar: false
 };
 
@@ -79,6 +81,7 @@ export const userSlice = createSlice({
         fullName: '',
         lastName: '',
         role: {
+          id: '',
           name: ''
         },
         status: '',
@@ -87,6 +90,9 @@ export const userSlice = createSlice({
     },
     resetFlag: (state)=>{
       state.isAvatar = false;
+    },
+    resetMessage: (state) => {
+      state.message = '';
     }
   },
   extraReducers: (builder) => {
@@ -128,32 +134,19 @@ export const userSlice = createSlice({
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // eslint-disable-next-line no-unused-vars
-    builder.addCase(fetchListUserAsync.fulfilled, (state) => {
+    builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.listUser = [];
-      // if (
-      //   instanceOfPagnigationData(
-      //     action.payload.data as PagnigationData<User[]>
-      //   )
-      // ) {
-      //   const data = action.payload.data as PagnigationData<User[]>;
-      //   state.count = data.count;
-      //   state.listUser = data.result;
-      //   state.currentPage = data.currentPage;
-      //   state.lastPage = data.lastPage;
-      //   state.message = '';
-      // } else if (
-      //   instanceOfFetchEmptyListUser(action.payload.data as FetchEmptyListUser)
-      // ) {
-      //   const data = action.payload.data as FetchEmptyListUser;
-      //   state.message = data.message;
-      //   state.listUser = [];
-      //   state.count = 0;
-      //   state.lastPage = 0;
-      // }
+      console.log(action.payload?.result);
+      if (instanceOfPagnigationData(action.payload?.result as PagnigationData<User[]>)) {
+        state.listUserPagination = action.payload?.result as PagnigationData<User[]>;
+        state.message = 'Load List User Success';
+      }else if(instanceOfFetchEmptyListUser(action.payload?.result as FetchEmptyListUser)){
+        state.message = (action.payload?.result as FetchEmptyListUser).message;
+        state.listUserPagination.data = [];
+      }
     });
     builder.addCase(fetchListUserAsync.rejected, (state, action) => {
-      state.statusLogin = StatusRequest.FAILED;
+      state.status = StatusRequest.FAILED;
       state.message = (action.payload as ErrorBase<string>).message;
     });
     // login google
@@ -173,8 +166,8 @@ export const userSlice = createSlice({
       state.messageLogin = 'Login Successfully';
     });
     builder.addCase(fetchLoginGoogleAsync.rejected, (state) => {
-      state.status = StatusRequest.FAILED;
-      state.messageLogin = 'Login Fail';
+      state.statusLogin = StatusRequest.FAILED;
+      state.messageLogin = 'Sorry You Can Not Permission';
     });
 
     builder.addCase(fetchUploadAvatar.pending, (state)=>{
@@ -189,7 +182,19 @@ export const userSlice = createSlice({
       state.status = StatusRequest.FAILED;
       // state.message = action.payload;
     });
+
+    builder.addCase(fetchUpdateProfile.pending, (state)=>{
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchUpdateProfile.fulfilled, (state, action)=>{
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+      state.statusUploadProfile = true;
+    });
+    builder.addCase(fetchUpdateProfile.rejected, (state)=>{
+      state.status = StatusRequest.FAILED;
+    });
   },
 });
-export const { resetUser ,resetFlag} = userSlice.actions;
+export const { resetUser ,resetFlag,resetMessage} = userSlice.actions;
 export default userSlice.reducer;

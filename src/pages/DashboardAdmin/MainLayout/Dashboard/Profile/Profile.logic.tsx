@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import Profile from './Profile';
 import * as yup from 'yup';
@@ -27,9 +28,27 @@ const schema = yup.object().shape({
   phoneNumber: yup.string().required().trim(),
   address: yup.string().required().trim(),
 });
+export const convertDob = (data: string): string => {
+  const array = data.split('/');
+  return '0' + array[0] + '/' + '0' + array[1] + '/' + array[2];
+};
+export const ChangeFormateDate = (data: string): string => {
+  data = data.split('T')[0];
+  return data.toString().split('-').reverse().join('-');
+};
 
 const ProfileLogic = (): JSX.Element => {
   const user: User = useAppSelector(selectUser);
+  const status = useAppSelector(selectStatusUser);
+  const message = useAppSelector(selectMessageUser);
+  const showToastUpload = useLoadingToast({
+    loading: status === StatusRequest.PENDING ? true : false,
+    loadingMessage: 'Loading request .....',
+    successMessage: message + '👌',
+    errorMessage: 'Upload Profile Fail',
+    status: status,
+    path: '',
+  });
 
   const dispatch = useDispatch();
   const formik: FormikProps<IProfile> = useFormik({
@@ -38,7 +57,17 @@ const ProfileLogic = (): JSX.Element => {
     validateOnMount: true,
     validateOnBlur: true,
     onSubmit: (values: IProfile) => {
-      console.log(values);
+      if (values.DOB.includes('T')) {
+        values.DOB = values.DOB.split('T')[0];
+      }
+      if (values.DOB.match('^([0-9]{1})/([0-9]{1})/([0-9]{4})$')) {
+        values.DOB = convertDob(values.DOB);
+        values.DOB = values.DOB.replaceAll('/', '-')
+          .split('-')
+          .reverse()
+          .join('-');
+      }
+
       dispatch(
         fetchUpdateProfile({
           DOB: values.DOB,
@@ -50,12 +79,12 @@ const ProfileLogic = (): JSX.Element => {
           phoneNumber: values.phoneNumber,
         })
       );
-      showToast();
+      showToastUpload.showToast();
     },
   });
-  const status = useAppSelector(selectStatusUser);
+
   const flag = useAppSelector(selectStatusAvatar);
-  const message = useAppSelector(selectMessageUser);
+
   const { showToast } = useLoadingToast({
     loading: status === StatusRequest.PENDING ? true : false,
     loadingMessage: 'Loading request .....',

@@ -1,6 +1,6 @@
 import { RestClient } from 'config/api';
+import { IUserPagnigation } from 'models/base';
 import {
-  FetchListUserRequest,
   FetchRequestLoginGoogle,
   FetchSuccessEmptyPayload,
   FetchSuccessPayload,
@@ -47,18 +47,17 @@ export const fetchLoginGoogleUser = async (
 
 export const fetchListUser = async (
   restClient: RestClient,
-  // eslint-disable-next-line no-unused-vars
-  payload: FetchListUserRequest,
+  payload: IUserPagnigation & {search: string},
   token: string
 ): Promise<FetchSuccessPayload | FetchSuccessEmptyPayload> => {
   const { data: response } = await restClient.get<
     FetchSuccessPayload | FetchSuccessEmptyPayload
   >(
-    'https://parking-app-project.herokuapp.com/api/v1/users?sizePage=5&currentPage=1&sort=ASC&field=firstName&status=no&role=no',
+    `/users?sizePage=${payload.sizePage}&currentPage=${payload.currentPage}&sort=${payload.sort}&field=${payload.field}&status=${payload.status}&role=${payload.role}&search=${payload.search}`,
     {headers: {Authorization: 'Bearer ' + token}}
   );
   return response;
-};
+};  
 
 export const uploadAvatar = async (
   restClient: RestClient,
@@ -82,7 +81,7 @@ export const updateProfile = async (
 ): Promise<UpdateProfileSuccessPayload> => {
   const { data: response } = await 
   restClient.put<UpdateProfileSuccessPayload>(
-    '/users/avatar',
+    '/users/profile',
     data,
     {headers: {Authorization: 'Bearer ' + token}}
   );
