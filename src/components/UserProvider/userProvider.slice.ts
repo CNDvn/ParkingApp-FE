@@ -4,11 +4,13 @@ import { StatusRequest } from 'constants/statusRequest';
 import { ErrorBase } from 'models/error';
 import { User } from 'models/user';
 import {
+  fetchDeleteUser,
   fetchListUserAsync,
   fetchLoginAsync,
   fetchLoginGoogleAsync,
   fetchProfileAsync,
   fetchUpdateProfile,
+  // fetchUpdateUser,
   fetchUploadAvatar,
 } from './userProvider.action';
 import { FetchEmptyListUser, instanceOfFetchEmptyListUser, instanceOfPagnigationData, PagnigationData } from './userProvider.type';
@@ -192,6 +194,18 @@ export const userSlice = createSlice({
       state.statusUploadProfile = true;
     });
     builder.addCase(fetchUpdateProfile.rejected, (state)=>{
+      state.status = StatusRequest.FAILED;
+    });
+
+    // delete
+    builder.addCase(fetchDeleteUser.pending, (state)=>{
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchDeleteUser.fulfilled, (state, action)=>{
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+    });
+    builder.addCase(fetchDeleteUser.rejected, (state)=>{
       state.status = StatusRequest.FAILED;
     });
   },

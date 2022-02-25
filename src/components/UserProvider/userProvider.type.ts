@@ -46,7 +46,15 @@ export interface UpdateProfileRequest {
   avatar:      string;
 }
 
+export interface UpdateUserRequest {
+  firstName:   string;
+  lastName:    string;
+  phoneNumber: string;
+  email:       string;
+}
+
 export type UpdateProfileSuccessPayload = BaseResponse<string>
+export type UpdateUserSuccessPayload = BaseResponse<string>
 
 export type LoginSuccessPayload = BaseResponse<LoginSuccessfulPayload>;
 export type LoginFailPayload = Error<string>;
@@ -59,7 +67,9 @@ export type UploadAvatarPayload = BaseResponse<string>;
 export type FetchSuccessPayload = BaseResponse<PagnigationData<User[]>>;
 export type FetchSuccessEmptyPayload = BaseResponse<FetchEmptyListUser>;
 
-export type DeleteFailPayLoad = Error<string>;
+export type UpdateUserFailPayLoad = Error<string>;
+
+export type DeleteUserPayload = BaseResponse<string>;
 
 export function instanceOfPagnigationData(
   data: PagnigationData<User[]>

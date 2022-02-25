@@ -30,6 +30,7 @@ export default function FormAddUser({
   userSelect,
 }: IFormAddUser): JSX.Element {
   console.log(userSelect);
+  // const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <div>
@@ -65,10 +66,7 @@ export default function FormAddUser({
           </Box>
 
           <form>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-            >
+            <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="outlined-adornment-email-login">
                 UserName
               </InputLabel>
@@ -96,10 +94,7 @@ export default function FormAddUser({
                 inputProps={{}}
               />
             </FormControl>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-            >
+            <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="outlined-adornment-email-login">
                 firstName
               </InputLabel>
@@ -111,10 +106,7 @@ export default function FormAddUser({
                 inputProps={{}}
               />
             </FormControl>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-            >
+            <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="outlined-adornment-email-login">
                 lastName
               </InputLabel>
@@ -126,10 +118,7 @@ export default function FormAddUser({
                 inputProps={{}}
               />
             </FormControl>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-            >
+            <FormControl fullWidth className={classes.formControl}>
               <InputLabel htmlFor="outlined-adornment-email-login">
                 phone
               </InputLabel>

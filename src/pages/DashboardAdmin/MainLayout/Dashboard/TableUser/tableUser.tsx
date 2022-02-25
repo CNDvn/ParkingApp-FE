@@ -7,7 +7,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
-import { fetchListUserAsync } from 'components/UserProvider/userProvider.action';
+import {
+  fetchDeleteUser,
+  fetchListUserAsync,
+} from 'components/UserProvider/userProvider.action';
 import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
 import {
@@ -16,6 +19,7 @@ import {
   selectLastPage,
   selectListUser,
   selectMessageUser,
+  selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
   Avatar,
@@ -39,18 +43,20 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from './searchUser';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { toast } from 'react-toastify';
-import FormAddUser from '../FormAddUser/formAddUser';
 import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
 import { resetMessage } from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
+import { useLoadingToast } from 'hook/useLoading';
+import { StatusRequest } from 'constants/statusRequest';
+import FormAddUser from '../FormAddUser/formAddUser';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
+  const status = useAppSelector(selectStatusUser);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
@@ -112,23 +118,37 @@ const TableUser = (): JSX.Element => {
 
   React.useEffect(() => {
     if (message !== '') {
-      if (message === 'Load List User Success') {
-        toast.success(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      } else {
-        toast.warn(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      }
+      // if (message === 'Load List User Success') {
+      //   toast.success(message, {
+      //     autoClose: 3000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //   });
+      // } else {
+      //   toast.warn(message, {
+      //     autoClose: 3000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //   });
+      // }
+      showToast();
     }
   }, [message]);
+
+  const { showToast } = useLoadingToast({
+    loading: status === StatusRequest.PENDING ? true : false,
+    loadingMessage: 'Loading request .....',
+    successMessage: message + '👌',
+    errorMessage: 'Upload Profile Fail',
+    status: status,
+    path: '',
+  });
+
+  const handleDelete = (id: string): void => {
+    dispatch(fetchDeleteUser(id));
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -278,6 +298,9 @@ const TableUser = (): JSX.Element => {
                         <EditIcon />
                       </Button>
                       <Button
+                        onClick={(): void => {
+                          handleDelete(item.id);
+                        }}
                         sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
