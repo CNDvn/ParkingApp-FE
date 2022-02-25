@@ -109,7 +109,7 @@ export const deleteUser = async (
   id:string,
   token: string
 ): Promise<DeleteUserPayload> => {
-  const { data: response } = await restClient.put<UpdateUserSuccessPayload>(
+  const { data: response } = await restClient.delete<UpdateUserSuccessPayload>(
     `/users/${id}`,
     { headers: { Authorization: 'Bearer ' + token } }
   );

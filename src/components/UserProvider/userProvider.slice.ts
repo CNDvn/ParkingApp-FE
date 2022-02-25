@@ -28,6 +28,7 @@ export interface UserSlice {
   listUserPagination: PagnigationData<User[]>
   isAvatar: boolean;
   statusUploadProfile: boolean;
+  isDelete: boolean;
 }
 const initialState: UserSlice = {
   user: {
@@ -62,7 +63,8 @@ const initialState: UserSlice = {
     prevPage: 0,
     data: []
   },
-  isAvatar: false
+  isAvatar: false,
+  isDelete: false,
 };
 
 export const userSlice = createSlice({
@@ -95,6 +97,9 @@ export const userSlice = createSlice({
     },
     resetMessage: (state) => {
       state.message = '';
+    },
+    resetDelete: (state) => {
+      state.isDelete = false;
     }
   },
   extraReducers: (builder) => {
@@ -204,11 +209,12 @@ export const userSlice = createSlice({
     builder.addCase(fetchDeleteUser.fulfilled, (state, action)=>{
       state.status = StatusRequest.SUCCESS;
       state.message = action.payload.result;
+      state.isDelete = true;
     });
     builder.addCase(fetchDeleteUser.rejected, (state)=>{
       state.status = StatusRequest.FAILED;
     });
   },
 });
-export const { resetUser ,resetFlag,resetMessage} = userSlice.actions;
+export const { resetUser ,resetFlag,resetMessage,resetDelete} = userSlice.actions;
 export default userSlice.reducer;

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -19,6 +21,7 @@ import {
   selectLastPage,
   selectListUser,
   selectMessageUser,
+  selectStatusDelete,
   selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
@@ -47,16 +50,18 @@ import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
-import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import {
+  resetDelete,
+  resetMessage,
+} from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
-import { useLoadingToast } from 'hook/useLoading';
-import { StatusRequest } from 'constants/statusRequest';
 import FormAddUser from '../FormAddUser/formAddUser';
+import { toast } from 'react-toastify';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
-  const status = useAppSelector(selectStatusUser);
+  const isDelete = useAppSelector(selectStatusDelete);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
@@ -104,6 +109,11 @@ const TableUser = (): JSX.Element => {
   }, [pagnigation]);
 
   React.useEffect(() => {
+    // dispatch(resetMessage());
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [isDelete]);
+
+  React.useEffect(() => {
     dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: search }));
   }, [debouncedSearch]);
@@ -118,33 +128,25 @@ const TableUser = (): JSX.Element => {
 
   React.useEffect(() => {
     if (message !== '') {
-      // if (message === 'Load List User Success') {
-      //   toast.success(message, {
-      //     autoClose: 3000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //   });
-      // } else {
-      //   toast.warn(message, {
-      //     autoClose: 3000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //   });
-      // }
-      showToast();
+      if (message === 'Load List User Success') {
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+      } else {
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
+        // dispatch(resetDelete());
+      }
+      // dispatch(resetMessage());
     }
   }, [message]);
-
-  const { showToast } = useLoadingToast({
-    loading: status === StatusRequest.PENDING ? true : false,
-    loadingMessage: 'Loading request .....',
-    successMessage: message + '👌',
-    errorMessage: 'Upload Profile Fail',
-    status: status,
-    path: '',
-  });
 
   const handleDelete = (id: string): void => {
     dispatch(fetchDeleteUser(id));
