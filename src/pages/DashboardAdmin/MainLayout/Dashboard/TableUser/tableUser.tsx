@@ -21,6 +21,7 @@ import {
   Avatar,
   Box,
   Chip,
+  Grid,
   Pagination,
   PaginationItem,
   Typography,
@@ -45,6 +46,7 @@ import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
 import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import EditIcon from '@mui/icons-material/Edit';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
@@ -130,28 +132,19 @@ const TableUser = (): JSX.Element => {
 
   return (
     <TableContainer component={Paper}>
-      <Box
-        sx={{ display: 'flex', justifyContent: 'space-between', mx: '12px' }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <GroupIcon sx={{ fontSize: '25px' }} />
-          <Typography component="h1" sx={{ fontSize: '25px' }}>
-            List User
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              value={search}
-              onChange={handleChangeSearch}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-        </Box>
-        {/* search role */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}>
+      {/* <Box
+        sx={{ flexGrow: 1 }}
+      > */}
+      <Grid container spacing={2} alignItems="center" padding={1}>
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <GroupIcon sx={{ fontSize: '25px', marginRight: '2px' }} />
+            <Typography component="h1" sx={{ fontSize: '20px' }}>
+              List User
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
           <ToggleButtonGroup
             color="primary"
             value={pagnigation.role}
@@ -166,8 +159,23 @@ const TableUser = (): JSX.Element => {
               );
             })}
           </ToggleButtonGroup>
-        </Box>
-      </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              value={search}
+              onChange={handleChangeSearch}
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+        </Grid>
+      </Grid>
+      {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}></Box> */}
+      {/* </Box> */}
       {/* table */}
 
       <Table sx={{ minWidth: '100%' }} aria-label="simple table">
@@ -255,20 +263,27 @@ const TableUser = (): JSX.Element => {
                       sx={{ display: 'flex', justifyContent: 'space-evenly' }}
                     >
                       <Button
+                        sx={{
+                          width: 10,
+                          marginRight: 2,
+                          borderRadius: 50,
+                          height: 54,
+                        }}
                         variant="contained"
                         onClick={(): void => {
                           handleOpenForm();
                           setUserSelect(item);
                         }}
                       >
-                        Update
+                        <EditIcon />
                       </Button>
                       <Button
+                        sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
-                        endIcon={<DeleteIcon />}
+                        // endIcon={<DeleteIcon />}
                       >
-                        Delete
+                        <DeleteIcon />
                       </Button>
                     </Box>
                   </TableCell>

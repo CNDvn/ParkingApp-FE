@@ -10,7 +10,7 @@ interface MainLayout {
 }
 const MainLayout = ({ children }: MainLayout): JSX.Element => {
   const theme = useTheme();
-  const [leftDrawerOpened, setLeftDrawerOpened] = useState<boolean>(true);
+  const [leftDrawerOpened, setLeftDrawerOpened] = useState<boolean>(false);
   const handleLeftDrawerToggle = (): void => {
     setLeftDrawerOpened(!leftDrawerOpened);
   };
