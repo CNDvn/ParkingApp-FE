@@ -11,6 +11,7 @@ import {
   uploadAvatar,
 } from './userProvider.service';
 import {
+  DeleteFailPayLoad,
   FetchRequestLoginGoogle,
   FetchSuccessEmptyPayload,
   FetchSuccessPayload,
@@ -104,6 +105,17 @@ export const fetchUpdateProfile = createAsyncThunk(
       return response;
     } catch (error) {
       return rejectWithValue((error as LoginFailPayload).response.data);
+    }
+  }
+);
+
+export const fetchDeleteUser = createAsyncThunk(
+  '/users/:id',
+  async (payload: string,{ rejectWithValue })=>{
+    try {
+      let userCapNhat = [...state.]
+    } catch (error) {
+      return rejectWithValue((error as DeleteFailPayLoad).response.data);
     }
   }
 );

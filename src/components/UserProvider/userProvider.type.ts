@@ -59,6 +59,8 @@ export type UploadAvatarPayload = BaseResponse<string>;
 export type FetchSuccessPayload = BaseResponse<PagnigationData<User[]>>;
 export type FetchSuccessEmptyPayload = BaseResponse<FetchEmptyListUser>;
 
+export type DeleteFailPayLoad = Error<string>;
+
 export function instanceOfPagnigationData(
   data: PagnigationData<User[]>
 ): data is PagnigationData<User[]> {
