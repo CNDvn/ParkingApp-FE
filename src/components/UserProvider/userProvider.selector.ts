@@ -36,3 +36,6 @@ export const selectCurrentPage = (state: RootState): number | undefined =>
 
 export const selectStatusDelete = (state: RootState): boolean | undefined =>
   state.user?.isDelete;
+
+  export const selectStatusUpdate = (state: RootState): boolean | undefined =>
+  state.user?.statusUpdateUser;

@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
 import {
   fetchDeleteUser,
   fetchListUserAsync,
+  fetchUpdateUser,
 } from 'components/UserProvider/userProvider.action';
 import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
@@ -22,6 +23,7 @@ import {
   selectListUser,
   selectMessageUser,
   selectStatusDelete,
+  selectStatusUpdate,
   selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
@@ -50,23 +52,45 @@ import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
+import * as yup from 'yup';
 import {
   resetDelete,
   resetMessage,
 } from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
+import { selectUser } from 'components/UserProvider/userProvider.selector';
 import FormAddUser from '../FormAddUser/formAddUser';
 import { toast } from 'react-toastify';
+import { FormikProps, useFormik } from 'formik';
+import { IFormAddUserType } from '../FormAddUser/formAddUser.type';
+import { convertDob } from '../Profile/Profile.logic';
+import FormAddUserLogic from '../FormAddUser/formAddUser.logic';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
   const isDelete = useAppSelector(selectStatusDelete);
+  const isUpdate = useAppSelector(selectStatusUpdate);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
-  const [userSelect, setUserSelect] = React.useState<User>();
+  const [userSelect, setUserSelect] = React.useState<User>({
+    id: '',
+    firstName: '',
+    lastName: '',
+    DOB: '',
+    status: '',
+    username: '',
+    phoneNumber: '',
+    email: '',
+    address: '',
+    avatar: '',
+    customer: null,
+    business: {},
+    role: { id: '', name: '' },
+    fullName: '',
+  });
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
   const [listRoles, setListRoles] = useState<Role[]>([]);
@@ -114,6 +138,11 @@ const TableUser = (): JSX.Element => {
   }, [isDelete]);
 
   React.useEffect(() => {
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    handleCloseForm();
+  }, [isUpdate]);
+
+  React.useEffect(() => {
     dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: search }));
   }, [debouncedSearch]);
@@ -151,6 +180,10 @@ const TableUser = (): JSX.Element => {
   const handleDelete = (id: string): void => {
     dispatch(fetchDeleteUser(id));
   };
+
+  // const handleUpdate = (id: string): void => {
+  //   dispatch(fetchUpdateUser(id));
+  // };
 
   return (
     <TableContainer component={Paper}>
@@ -360,11 +393,17 @@ const TableUser = (): JSX.Element => {
           />
         </Box>
       </Box>
-      <FormAddUser
+      {/* <FormAddUser
         userSelect={userSelect}
         title="Update User"
         openForm={openForm}
         handleCloseForm={handleCloseForm}
+        formik={formik}
+      /> */}
+      <FormAddUserLogic
+        openForm={openForm}
+        handleCloseForm={handleCloseForm}
+        userSelect={userSelect}
       />
     </TableContainer>
   );

@@ -2,10 +2,14 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { User } from 'models/user';
-import { Avatar, FormControl, InputLabel, OutlinedInput } from '@mui/material';
-import { useStyles } from 'pages/LoginPage/AuthLogin/style';
+import { Avatar, Button } from '@mui/material';
 import { stringAvatar } from 'utils/handleAvatar';
+import InputCustoms from '../Profile/Input';
+import { FormikProps } from 'formik';
+import { IFormAddUserType } from './formAddUser.type';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
+// import DatePicker from '@mui/lab/DatePicker';
+// import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 const style = {
   position: 'absolute' as const,
@@ -17,21 +21,44 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+// const useStyles = makeStyles(() => ({
+//   root: {
+//     width: '100%',
+//     background: 'rgb(250, 250, 250)',
+//     fontWeight: 500,
+//     marginTop: 8,
+//     marginLeft: 10,
+//     '& > label': {
+//       top: 23,
+//       left: 0,
+//       color: 'rgb(33, 33, 33)',
+//       '&[data-shrink="false"]': {
+//         top: 5,
+//       },
+//     },
+//     '& > div > input': {
+//       padding: '30.5px 14px 11.5px !important',
+//     },
+//     '& > div': {
+//       borderRadius: '12px',
+//     },
+//   },
+// }));
 interface IFormAddUser {
   openForm: boolean;
   handleCloseForm: VoidFunction;
   title: string;
-  userSelect?: User;
+  formik: FormikProps<IFormAddUserType>;
 }
 export default function FormAddUser({
   openForm,
   handleCloseForm,
   title,
-  userSelect,
+  formik,
 }: IFormAddUser): JSX.Element {
-  console.log(userSelect);
-  // const dispatch = useDispatch();
-  const classes = useStyles();
+  console.log(formik);
+  // const classes = useStyles();
   return (
     <div>
       <Modal
@@ -57,79 +84,117 @@ export default function FormAddUser({
               alignItems: 'center',
             }}
           >
-            {userSelect && (
+            {formik.values.fullName && (
               <Avatar
-                {...stringAvatar(userSelect?.fullName as string)}
-                src={userSelect?.avatar}
+                {...stringAvatar(
+                  (formik.values.fullName as string).length > 0
+                    ? formik.values.fullName
+                    : 'abc abc'
+                )}
+                src={formik.values.avatar}
               />
             )}
           </Box>
 
-          <form>
-            <FormControl fullWidth className={classes.formControl}>
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                UserName
-              </InputLabel>
-              <OutlinedInput
-                className={classes.input}
-                id="outlined-adornment-email-login"
-                name="username"
-                label="Username"
-                inputProps={{}}
-              />
-            </FormControl>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-              //   error={Boolean(touched.username && errors.username)}
+          <form onSubmit={formik.handleSubmit}>
+            {/* <FormControl fullWidth className={classes.formControl}> */}
+            <InputCustoms
+              disable={true}
+              touched={formik.touched.username as boolean}
+              error={formik.errors.username as string}
+              value={formik.values.username}
+              name="username"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="UserName"
+            />{' '}
+            <InputCustoms
+              disable={false}
+              touched={formik.touched.email as boolean}
+              error={formik.errors.email as string}
+              value={formik.values.email}
+              name="email"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="Email"
+            />{' '}
+            <InputCustoms
+              disable={false}
+              touched={formik.touched.firstName as boolean}
+              error={formik.errors.firstName as string}
+              value={formik.values.firstName}
+              name="firstName"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="FirstName"
+            />{' '}
+            <InputCustoms
+              disable={false}
+              touched={formik.touched.lastName as boolean}
+              error={formik.errors.lastName as string}
+              value={formik.values.lastName}
+              name="lastName"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="LastName"
+            />{' '}
+            <InputCustoms
+              disable={false}
+              touched={formik.touched.phoneNumber as boolean}
+              error={formik.errors.phoneNumber as string}
+              value={formik.values.phoneNumber}
+              name="phoneNumber"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="PhoneNumber"
+            />{' '}
+            <InputCustoms
+              disable={false}
+              touched={formik.touched.address as boolean}
+              error={formik.errors.address as string}
+              value={formik.values.address}
+              name="address"
+              handleBlur={formik.handleBlur}
+              handleChange={formik.handleChange}
+              label="Address"
+            />{' '}
+            {/* <Box>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Year Of Birthday"
+                  value={formik.values.DOB}
+                  onChange={(newValue): void => {
+                    console.log(newValue);
+                    console.log(
+                      new Date(newValue as string).toLocaleDateString()
+                    );
+                    formik.setFieldValue(
+                      'DOB',
+                      new Date(newValue as string).toLocaleDateString()
+                    );
+                  }}
+                  renderInput={(params): JSX.Element => (
+                    <TextField className={classes.root} {...params} />
+                  )}
+                />
+              </LocalizationProvider>
+            </Box> */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginY: 5,
+              }}
             >
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                Email
-              </InputLabel>
-              <OutlinedInput
-                className={classes.input}
-                id="outlined-adornment-email-login"
-                name="username"
-                label="Username"
-                inputProps={{}}
-              />
-            </FormControl>
-            <FormControl fullWidth className={classes.formControl}>
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                firstName
-              </InputLabel>
-              <OutlinedInput
-                className={classes.input}
-                id="outlined-adornment-email-login"
-                name="username"
-                label="Username"
-                inputProps={{}}
-              />
-            </FormControl>
-            <FormControl fullWidth className={classes.formControl}>
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                lastName
-              </InputLabel>
-              <OutlinedInput
-                className={classes.input}
-                id="outlined-adornment-email-login"
-                name="username"
-                label="Username"
-                inputProps={{}}
-              />
-            </FormControl>
-            <FormControl fullWidth className={classes.formControl}>
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                phone
-              </InputLabel>
-              <OutlinedInput
-                className={classes.input}
-                id="outlined-adornment-email-login"
-                name="username"
-                label="Username"
-                inputProps={{}}
-              />
-            </FormControl>
+              <Button
+                variant="contained"
+                disabled={!formik.dirty}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Box>
           </form>
         </Box>
       </Modal>

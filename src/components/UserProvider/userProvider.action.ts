@@ -9,6 +9,7 @@ import {
   fetchProfileUser,
   fetchUserLogin,
   updateProfile,
+  updateUser,
   uploadAvatar,
 } from './userProvider.service';
 import {
@@ -21,10 +22,7 @@ import {
   ProfileSuccessPayload,
   UpdateProfileRequest,
   UpdateProfileSuccessPayload,
-  // UpdateUserFailPayLoad,
-  // UpdateUserRequest,
-  // // UpdateUserRequest,
-  // UpdateUserSuccessPayload,
+  UpdateUserRequest,
   UploadAvatarPayload,
 } from './userProvider.type';
 
@@ -127,18 +125,18 @@ export const fetchUpdateProfile = createAsyncThunk(
   }
 );
 
-// export const fetchUpdateUser = createAsyncThunk(
-//   '/users/:id',
-//   async (payload: UpdateUserRequest,{ rejectWithValue })=>{
-//     try {
-//       const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
-//       const response: UpdateUserSuccessPayload = await updateProfile(restAPI, payload, token);
-//       return response;
-//     } catch (error) {
-//       return rejectWithValue((error as UpdateUserFailPayLoad).response.data);
-//     }
-//   }
-// );
+export const fetchUpdateUser = createAsyncThunk(
+  '/user/update',
+  async (payload: UpdateUserRequest, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
+      const response = await updateUser(restAPI, payload, payload.id, token);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const fetchDeleteUser = createAsyncThunk(
   '/user/delete',

@@ -47,11 +47,17 @@ export interface UpdateProfileRequest {
 }
 
 export interface UpdateUserRequest {
+  id: string;
+  username: string;
   firstName:   string;
   lastName:    string;
+  DOB:         string;
   phoneNumber: string;
   email:       string;
+  address:     string;
+  avatar:      string;
 }
+
 
 export type UpdateProfileSuccessPayload = BaseResponse<string>
 export type UpdateUserSuccessPayload = BaseResponse<string>

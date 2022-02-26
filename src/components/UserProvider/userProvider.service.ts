@@ -92,11 +92,12 @@ export const updateProfile = async (
 
 export const updateUser = async (
   restClient: RestClient,
-  data: UpdateUserRequest,
+  data: Omit<UpdateUserRequest, 'id'>,
+  id: string,
   token: string
 ): Promise<UpdateUserSuccessPayload> => {
   const { data: response } = await restClient.put<UpdateUserSuccessPayload>(
-    '/users/:id',
+    `/users/${id}`,
     data,
     { headers: { Authorization: 'Bearer ' + token } }
   );
@@ -106,10 +107,10 @@ export const updateUser = async (
 
 export const deleteUser = async (
   restClient: RestClient,
-  id:string,
+  id: string,
   token: string
 ): Promise<DeleteUserPayload> => {
-  const { data: response } = await restClient.delete<UpdateUserSuccessPayload>(
+  const { data: response } = await restClient.delete<DeleteUserPayload>(
     `/users/${id}`,
     { headers: { Authorization: 'Bearer ' + token } }
   );
