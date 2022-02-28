@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
-import { fetchListUserAsync } from 'components/UserProvider/userProvider.action';
+import {
+  fetchDeleteUser,
+  fetchListUserAsync,
+  fetchUpdateUser,
+} from 'components/UserProvider/userProvider.action';
 import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
 import {
@@ -16,6 +22,9 @@ import {
   selectLastPage,
   selectListUser,
   selectMessageUser,
+  selectStatusDelete,
+  selectStatusUpdate,
+  selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
   Avatar,
@@ -39,23 +48,49 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from './searchUser';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { toast } from 'react-toastify';
-import FormAddUser from '../FormAddUser/formAddUser';
 import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
-import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import * as yup from 'yup';
+import {
+  resetDelete,
+  resetMessage,
+} from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
+import { selectUser } from 'components/UserProvider/userProvider.selector';
+import FormAddUser from '../FormAddUser/formAddUser';
+import { toast } from 'react-toastify';
+import { FormikProps, useFormik } from 'formik';
+import { IFormAddUserType } from '../FormAddUser/formAddUser.type';
+import { convertDob } from '../Profile/Profile.logic';
+import FormAddUserLogic from '../FormAddUser/formAddUser.logic';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
+  const isDelete = useAppSelector(selectStatusDelete);
+  const isUpdate = useAppSelector(selectStatusUpdate);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
-  const [userSelect, setUserSelect] = React.useState<User>();
+  const [userSelect, setUserSelect] = React.useState<User>({
+    id: '',
+    firstName: '',
+    lastName: '',
+    DOB: '',
+    status: '',
+    username: '',
+    phoneNumber: '',
+    email: '',
+    address: '',
+    avatar: '',
+    customer: null,
+    business: {},
+    role: { id: '', name: '' },
+    fullName: '',
+  });
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
   const [listRoles, setListRoles] = useState<Role[]>([]);
@@ -98,6 +133,16 @@ const TableUser = (): JSX.Element => {
   }, [pagnigation]);
 
   React.useEffect(() => {
+    // dispatch(resetMessage());
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [isDelete]);
+
+  React.useEffect(() => {
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    handleCloseForm();
+  }, [isUpdate]);
+
+  React.useEffect(() => {
     dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: search }));
   }, [debouncedSearch]);
@@ -120,15 +165,25 @@ const TableUser = (): JSX.Element => {
           pauseOnHover: true,
         });
       } else {
-        toast.warn(message, {
+        toast.success(message, {
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
         });
+        // dispatch(resetDelete());
       }
+      // dispatch(resetMessage());
     }
   }, [message]);
+
+  const handleDelete = (id: string): void => {
+    dispatch(fetchDeleteUser(id));
+  };
+
+  // const handleUpdate = (id: string): void => {
+  //   dispatch(fetchUpdateUser(id));
+  // };
 
   return (
     <TableContainer component={Paper}>
@@ -278,6 +333,9 @@ const TableUser = (): JSX.Element => {
                         <EditIcon />
                       </Button>
                       <Button
+                        onClick={(): void => {
+                          handleDelete(item.id);
+                        }}
                         sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
@@ -335,11 +393,17 @@ const TableUser = (): JSX.Element => {
           />
         </Box>
       </Box>
-      <FormAddUser
+      {/* <FormAddUser
         userSelect={userSelect}
         title="Update User"
         openForm={openForm}
         handleCloseForm={handleCloseForm}
+        formik={formik}
+      /> */}
+      <FormAddUserLogic
+        openForm={openForm}
+        handleCloseForm={handleCloseForm}
+        userSelect={userSelect}
       />
     </TableContainer>
   );
