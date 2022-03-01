@@ -132,9 +132,6 @@ const TableUser = (): JSX.Element => {
 
   return (
     <TableContainer component={Paper}>
-      {/* <Box
-        sx={{ flexGrow: 1 }}
-      > */}
       <Grid container spacing={2} alignItems="center" padding={1}>
         <Grid item xs={4}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -174,9 +171,6 @@ const TableUser = (): JSX.Element => {
           </Search>
         </Grid>
       </Grid>
-      {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}></Box> */}
-      {/* </Box> */}
-      {/* table */}
 
       <Table sx={{ minWidth: '100%' }} aria-label="simple table">
         <TableHead>
@@ -184,33 +178,6 @@ const TableUser = (): JSX.Element => {
             <TableCell>STT</TableCell>
             <TableCell>
               UserName
-              {/* {sort === 'ASC' ? (
-                <ButtonBase
-                  sx={{
-                    fontSize: '16px',
-                    width: '100px',
-                    height: '50px',
-                  }}
-                  onClick={(): void => {
-                    setSort('DESC');
-                  }}
-                >
-                  <ArrowUpwardIcon />
-                </ButtonBase>
-              ) : (
-                <ButtonBase
-                  sx={{
-                    fontSize: '16px',
-                    width: '100px',
-                    height: '50px',
-                  }}
-                  onClick={(): void => {
-                    setSort('ASC');
-                  }}
-                >
-                  <ArrowDownwardIcon />
-                </ButtonBase>
-              )} */}
             </TableCell>
             <TableCell align="left">FullName</TableCell>
             <TableCell align="left">FirstName</TableCell>
@@ -281,7 +248,6 @@ const TableUser = (): JSX.Element => {
                         sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
-                        // endIcon={<DeleteIcon />}
                       >
                         <DeleteIcon />
                       </Button>
@@ -292,7 +258,6 @@ const TableUser = (): JSX.Element => {
             })}
         </TableBody>
       </Table>
-      {/* chosen  RowsPerPage*/}
       <Box
         display="flex"
         justifyContent="space-between"

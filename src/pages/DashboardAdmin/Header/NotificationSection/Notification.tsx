@@ -1,5 +1,4 @@
 import React from 'react';
-// material-ui
 import { useTheme, styled } from '@mui/material/styles';
 import {
   Avatar,
@@ -25,9 +24,7 @@ import {
   IconMailbox,
   IconPhoto,
 } from '@tabler/icons';
-// import User1 from '../../../../../svg/user-round.svg';
 
-// styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
   cursor: 'pointer',
   padding: 16,
