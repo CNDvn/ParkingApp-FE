@@ -9,8 +9,8 @@ export const selectStatusLoginUser = (state: RootState): StatusRequest =>
   state.user.statusLogin;
 
 
-  export const selectStatusUpdateProfile = (state: RootState): boolean =>
-  state.user.statusUploadProfile;
+export const selectStatusUpdateProfile = (state: RootState): boolean =>
+  state.user?.statusUploadProfile;
 
 export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
@@ -32,3 +32,13 @@ export const selectStatusAvatar = (state: RootState): boolean | undefined =>
 
 export const selectCurrentPage = (state: RootState): number | undefined =>
   state.user?.listUserPagination.currentPage;
+
+
+export const selectStatusDelete = (state: RootState): boolean | undefined =>
+  state.user?.isDelete;
+
+export const selectStatusUpdate = (state: RootState): boolean | undefined =>
+  state.user?.statusUpdateUser;
+
+// export const selectStatusProfile = (state: RootState): boolean | undefined =>
+//   state.user?.statusUploadProfile;

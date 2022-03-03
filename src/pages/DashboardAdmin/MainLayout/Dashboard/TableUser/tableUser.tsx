@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +9,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
-import { fetchListUserAsync } from 'components/UserProvider/userProvider.action';
+import {
+  fetchDeleteUser,
+  fetchListUserAsync,
+} from 'components/UserProvider/userProvider.action';
 import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
 import {
@@ -16,6 +21,8 @@ import {
   selectLastPage,
   selectListUser,
   selectMessageUser,
+  selectStatusDelete,
+  selectStatusUpdate,
 } from 'components/UserProvider/userProvider.selector';
 import {
   Avatar,
@@ -39,23 +46,44 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Search, SearchIconWrapper, StyledInputBase } from './searchUser';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { toast } from 'react-toastify';
-import FormAddUser from '../FormAddUser/formAddUser';
 import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
-import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import {
+  resetMessage,
+} from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
+import { toast } from 'react-toastify';
+import FormAddUserLogic from '../FormAddUser/formAddUser.logic';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listUser = useAppSelector(selectListUser);
   const lastPage = useAppSelector(selectLastPage);
+  const isDelete = useAppSelector(selectStatusDelete);
+  const isUpdate = useAppSelector(selectStatusUpdate);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
-  const [userSelect, setUserSelect] = React.useState<User>();
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const [sizePage] = React.useState<number>(5);
+  const [userSelect, setUserSelect] = React.useState<User>({
+    id: '',
+    firstName: '',
+    lastName: '',
+    DOB: '',
+    status: '',
+    username: '',
+    phoneNumber: '',
+    email: '',
+    address: '',
+    avatar: '',
+    customer: null,
+    business: {},
+    role: { id: '', name: '' },
+    fullName: '',
+  });
   const handleOpenForm = (): void => setOpenForm(true);
   const handleCloseForm = (): void => setOpenForm(false);
   const [listRoles, setListRoles] = useState<Role[]>([]);
@@ -82,6 +110,7 @@ const TableUser = (): JSX.Element => {
     numberPage: number
   ): void => {
     setPagnigation({ ...pagnigation, currentPage: numberPage });
+    setNumberPage(numberPage);
   };
 
   const handleChangeSizePage = (event: SelectChangeEvent): void => {
@@ -96,6 +125,15 @@ const TableUser = (): JSX.Element => {
     dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
   }, [pagnigation]);
+
+  React.useEffect(() => {
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [isDelete]);
+
+  React.useEffect(() => {
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    handleCloseForm();
+  }, [isUpdate]);
 
   React.useEffect(() => {
     dispatch(resetMessage());
@@ -120,7 +158,7 @@ const TableUser = (): JSX.Element => {
           pauseOnHover: true,
         });
       } else {
-        toast.warn(message, {
+        toast.success(message, {
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -129,6 +167,10 @@ const TableUser = (): JSX.Element => {
       }
     }
   }, [message]);
+
+  const handleDelete = (id: string): void => {
+    dispatch(fetchDeleteUser(id));
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -176,15 +218,15 @@ const TableUser = (): JSX.Element => {
         <TableHead>
           <TableRow>
             <TableCell>STT</TableCell>
+            <TableCell align="left">Avatar</TableCell>
             <TableCell>
               UserName
             </TableCell>
             <TableCell align="left">FullName</TableCell>
-            <TableCell align="left">FirstName</TableCell>
-            <TableCell align="left">LastName</TableCell>
+            {/* <TableCell align="left">FirstName</TableCell>
+            <TableCell align="left">LastName</TableCell> */}
             <TableCell align="left">Phone</TableCell>
             <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Avatar</TableCell>
             <TableCell align="left">Role</TableCell>
             <TableCell align="left">Status</TableCell>
             <TableCell align="center">Action</TableCell>
@@ -199,20 +241,20 @@ const TableUser = (): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {index + 1}
+                  {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
-                  <TableCell align="left">{item.username}</TableCell>
-                  <TableCell align="left">{item.fullName}</TableCell>
-                  <TableCell align="left">{item.firstName}</TableCell>
-                  <TableCell align="left">{item.lastName}</TableCell>
-                  <TableCell align="left">{item.phoneNumber}</TableCell>
-                  <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">
                     <Avatar
                       {...stringAvatar(item.fullName)}
                       src={item.avatar}
                     />
                   </TableCell>
+                  <TableCell align="left">{item.username}</TableCell>
+                  <TableCell align="left">{item.fullName}</TableCell>
+                  {/* <TableCell align="left">{item.firstName}</TableCell>
+                  <TableCell align="left">{item.lastName}</TableCell> */}
+                  <TableCell align="left">{item.phoneNumber}</TableCell>
+                  <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">
                     {' '}
                     <Chip
@@ -245,6 +287,9 @@ const TableUser = (): JSX.Element => {
                         <EditIcon />
                       </Button>
                       <Button
+                        onClick={(): void => {
+                          handleDelete(item.id);
+                        }}
                         sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
@@ -300,11 +345,10 @@ const TableUser = (): JSX.Element => {
           />
         </Box>
       </Box>
-      <FormAddUser
-        userSelect={userSelect}
-        title="Update User"
+      <FormAddUserLogic
         openForm={openForm}
         handleCloseForm={handleCloseForm}
+        userSelect={userSelect}
       />
     </TableContainer>
   );
