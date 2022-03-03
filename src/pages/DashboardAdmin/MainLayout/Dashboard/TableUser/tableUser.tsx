@@ -221,10 +221,35 @@ const TableUser = (): JSX.Element => {
             <TableCell align="left">Avatar</TableCell>
             <TableCell>
               UserName
+              {/* {sort === 'ASC' ? (
+                <ButtonBase
+                  sx={{
+                    fontSize: '16px',
+                    width: '100px',
+                    height: '50px',
+                  }}
+                  onClick={(): void => {
+                    setSort('DESC');
+                  }}
+                >
+                  <ArrowUpwardIcon />
+                </ButtonBase>
+              ) : (
+                <ButtonBase
+                  sx={{
+                    fontSize: '16px',
+                    width: '100px',
+                    height: '50px',
+                  }}
+                  onClick={(): void => {
+                    setSort('ASC');
+                    }}
+                >
+                  <ArrowDownwardIcon />
+                </ButtonBase>
+              )} */}
             </TableCell>
             <TableCell align="left">FullName</TableCell>
-            {/* <TableCell align="left">FirstName</TableCell>
-            <TableCell align="left">LastName</TableCell> */}
             <TableCell align="left">Phone</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Role</TableCell>
@@ -251,8 +276,6 @@ const TableUser = (): JSX.Element => {
                   </TableCell>
                   <TableCell align="left">{item.username}</TableCell>
                   <TableCell align="left">{item.fullName}</TableCell>
-                  {/* <TableCell align="left">{item.firstName}</TableCell>
-                  <TableCell align="left">{item.lastName}</TableCell> */}
                   <TableCell align="left">{item.phoneNumber}</TableCell>
                   <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">

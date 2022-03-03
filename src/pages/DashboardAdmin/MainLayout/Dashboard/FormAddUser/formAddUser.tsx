@@ -2,11 +2,14 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, TextField } from '@mui/material';
 import { stringAvatar } from 'utils/handleAvatar';
 import InputCustoms from '../Profile/Input';
 import { FormikProps } from 'formik';
 import { IFormAddUserType } from './formAddUser.type';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import makeStyles from '@mui/styles/makeStyles';
 
 const style = {
   position: 'absolute' as const,
@@ -25,12 +28,36 @@ interface IFormAddUser {
   title: string;
   formik: FormikProps<IFormAddUserType>;
 }
+const useStyles = makeStyles(() => ({
+  root: {
+    width: '100%',
+    background: 'rgb(250, 250, 250)',
+    fontWeight: 500,
+    marginTop: 8,
+    marginLeft: 10,
+    '& > label': {
+      top: 23,
+      left: 0,
+      color: 'rgb(33, 33, 33)',
+      '&[data-shrink="false"]': {
+        top: 5,
+      },
+    },
+    '& > div > input': {
+      padding: '30.5px 14px 11.5px !important',
+    },
+    '& > div': {
+      borderRadius: '12px',
+    },
+  },
+}));
 export default function FormAddUser({
   openForm,
   handleCloseForm,
   title,
   formik,
 }: IFormAddUser): JSX.Element {
+  const classes = useStyles();
   console.log(formik);
   return (
     <div>
@@ -110,6 +137,27 @@ export default function FormAddUser({
               handleChange={formik.handleChange}
               label="LastName"
             />{' '}
+            <Box>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Year Of Birthday"
+                  value={formik.values.DOB}
+                  onChange={(newValue): void => {
+                    console.log(newValue);
+                    console.log(
+                      new Date(newValue as string).toLocaleDateString()
+                    );
+                    formik.setFieldValue(
+                      'DOB',
+                      new Date(newValue as string).toLocaleDateString()
+                    );
+                  }}
+                  renderInput={(params): JSX.Element => (
+                    <TextField className={classes.root} {...params} />
+                  )}
+                />
+              </LocalizationProvider>
+            </Box>
             <InputCustoms
               disable={false}
               touched={formik.touched.phoneNumber as boolean}

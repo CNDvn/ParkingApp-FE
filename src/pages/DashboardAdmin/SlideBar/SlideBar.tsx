@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -69,6 +70,10 @@ const Sidebar = ({
               navigate(PATH_NAME.DashboardAdminPayment);
             }}
           >
+            <ListItemIcon>
+              <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />
+            </ListItemIcon>
+            <ListItemText>Wallet</ListItemText>
           </ListItem>
           <Divider />
         </List>
