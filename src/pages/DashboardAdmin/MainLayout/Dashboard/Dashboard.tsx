@@ -1,5 +1,4 @@
 import React from 'react';
-// material-ui
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'constants/breakpoint';
 import { useTheme } from '@mui/material/styles';

@@ -1,12 +1,5 @@
 import { fetchUpdateUser } from 'components/UserProvider/userProvider.action';
-// import {
-//   selectMessageUser,
-//   selectStatusUser,
-// } from 'components/UserProvider/userProvider.selector';
-// import { StatusRequest } from 'constants/statusRequest';
 import { FormikProps, useFormik } from 'formik';
-// import { useAppSelector } from 'hook/hookRedux';
-// import { useLoadingToast } from 'hook/useLoading';
 import { User } from 'models/user';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -34,18 +27,6 @@ const FormAddUserLogic = ({
     email: yup.string().required().trim().email(),
     phoneNumber: yup.string().required().trim(),
   });
-  console.log(userSelect);
-
-//   const status = useAppSelector(selectStatusUser);
-//   const message = useAppSelector(selectMessageUser);
-//   const showToastUpload = useLoadingToast({
-//     loading: status === StatusRequest.PENDING ? true : false,
-//     loadingMessage: 'Loading request .....',
-//     successMessage: message + '👌',
-//     errorMessage: 'Upload Profile Fail',
-//     status: status,
-//     path: '',
-//   });
   const dispatch = useDispatch();
   const formik: FormikProps<IFormAddUserType> = useFormik({
     initialValues: userSelect,
@@ -77,20 +58,8 @@ const FormAddUserLogic = ({
           phoneNumber: values.phoneNumber,
         })
       );
-    //   showToastUpload.showToast();
     },
   });
-
-//   const { showToast } = useLoadingToast({
-//     loading: status === StatusRequest.PENDING ? true : false,
-//     loadingMessage: 'Loading request .....',
-//     successMessage: message + '👌',
-//     errorMessage: 'Upload fail',
-//     status: status,
-//     path: '',
-//   });
-
-//   showToast();
 
   React.useEffect(() => {
     if (userSelect) {

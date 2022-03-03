@@ -2,7 +2,10 @@
 import React, { useEffect } from 'react';
 import Profile from './Profile';
 import * as yup from 'yup';
-import { selectUser } from 'components/UserProvider/userProvider.selector';
+import {
+  selectStatusUpdateProfile,
+  selectUser,
+} from 'components/UserProvider/userProvider.selector';
 import { useAppSelector } from 'hook/hookRedux';
 import { User } from 'models/user';
 import { IProfile } from './Profile.type';
@@ -20,7 +23,10 @@ import {
   selectStatusAvatar,
   selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
-import { resetFlag } from 'components/UserProvider/userProvider.slice';
+import {
+  resetFlag,
+  resetProfile,
+} from 'components/UserProvider/userProvider.slice';
 const schema = yup.object().shape({
   firstName: yup.string().required().trim(),
   lastName: yup.string().required().trim(),
@@ -38,6 +44,7 @@ export const ChangeFormateDate = (data: string): string => {
 };
 
 const ProfileLogic = (): JSX.Element => {
+  const isProfile = useAppSelector(selectStatusUpdateProfile);
   const user: User = useAppSelector(selectUser);
   const status = useAppSelector(selectStatusUser);
   const message = useAppSelector(selectMessageUser);
@@ -96,7 +103,6 @@ const ProfileLogic = (): JSX.Element => {
 
   useEffect(() => {
     if (flag) {
-      console.log('run profile');
       const token = localStorage.getItem(KEYS.token);
       if (token) {
         dispatch(fetchProfileAsync(JSON.parse(token)));
@@ -105,6 +111,17 @@ const ProfileLogic = (): JSX.Element => {
       showToast();
     }
   }, [flag]);
+
+  useEffect(() => {
+    if (isProfile) {
+      const token = localStorage.getItem(KEYS.token);
+      if (token) {
+        dispatch(fetchProfileAsync(JSON.parse(token)));
+        dispatch(resetProfile());
+      }
+      showToast();
+    }
+  }, [isProfile]);
 
   return (
     <>

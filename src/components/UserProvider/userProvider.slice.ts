@@ -11,7 +11,6 @@ import {
   fetchProfileAsync,
   fetchUpdateProfile,
   fetchUpdateUser,
-  // fetchUpdateUser,
   fetchUploadAvatar,
 } from './userProvider.action';
 import {
@@ -108,6 +107,9 @@ export const userSlice = createSlice({
     resetDelete: (state) => {
       state.isDelete = false;
     },
+    resetProfile: (state) => {
+      state.statusUploadProfile = false;
+    },
   },
   extraReducers: (builder) => {
     // login
@@ -146,8 +148,7 @@ export const userSlice = createSlice({
     builder.addCase(fetchListUserAsync.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // eslint-disable-next-line no-unused-vars
+
     builder.addCase(fetchListUserAsync.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
       console.log(action.payload?.result);
@@ -194,6 +195,7 @@ export const userSlice = createSlice({
       state.messageLogin = 'Sorry You Can Not Permission';
     });
 
+    //upload avatar
     builder.addCase(fetchUploadAvatar.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
@@ -204,7 +206,6 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchUploadAvatar.rejected, (state) => {
       state.status = StatusRequest.FAILED;
-      // state.message = action.payload;
     });
 
     builder.addCase(fetchUpdateProfile.pending, (state) => {
@@ -232,7 +233,7 @@ export const userSlice = createSlice({
       state.status = StatusRequest.FAILED;
     });
 
-    // delete
+    // delete user
     builder.addCase(fetchDeleteUser.pending, (state) => {
       state.status = StatusRequest.PENDING;
     });
@@ -246,6 +247,6 @@ export const userSlice = createSlice({
     });
   },
 });
-export const { resetUser, resetFlag, resetMessage, resetDelete } =
+export const { resetUser, resetFlag, resetMessage, resetDelete, resetProfile } =
   userSlice.actions;
 export default userSlice.reducer;

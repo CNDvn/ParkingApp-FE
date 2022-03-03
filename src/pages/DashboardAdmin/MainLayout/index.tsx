@@ -37,7 +37,6 @@ const MainLayout = ({ children }: MainLayout): JSX.Element => {
         handleLeftDrawerToggle={handleLeftDrawerToggle}
       />
       <Dashboard leftDrawerOpened={leftDrawerOpened}>
-        {/* <TableUser /> */}
         {children}
       </Dashboard>
     </Box>

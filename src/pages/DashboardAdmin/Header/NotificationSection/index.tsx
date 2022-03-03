@@ -21,9 +21,7 @@ const NotificationSection = (): JSX.Element => {
         }}
       >
         <ButtonBase sx={{ borderRadius: '12px' }}>
-          {/* <AvatarSection> */}
           <IconBell stroke={1.5} size="1.3rem" />
-          {/* </AvatarSection> */}
         </ButtonBase>
       </Box>
     </>

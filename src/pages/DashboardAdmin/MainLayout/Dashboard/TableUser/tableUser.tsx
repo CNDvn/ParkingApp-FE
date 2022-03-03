@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
 import {
   fetchDeleteUser,
   fetchListUserAsync,
-  fetchUpdateUser,
 } from 'components/UserProvider/userProvider.action';
 import { Role, User } from 'models/user';
 import GroupIcon from '@mui/icons-material/Group';
@@ -24,7 +23,6 @@ import {
   selectMessageUser,
   selectStatusDelete,
   selectStatusUpdate,
-  selectStatusUser,
 } from 'components/UserProvider/userProvider.selector';
 import {
   Avatar,
@@ -52,18 +50,11 @@ import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
-import * as yup from 'yup';
 import {
-  resetDelete,
   resetMessage,
 } from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
-import { selectUser } from 'components/UserProvider/userProvider.selector';
-import FormAddUser from '../FormAddUser/formAddUser';
 import { toast } from 'react-toastify';
-import { FormikProps, useFormik } from 'formik';
-import { IFormAddUserType } from '../FormAddUser/formAddUser.type';
-import { convertDob } from '../Profile/Profile.logic';
 import FormAddUserLogic from '../FormAddUser/formAddUser.logic';
 const TableUser = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -75,6 +66,8 @@ const TableUser = (): JSX.Element => {
   const message = useAppSelector(selectMessageUser);
   const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const [sizePage] = React.useState<number>(5);
   const [userSelect, setUserSelect] = React.useState<User>({
     id: '',
     firstName: '',
@@ -117,6 +110,7 @@ const TableUser = (): JSX.Element => {
     numberPage: number
   ): void => {
     setPagnigation({ ...pagnigation, currentPage: numberPage });
+    setNumberPage(numberPage);
   };
 
   const handleChangeSizePage = (event: SelectChangeEvent): void => {
@@ -133,7 +127,6 @@ const TableUser = (): JSX.Element => {
   }, [pagnigation]);
 
   React.useEffect(() => {
-    // dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
   }, [isDelete]);
 
@@ -171,9 +164,7 @@ const TableUser = (): JSX.Element => {
           closeOnClick: true,
           pauseOnHover: true,
         });
-        // dispatch(resetDelete());
       }
-      // dispatch(resetMessage());
     }
   }, [message]);
 
@@ -181,15 +172,8 @@ const TableUser = (): JSX.Element => {
     dispatch(fetchDeleteUser(id));
   };
 
-  // const handleUpdate = (id: string): void => {
-  //   dispatch(fetchUpdateUser(id));
-  // };
-
   return (
     <TableContainer component={Paper}>
-      {/* <Box
-        sx={{ flexGrow: 1 }}
-      > */}
       <Grid container spacing={2} alignItems="center" padding={1}>
         <Grid item xs={4}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -229,14 +213,12 @@ const TableUser = (): JSX.Element => {
           </Search>
         </Grid>
       </Grid>
-      {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}></Box> */}
-      {/* </Box> */}
-      {/* table */}
 
       <Table sx={{ minWidth: '100%' }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>STT</TableCell>
+            <TableCell align="left">Avatar</TableCell>
             <TableCell>
               UserName
               {/* {sort === 'ASC' ? (
@@ -261,18 +243,15 @@ const TableUser = (): JSX.Element => {
                   }}
                   onClick={(): void => {
                     setSort('ASC');
-                  }}
+                    }}
                 >
                   <ArrowDownwardIcon />
                 </ButtonBase>
               )} */}
             </TableCell>
             <TableCell align="left">FullName</TableCell>
-            <TableCell align="left">FirstName</TableCell>
-            <TableCell align="left">LastName</TableCell>
             <TableCell align="left">Phone</TableCell>
             <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Avatar</TableCell>
             <TableCell align="left">Role</TableCell>
             <TableCell align="left">Status</TableCell>
             <TableCell align="center">Action</TableCell>
@@ -287,20 +266,18 @@ const TableUser = (): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {index + 1}
+                  {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
-                  <TableCell align="left">{item.username}</TableCell>
-                  <TableCell align="left">{item.fullName}</TableCell>
-                  <TableCell align="left">{item.firstName}</TableCell>
-                  <TableCell align="left">{item.lastName}</TableCell>
-                  <TableCell align="left">{item.phoneNumber}</TableCell>
-                  <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">
                     <Avatar
                       {...stringAvatar(item.fullName)}
                       src={item.avatar}
                     />
                   </TableCell>
+                  <TableCell align="left">{item.username}</TableCell>
+                  <TableCell align="left">{item.fullName}</TableCell>
+                  <TableCell align="left">{item.phoneNumber}</TableCell>
+                  <TableCell align="left">{item.email}</TableCell>
                   <TableCell align="left">
                     {' '}
                     <Chip
@@ -339,7 +316,6 @@ const TableUser = (): JSX.Element => {
                         sx={{ width: 10, borderRadius: 50, height: 54 }}
                         variant="outlined"
                         color="error"
-                        // endIcon={<DeleteIcon />}
                       >
                         <DeleteIcon />
                       </Button>
@@ -350,7 +326,6 @@ const TableUser = (): JSX.Element => {
             })}
         </TableBody>
       </Table>
-      {/* chosen  RowsPerPage*/}
       <Box
         display="flex"
         justifyContent="space-between"
@@ -393,13 +368,6 @@ const TableUser = (): JSX.Element => {
           />
         </Box>
       </Box>
-      {/* <FormAddUser
-        userSelect={userSelect}
-        title="Update User"
-        openForm={openForm}
-        handleCloseForm={handleCloseForm}
-        formik={formik}
-      /> */}
       <FormAddUserLogic
         openForm={openForm}
         handleCloseForm={handleCloseForm}

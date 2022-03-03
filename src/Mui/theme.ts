@@ -80,16 +80,6 @@ const defaultTheme = createTheme({
 const theme = createTheme({
   ...defaultTheme,
   typography: {
-    //   mediumAvatar: {
-    //     width: '34px',
-    //     height: '34px',
-    //     fontSize: '1.2rem'
-    // },
-    // largeAvatar: {
-    //     width: '44px',
-    //     height: '44px',
-    //     fontSize: '1.5rem'
-    // },
     fontFamily: '"SF Pro Display", sans-serif',
     allVariants: {
       color: colors.black,
