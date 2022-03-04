@@ -1,3 +1,4 @@
+import { KEYS } from 'config/key';
 import { RestClient } from 'config/api';
 import { IUserPagnigation } from 'models/base';
 import {
@@ -7,6 +8,7 @@ import {
   FetchSuccessPayload,
   LoginRequestPayload,
   LoginSuccessPayload,
+  LogoutSuccessPayload,
   ProfileSuccessPayload,
   UpdateProfileRequest,
   UpdateProfileSuccessPayload,
@@ -112,6 +114,18 @@ export const deleteUser = async (
 ): Promise<DeleteUserPayload> => {
   const { data: response } = await restClient.delete<DeleteUserPayload>(
     `/users/${id}`,
+    { headers: { Authorization: 'Bearer ' + token } }
+  );
+  return response;
+};
+
+export const logout = async (
+  restClient: RestClient
+): Promise<LogoutSuccessPayload> => {
+  const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
+  const { data: response } = await restClient.post<LogoutSuccessPayload>(
+    '/auths/logout',
+    null,
     { headers: { Authorization: 'Bearer ' + token } }
   );
   return response;

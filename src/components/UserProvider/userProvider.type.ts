@@ -30,6 +30,10 @@ export interface FetchListUserRequest {
 export interface FetchRequestLoginGoogle{
   token: string;
 }
+
+export interface FetchRequestLogout{
+  token: string;
+}
 export interface LoginSuccessfulPayload {
   access_token:  string;
   refresh_token: string;
@@ -64,6 +68,8 @@ export type UpdateUserSuccessPayload = BaseResponse<string>
 
 export type LoginSuccessPayload = BaseResponse<LoginSuccessfulPayload>;
 export type LoginFailPayload = Error<string>;
+
+export type LogoutSuccessPayload = BaseResponse<string>
 
 export type ProfileSuccessPayload = BaseResponse<User>;
 export type ProfileFailPayload = BaseResponse<string>;
