@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { logout } from 'components/UserProvider/userProvider.service';
+import { restAPI } from 'config/api';
+import { toast } from 'react-toastify';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -29,6 +32,9 @@ const Sidebar = ({
     index: number
   ): void => {
     setSelectedIndex(index);
+  };
+  const handleLogout = async (): Promise<void> => {
+    await logout(restAPI);
   };
   const navigate = useNavigate();
   const drawer = (
@@ -80,7 +86,18 @@ const Sidebar = ({
       </Box>
       <Button
         onClick={(): void => {
+          handleLogout();
           navigate('/');
+          localStorage.clear();
+          toast('🦄 Good bye admin', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }}
       >
         Logout
