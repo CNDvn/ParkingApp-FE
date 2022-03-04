@@ -33,10 +33,8 @@ const Sidebar = ({
   ): void => {
     setSelectedIndex(index);
   };
-  // const dispatch = useAppDispatch();
   const handleLogout = async (): Promise<void> => {
-    const data = await logout(restAPI);
-    console.log(data);
+    await logout(restAPI);
   };
   const navigate = useNavigate();
   const drawer = (
@@ -87,9 +85,6 @@ const Sidebar = ({
         </List>
       </Box>
       <Button
-        // onClick={(): void => {
-        //   navigate('/');
-        // }}
         onClick={(): void => {
           handleLogout();
           navigate('/');
