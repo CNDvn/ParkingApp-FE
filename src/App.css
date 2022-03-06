@@ -27,6 +27,9 @@
 .App-link {
   color: #61dafb;
 }
+.mapboxgl-control-container {
+  display: none;
+}
 
 @keyframes App-logo-spin {
   from {
