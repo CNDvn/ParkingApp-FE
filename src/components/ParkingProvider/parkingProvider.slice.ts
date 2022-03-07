@@ -1,4 +1,4 @@
-import { fetchListParkingAsync } from 'components/ParkingProvider/parkingProvider.action';
+import { fetchDeleteParking, fetchListParkingAsync } from 'components/ParkingProvider/parkingProvider.action';
 import { PagnigationData } from './../UserProvider/userProvider.type';
 import { Parking } from './../../models/parking';
 import { createSlice } from '@reduxjs/toolkit';
@@ -16,6 +16,7 @@ export interface ParkingSlice {
   status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
   listParkingPagination: PagnigationData<Parking[]>;
   isImages: boolean;
+  isDelete: boolean;
 }
 
 const initialState: ParkingSlice = {
@@ -42,6 +43,7 @@ const initialState: ParkingSlice = {
     data: [],
   },
   isImages: false,
+  isDelete: false,
 };
 
 export const parkingSlice = createSlice({
@@ -64,6 +66,9 @@ export const parkingSlice = createSlice({
     },
     resetMessage: (state) => {
       state.message = '';
+    },
+    resetDelete: (state) => {
+      state.isDelete = false;
     },
   },
   extraReducers: (builder) => {
@@ -97,6 +102,19 @@ export const parkingSlice = createSlice({
     builder.addCase(fetchListParkingAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
       state.message = (action.payload as ErrorBase<string>).message;
+    });
+
+    // delete parking
+    builder.addCase(fetchDeleteParking.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchDeleteParking.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+      state.isDelete = true;
+    });
+    builder.addCase(fetchDeleteParking.rejected, (state) => {
+      state.status = StatusRequest.FAILED;
     });
   },
 });

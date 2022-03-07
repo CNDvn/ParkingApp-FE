@@ -15,3 +15,6 @@ export const selectCount = (state: RootState): number =>
 
 export const selectCurrentPage = (state: RootState): number | undefined =>
   state.parking?.listParkingPagination.currentPage;
+
+export const selectStatusDelete = (state: RootState): boolean | undefined =>
+  state.parking?.isDelete;

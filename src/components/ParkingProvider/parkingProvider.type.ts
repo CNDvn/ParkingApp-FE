@@ -16,6 +16,8 @@ export interface BaseResponse<T> {
   statusCode: number;
 }
 
+export type DeleteParkingPayload = BaseResponse<string>;
+
 export type FetchSuccessListParkingPayload = BaseResponse<
   PagnigationData<Parking[]>
 >;

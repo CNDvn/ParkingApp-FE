@@ -9,7 +9,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from 'hook/hookRedux';
-import { fetchDeleteUser } from 'components/UserProvider/userProvider.action';
 import GroupIcon from '@mui/icons-material/Group';
 import {
   Avatar,
@@ -32,13 +31,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IParkingPagnigation } from 'models/base';
 import useDebounce from 'hook/useDebounce';
 import { toast } from 'react-toastify';
-import { fetchListParkingAsync } from 'components/ParkingProvider/parkingProvider.action';
+import { fetchDeleteParking, fetchListParkingAsync } from 'components/ParkingProvider/parkingProvider.action';
 import {
   selectCount,
   selectCurrentPage,
   selectLastPage,
   selectListParking,
   selectMessageParking,
+  selectStatusDelete,
 } from 'components/ParkingProvider/parkingProvider.selector';
 import { Parking } from 'models/parking';
 import { Search, SearchIconWrapper, StyledInputBase } from './searchParking';
@@ -47,6 +47,7 @@ const TableParking = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listParking = useAppSelector(selectListParking);
   const lastPage = useAppSelector(selectLastPage);
+  const isDelete = useAppSelector(selectStatusDelete);
   const count = useAppSelector(selectCount);
   const message = useAppSelector(selectMessageParking);
   const currentPage = useAppSelector(selectCurrentPage);
@@ -91,6 +92,10 @@ const TableParking = (): JSX.Element => {
   }, [debouncedSearch]);
 
   React.useEffect(() => {
+    dispatch(fetchListParkingAsync({ ...pagnigation, search: '' }));
+  }, [isDelete]);
+
+  React.useEffect(() => {
     if (message !== '') {
       if (message === 'Load List Parking Success') {
         toast.success(message, {
@@ -111,7 +116,7 @@ const TableParking = (): JSX.Element => {
   }, [message]);
 
   const handleDelete = (id: string): void => {
-    dispatch(fetchDeleteUser(id));
+    dispatch(fetchDeleteParking(id));
   };
 
   return (

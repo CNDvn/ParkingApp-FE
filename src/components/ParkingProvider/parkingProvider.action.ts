@@ -1,4 +1,5 @@
-import { fetchListParking } from './../ParkingProvider/parkingProvider.service';
+import { KEYS } from './../../config/key';
+import { deleteParking, fetchListParking } from './../ParkingProvider/parkingProvider.service';
 import {
   FetchSuccessListParkingPayload,
   FetchSuccessEmptyParkingPayload,
@@ -20,6 +21,19 @@ export const fetchListParkingAsync = createAsyncThunk(
         restAPI,
         payload
       );
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchDeleteParking = createAsyncThunk(
+  '/parkings/delete',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
+      const response = await deleteParking(restAPI, id, token);
       return response;
     } catch (error) {
       return rejectWithValue(error);
