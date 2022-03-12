@@ -28,7 +28,7 @@ const MapBox = ({ coordinates }: IMapBox): JSX.Element => {
       <ReactMapGL
         {...viewState}
         onMove={(evt): void => setViewState(evt.viewState)}
-        style={{ width: 800, height: 400 }}
+        style={{ width: 800, height: 800 }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken="pk.eyJ1IjoiYmFvc3Bob2EwNDAzIiwiYSI6ImNsMGVtdzd5YzBrcjEzZXBybWluMzMwOWcifQ.6TYjMo7wU8pmej9pgeij4Q"
       >

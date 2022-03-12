@@ -4,6 +4,7 @@ import { Avatar, Box, Grid } from '@mui/material';
 
 import { FormikProps } from 'formik';
 import { Parking } from 'models/parking';
+import CarouselParking from 'pages/DashboardAdmin/Carousel/Carousel';
 // import MapBoxTest from 'pages/MapBox/MapBoxTest';
 import MapBox from 'pages/MapBox/MapBox';
 import React, { useMemo } from 'react';
@@ -25,14 +26,15 @@ const ParkingDetail = ({ formik }: IParkingDetail): JSX.Element => {
             flexDirection: 'column',
           }}
         >
-          <Avatar
+          {/* <Avatar
             {...stringAvatar(
               formik.values.business?.user?.fullName.toUpperCase() ||
                 'hello world'
             )}
             src={formik.values.business?.user?.avatar}
             sx={{ width: 200, height: 200, fontSize: 30 }}
-          />
+          /> */}
+          <CarouselParking images={formik.values.images} />
         </Box>
         <Box sx={{ width: '100%' }}>
           <InputCustoms
