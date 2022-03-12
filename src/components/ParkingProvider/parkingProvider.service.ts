@@ -20,6 +20,16 @@ export const fetchListParking = async (
   return response;
 };
 
+export const fetchListParkingProcess = async (restClient: RestClient,token: string): Promise<FetchSuccessListParkingPayload | FetchSuccessEmptyParkingPayload> => {
+  const { data: response } = await restClient.get<
+    FetchSuccessListParkingPayload | FetchSuccessEmptyParkingPayload
+  >(
+    'parkings/processing?sizePage=5&currentPage=1&sort=ASC',
+    { headers: { Authorization: 'Bearer ' + token } }
+  );
+  return response;
+};
+
 export const deleteParking = async (
   restClient: RestClient,
   id: string,

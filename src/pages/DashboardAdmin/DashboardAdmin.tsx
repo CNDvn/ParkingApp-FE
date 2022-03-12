@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
 import { KEYS } from 'config/key';
+import { fetchParkingProcess } from 'components/ParkingProvider/parkingProvider.action';
+
 interface IDashboardAdmin {
   children: JSX.Element | JSX.Element[];
 }
@@ -40,6 +42,7 @@ const DashboardAdmin = ({ children }: IDashboardAdmin): JSX.Element => {
     const token = localStorage.getItem(KEYS.token);
     if (token) {
       dispatch(fetchProfileAsync(JSON.parse(token)));
+      dispatch(fetchParkingProcess(JSON.parse(token)));
       showToast();
       if (pathname !== PATH_NAME.DashboardAdminUser) {
         navigate(PATH_NAME.DashboardAdminUser);

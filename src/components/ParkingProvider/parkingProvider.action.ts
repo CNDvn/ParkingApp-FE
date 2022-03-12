@@ -1,5 +1,5 @@
 import { KEYS } from './../../config/key';
-import { deleteParking, fetchListParking } from './../ParkingProvider/parkingProvider.service';
+import { deleteParking, fetchListParking, fetchListParkingProcess } from './../ParkingProvider/parkingProvider.service';
 import {
   FetchSuccessListParkingPayload,
   FetchSuccessEmptyParkingPayload,
@@ -40,3 +40,18 @@ export const fetchDeleteParking = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchParkingProcess = createAsyncThunk('/parkings/process', async (token: string,{ rejectWithValue }) => {
+  try {
+    const response:
+      | FetchSuccessListParkingPayload
+      | FetchSuccessEmptyParkingPayload = await fetchListParkingProcess(
+      restAPI,
+      token
+    );
+    return response;
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});

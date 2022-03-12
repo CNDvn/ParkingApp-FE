@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Parking {
   id: string;
   name: string;
@@ -19,7 +21,10 @@ export interface Image {
   url: string;
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Business {}
+export interface Business {
+  id:   string;
+    user: User;
+}
 
 export interface Role {
   id: string;

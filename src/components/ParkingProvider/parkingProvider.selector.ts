@@ -18,3 +18,6 @@ export const selectCurrentPage = (state: RootState): number | undefined =>
 
 export const selectStatusDelete = (state: RootState): boolean | undefined =>
   state.parking?.isDelete;
+  
+  export const selectListParkingProcess = (state: RootState): Parking[] =>
+  state.parking.listParkingPaginationProcess.data;

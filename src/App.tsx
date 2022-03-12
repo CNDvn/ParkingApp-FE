@@ -3,12 +3,14 @@ import { PATH_NAME } from 'config/path';
 import DashboardAdmin from 'pages/DashboardAdmin/DashboardAdmin';
 import ProfileLogic from 'pages/DashboardAdmin/MainLayout/Dashboard/Profile/Profile.logic';
 import TableParking from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/TableParking';
+import TableParkingProcess from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/tableParkingProcess';
 import TablePayment from 'pages/DashboardAdmin/MainLayout/Dashboard/TablePayment/tablePayment';
 import TableUser from 'pages/DashboardAdmin/MainLayout/Dashboard/TableUser/tableUser';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from 'template/privateRouting';
+
 import './App.css';
 const AdminTemplate = ({
   children,
@@ -62,6 +64,16 @@ const App = (): JSX.Element => {
             <PrivateRoute>
               <AdminTemplate>
                 <ProfileLogic />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH_NAME.DashboardAdminParkingProcess}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <TableParkingProcess />
               </AdminTemplate>
             </PrivateRoute>
           }
