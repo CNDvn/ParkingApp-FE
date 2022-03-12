@@ -6,7 +6,7 @@ export interface PagnigationData<T> {
   nextPage: number;
   prevPage: number;
   lastPage: number;
-  data:  T;
+  data: T;
 }
 export interface FetchEmptyListUser {
   message: string;
@@ -27,49 +27,48 @@ export interface FetchListUserRequest {
   sort: string;
   role: string;
 }
-export interface FetchRequestLoginGoogle{
+export interface FetchRequestLoginGoogle {
   token: string;
 }
 
-export interface FetchRequestLogout{
+export interface FetchRequestLogout {
   token: string;
 }
 export interface LoginSuccessfulPayload {
-  access_token:  string;
+  access_token: string;
   refresh_token: string;
-  message:       string;
+  message: string;
 }
 
 export interface UpdateProfileRequest {
-  firstName:   string;
-  lastName:    string;
-  DOB:         string;
+  firstName: string;
+  lastName: string;
+  DOB: string;
   phoneNumber: string;
-  email:       string;
-  address:     string;
-  avatar:      string;
+  email: string;
+  address: string;
+  avatar: string;
 }
 
 export interface UpdateUserRequest {
   id: string;
   username: string;
-  firstName:   string;
-  lastName:    string;
-  DOB:         string;
+  firstName: string;
+  lastName: string;
+  DOB: string;
   phoneNumber: string;
-  email:       string;
-  address:     string;
-  avatar:      string;
+  email: string;
+  address: string;
+  avatar: string;
 }
 
-
-export type UpdateProfileSuccessPayload = BaseResponse<string>
-export type UpdateUserSuccessPayload = BaseResponse<string>
+export type UpdateProfileSuccessPayload = BaseResponse<string>;
+export type UpdateUserSuccessPayload = BaseResponse<string>;
 
 export type LoginSuccessPayload = BaseResponse<LoginSuccessfulPayload>;
 export type LoginFailPayload = Error<string>;
 
-export type LogoutSuccessPayload = BaseResponse<string>
+export type LogoutSuccessPayload = BaseResponse<string>;
 
 export type ProfileSuccessPayload = BaseResponse<User>;
 export type ProfileFailPayload = BaseResponse<string>;

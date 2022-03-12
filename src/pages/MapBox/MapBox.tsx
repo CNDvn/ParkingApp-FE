@@ -9,9 +9,19 @@ const MapBox = ({ coordinates }: IMapBox): JSX.Element => {
   console.log(coordinates);
   const [viewState, setViewState] = React.useState({
     longitude: 106.66280645454323,
-    latitude: 10.850609017864555,
+    latitude: 0.850609017864555,
     zoom: 14,
   });
+
+  React.useEffect(() => {
+    if (coordinates.latitude !== 0 && coordinates.longitude !== 0) {
+      setViewState({
+        longitude: coordinates.longitude,
+        latitude: coordinates.latitude,
+        zoom: 14,
+      });
+    }
+  }, [coordinates]);
 
   return (
     <div>
@@ -23,19 +33,15 @@ const MapBox = ({ coordinates }: IMapBox): JSX.Element => {
         mapboxAccessToken="pk.eyJ1IjoiYmFvc3Bob2EwNDAzIiwiYSI6ImNsMGVtdzd5YzBrcjEzZXBybWluMzMwOWcifQ.6TYjMo7wU8pmej9pgeij4Q"
       >
         <Marker
-          longitude={106.66280645454323}
-          latitude={10.850609017864555}
+          longitude={coordinates.longitude}
+          latitude={coordinates.latitude}
           anchor="bottom"
         >
-          <img
-            style={{ height: 50, width: 50 }}
-            src="https://xuonginthanhpho.com/wp-content/uploads/2020/03/map-marker-icon.png"
-          />
-          <div>Im there</div>
+          <img src="https://img.icons8.com/pastel-glyph/64/000000/parking--v1.png" />
         </Marker>
       </ReactMapGL>
     </div>
   );
 };
 
-export default MapBox;
+export default React.memo(MapBox);

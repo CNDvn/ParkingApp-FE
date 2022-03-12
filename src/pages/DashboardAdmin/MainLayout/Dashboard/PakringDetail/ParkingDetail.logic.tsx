@@ -14,17 +14,22 @@ const ParkingDetailLogic = (): JSX.Element => {
         restAPI,
         params.idParking as string
       );
-      formik.setFieldValue('id', data.result.id);
-      formik.setFieldValue('name', data.result.name);
-      formik.setFieldValue('address', data.result.address);
-      formik.setFieldValue('openTime', data.result.openTime);
-      formik.setFieldValue('closeTime', data.result.closeTime);
-      formik.setFieldValue('status', data.result.status);
-      formik.setFieldValue('phoneNumber', data.result.phoneNumber);
-      formik.setFieldValue('business', data.result.business);
-      formik.setFieldValue('images', data.result.images);
-      formik.setFieldValue('parkingSlots', data.result.parkingSlots);
-      formik.setFieldValue('coordinates', data.result.coordinates);
+      const fields = [
+        'id',
+        'name',
+        'address',
+        'openTime',
+        'closeTime',
+        'status',
+        'phoneNumber',
+        'business',
+        'images',
+        'parkingSlots',
+        'coordinates',
+      ];
+      fields.forEach((field) =>
+        formik.setFieldValue(field, data.result[field as keyof Parking], false)
+      );
     };
     callAPI();
   }, [params.idParking]);
@@ -39,6 +44,7 @@ const ParkingDetailLogic = (): JSX.Element => {
       status: '',
       phoneNumber: '',
       business: {
+        id: '',
         user: {
           id: '',
           firstName: '',
@@ -69,7 +75,6 @@ const ParkingDetailLogic = (): JSX.Element => {
         },
       ],
     },
-    // validationSchema: schema,
     validateOnMount: true,
     validateOnBlur: true,
     onSubmit: (values: Parking) => {

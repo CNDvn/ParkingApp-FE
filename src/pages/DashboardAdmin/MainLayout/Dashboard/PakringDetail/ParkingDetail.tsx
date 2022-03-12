@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, Box, Grid } from '@mui/material';
 
 import { FormikProps } from 'formik';
 import { Parking } from 'models/parking';
 // import MapBoxTest from 'pages/MapBox/MapBoxTest';
 import MapBox from 'pages/MapBox/MapBox';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { stringAvatar } from 'utils/handleAvatar';
 import InputCustoms from '../Profile/Input';
 interface IParkingDetail {
@@ -114,8 +116,6 @@ const ParkingDetail = ({ formik }: IParkingDetail): JSX.Element => {
 
       <Grid item xs={6}>
         <MapBox coordinates={formik.values.coordinates} />
-        {/* <MapBoxTest /> */}
-        <h1>hello</h1>
       </Grid>
     </Grid>
   );

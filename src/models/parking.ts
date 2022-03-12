@@ -15,6 +15,7 @@ export interface Parking {
 }
 
 export interface Business {
+    id:           string;
     user: User;
 }
 export interface Image {
