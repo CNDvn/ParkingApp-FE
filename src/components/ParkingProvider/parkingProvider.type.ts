@@ -1,4 +1,6 @@
-import { Parking } from './../../models/parking';
+
+import { Parking } from 'models/parking';
+export type FetchSuccessPayloadParkingDetail = BaseResponse<Parking>
 import { Error } from 'models/error';
 export interface PagnigationData<T> {
   count: number;

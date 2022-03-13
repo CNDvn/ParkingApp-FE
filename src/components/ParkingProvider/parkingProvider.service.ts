@@ -1,3 +1,4 @@
+import { FetchSuccessPayloadParkingDetail } from './parkingProvider.type';
 import {
   FetchSuccessListParkingPayload,
   FetchSuccessEmptyParkingPayload,
@@ -5,6 +6,16 @@ import {
 } from './parkingProvider.type';
 import { IParkingPagnigation } from './../../models/base';
 import { RestClient } from 'config/api';
+
+export const fetchParkingDetail = async (
+  restClient: RestClient,
+  id: string
+): Promise<FetchSuccessPayloadParkingDetail> => {
+  const { data: response } = await restClient.get<FetchSuccessPayloadParkingDetail>(
+    `/parkings/${id}`
+  );
+  return response;
+};
 
 export const fetchListParking = async (
   restClient: RestClient,
