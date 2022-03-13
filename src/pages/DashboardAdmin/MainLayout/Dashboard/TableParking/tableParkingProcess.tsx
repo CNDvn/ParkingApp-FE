@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { selectListParkingProcess } from 'components/ParkingProvider/parkingProvider.selector';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,10 @@ import { restAPI } from 'config/api';
 
 const TableParkingProcess = (): JSX.Element => {
   const listParkingProcess = useSelector(selectListParkingProcess);
-  const [status, setStatus] = useState<Status[]>([]);
+  const [status, setStatus] = useState<Status[]>([
+    { status: 'Deny' },
+    { status: 'Processing' },
+  ]);
   const [pagnigation, setPagnigation] = useState<IParkingNotify>({
     sizePage: 5,
     currentPage: 1,
@@ -35,14 +38,16 @@ const TableParkingProcess = (): JSX.Element => {
       <Typography variant="h2" textAlign="center">
         List Parking Process
       </Typography>
-      <Grid item xs={4}>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
         <ToggleButtonGroup
           color="primary"
           value={pagnigation.status}
           exclusive
           onChange={handleChangeStatus}
         >
-          {[...status, { status: 'no' }].map((item, id) => {
+          {status.map((item, id) => {
             return (
               <ToggleButton key={id} value={item.status}>
                 {item.status}
@@ -50,18 +55,18 @@ const TableParkingProcess = (): JSX.Element => {
             );
           })}
         </ToggleButtonGroup>
-      </Grid>
+      </Box>
       <Grid
         container
         spacing={1}
         alignItems="center"
         padding={7}
         direction="row"
-        justifyContent="center"
+        justifyContent="flex-start"
       >
         {listParkingProcess.map((itemParking, index) => {
           return (
-            <Grid item xs={6} md={3} key={index}>
+            <Grid item xs={6} md={4} key={index}>
               <CardParkingProcess parking={itemParking} />
             </Grid>
           );
