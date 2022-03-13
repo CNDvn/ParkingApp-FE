@@ -2,9 +2,15 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, CardMedia } from '@mui/material';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import { Parking } from 'models/parking';
 import { Box } from '@mui/system';
+import CarouselParking from 'pages/DashboardAdmin/Carousel/Carousel';
+import { useDispatch } from 'react-redux';
+import {
+  updateParkingConfirm,
+  updateParkingReject,
+} from 'components/ParkingProvider/parkingProvider.action';
 
 interface ICardParkingProcess {
   parking: Parking;
@@ -12,15 +18,11 @@ interface ICardParkingProcess {
 export default function CardParkingProcess({
   parking,
 }: ICardParkingProcess): JSX.Element {
+  const dispatch = useDispatch();
   return (
     <Card sx={{ maxWidth: '100%' }}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://picsum.photos/200/300"
-          alt="green iguana"
-        />
+        <CarouselParking images={parking.images} />
         <CardContent>
           <Box>
             <Typography variant="h6" component="div">
@@ -39,12 +41,27 @@ export default function CardParkingProcess({
           </Typography>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button size="large" variant="contained">
+          <Button
+            size="large"
+            variant="contained"
+            onClick={(): void => {
+              dispatch(updateParkingConfirm(parking.id));
+            }}
+          >
             Confirm
           </Button>
-          <Button size="large" variant="contained">
-            Deny
-          </Button>
+          {parking.status !== 'reject' && (
+            <Button
+              size="large"
+              variant="contained"
+              color="error"
+              onClick={(): void => {
+                dispatch(updateParkingReject(parking.id));
+              }}
+            >
+              Reject
+            </Button>
+          )}
         </CardActions>
       </CardActionArea>
     </Card>

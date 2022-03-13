@@ -2,6 +2,8 @@ import {
   fetchDeleteParking,
   fetchListParkingAsync,
   fetchParkingProcess,
+  updateParkingConfirm,
+  updateParkingReject,
 } from 'components/ParkingProvider/parkingProvider.action';
 import { PagnigationData } from './../UserProvider/userProvider.type';
 import { Parking } from './../../models/parking';
@@ -57,6 +59,7 @@ const initialState: ParkingSlice = {
     },
     images: [],
     coordinates: { latitude: 0, longitude: 0 },
+    parkingSlots: [],
   },
   listParkingPaginationProcess: {
     count: 0,
@@ -117,6 +120,7 @@ export const parkingSlice = createSlice({
         closeTime: '',
         coordinates: { latitude: 0, longitude: 0 },
         status: '',
+        parkingSlots: [],
       };
     },
     resetMessage: (state) => {
@@ -198,6 +202,29 @@ export const parkingSlice = createSlice({
       state.isDelete = true;
     });
     builder.addCase(fetchDeleteParking.rejected, (state) => {
+      state.status = StatusRequest.FAILED;
+    });
+
+    // Update parking confirm
+    builder.addCase(updateParkingConfirm.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(updateParkingConfirm.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+    });
+    builder.addCase(updateParkingConfirm.rejected, (state) => {
+      state.status = StatusRequest.FAILED;
+    });
+    // Update parking confirm
+    builder.addCase(updateParkingReject.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(updateParkingReject.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      state.message = action.payload.result;
+    });
+    builder.addCase(updateParkingReject.rejected, (state) => {
       state.status = StatusRequest.FAILED;
     });
   },

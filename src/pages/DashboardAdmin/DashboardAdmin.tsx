@@ -42,7 +42,15 @@ const DashboardAdmin = ({ children }: IDashboardAdmin): JSX.Element => {
     const token = localStorage.getItem(KEYS.token);
     if (token) {
       dispatch(fetchProfileAsync(JSON.parse(token)));
-      dispatch(fetchParkingProcess(JSON.parse(token)));
+      dispatch(
+        fetchParkingProcess({
+          sizePage: 5,
+          currentPage: 1,
+          field: 'firstName',
+          sort: 'DESC',
+          status: 'processing',
+        })
+      );
       showToast();
       if (pathname !== PATH_NAME.DashboardAdminUser) {
         navigate(PATH_NAME.DashboardAdminUser);

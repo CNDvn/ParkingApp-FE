@@ -1,21 +1,23 @@
+/* eslint-disable no-unused-vars */
 import { Box, Grid, Typography } from '@mui/material';
-import { selectListParkingProcess } from 'components/ParkingProvider/parkingProvider.selector';
+import {
+  selectListParkingProcess,
+  selectMessageParking,
+} from 'components/ParkingProvider/parkingProvider.selector';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CardParkingProcess from './cardParkingProcess';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { IParkingNotify } from 'models/base';
-import { Status } from 'models/parking';
-import { fetchListStatus } from 'components/RoleProvider/roleProvider.service';
-import { restAPI } from 'config/api';
+import { fetchParkingProcess } from 'components/ParkingProvider/parkingProvider.action';
+import { useAppSelector } from 'hook/hookRedux';
+import { toast } from 'react-toastify';
 
 const TableParkingProcess = (): JSX.Element => {
   const listParkingProcess = useSelector(selectListParkingProcess);
-  const [status, setStatus] = useState<Status[]>([
-    { status: 'Deny' },
-    { status: 'Processing' },
-  ]);
+  const dispatch = useDispatch();
+  const message = useAppSelector(selectMessageParking);
   const [pagnigation, setPagnigation] = useState<IParkingNotify>({
     sizePage: 5,
     currentPage: 1,
@@ -24,15 +26,24 @@ const TableParkingProcess = (): JSX.Element => {
     status: 'processing',
   });
   React.useEffect(() => {
-    const callAPI = async (): Promise<void> => {
-      const data = await fetchListStatus(restAPI);
-      setStatus(data.result);
-    };
-    callAPI();
-  }, []);
-  const handleChangeStatus = (): void => {
-    setPagnigation({ ...pagnigation });
+    dispatch(fetchParkingProcess(pagnigation));
+  }, [pagnigation, message]);
+  const handleChangeStatus = (
+    event: React.MouseEvent<HTMLElement>,
+    value: 'processing' | 'reject'
+  ): void => {
+    setPagnigation({ ...pagnigation, status: value });
   };
+  React.useEffect(() => {
+    if (message !== '') {
+      toast.success(message, {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+  }, [message]);
   return (
     <div>
       <Typography variant="h2" textAlign="center">
@@ -47,7 +58,7 @@ const TableParkingProcess = (): JSX.Element => {
           exclusive
           onChange={handleChangeStatus}
         >
-          {status.map((item, id) => {
+          {[{ status: 'processing' }, { status: 'reject' }].map((item, id) => {
             return (
               <ToggleButton key={id} value={item.status}>
                 {item.status}

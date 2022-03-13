@@ -31,7 +31,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IParkingPagnigation } from 'models/base';
 import useDebounce from 'hook/useDebounce';
 import { toast } from 'react-toastify';
-import { fetchDeleteParking, fetchListParkingAsync } from 'components/ParkingProvider/parkingProvider.action';
+import {
+  fetchDeleteParking,
+  fetchListParkingAsync,
+} from 'components/ParkingProvider/parkingProvider.action';
 import {
   selectCount,
   selectCurrentPage,
@@ -43,6 +46,7 @@ import {
 import { Parking } from 'models/parking';
 import { Search, SearchIconWrapper, StyledInputBase } from './searchParking';
 import { resetMessage } from 'components/ParkingProvider/parkingProvider.slice';
+import { useNavigate } from 'react-router-dom';
 const TableParking = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const listParking = useAppSelector(selectListParking);
@@ -86,9 +90,7 @@ const TableParking = (): JSX.Element => {
 
   React.useEffect(() => {
     dispatch(resetMessage());
-    dispatch(
-      fetchListParkingAsync({ ...pagnigation, search: search })
-    );
+    dispatch(fetchListParkingAsync({ ...pagnigation, search: search }));
   }, [debouncedSearch]);
 
   React.useEffect(() => {
@@ -118,6 +120,8 @@ const TableParking = (): JSX.Element => {
   const handleDelete = (id: string): void => {
     dispatch(fetchDeleteParking(id));
   };
+
+  const navigate = useNavigate();
 
   return (
     <TableContainer component={Paper}>
@@ -219,6 +223,15 @@ const TableParking = (): JSX.Element => {
                     <Box
                       sx={{ display: 'flex', justifyContent: 'space-evenly' }}
                     >
+                      <Button
+                        onClick={(): void => {
+                          navigate(`/DashboardAdmin/parking/${item.id}`);
+                        }}
+                        sx={{ width: 10, borderRadius: 50, height: 54 }}
+                        variant="outlined"
+                      >
+                        Detail
+                      </Button>
                       <Button
                         onClick={(): void => {
                           handleDelete(item.id);

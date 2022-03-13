@@ -6,4 +6,4 @@ export interface IBasePagnigation {
 
 export type IUserPagnigation = IBasePagnigation & {field: string, status: 'active'|'inActive'|'no', role: string}
 export type IParkingPagnigation = IBasePagnigation & {field: string, status: 'active'|'inActive'|'no'}
-export type IParkingNotify = IBasePagnigation & {field: string, status: 'processing'|'reject'|'no'}
+export type IParkingNotify = IBasePagnigation & {field: string, status: 'processing'|'reject'}

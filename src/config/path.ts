@@ -8,4 +8,5 @@ export const PATH_NAME = {
   HOME: '/home',
   Login: '/Login',
   Example: '/Example',
+  DetailParking: '/DashboardAdmin/parking/:idParking',
 };

@@ -1,6 +1,7 @@
 import AppProvider from 'components/AppProvider/AppProvider';
 import { PATH_NAME } from 'config/path';
 import DashboardAdmin from 'pages/DashboardAdmin/DashboardAdmin';
+import ParkingDetailLogic from 'pages/DashboardAdmin/MainLayout/Dashboard/PakringDetail/ParkingDetail.logic';
 import ProfileLogic from 'pages/DashboardAdmin/MainLayout/Dashboard/Profile/Profile.logic';
 import TableParking from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/TableParking';
 import TableParkingProcess from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/tableParkingProcess';
@@ -43,6 +44,16 @@ const App = (): JSX.Element => {
             <PrivateRoute>
               <AdminTemplate>
                 <TableParking />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH_NAME.DetailParking}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <ParkingDetailLogic />
               </AdminTemplate>
             </PrivateRoute>
           }
