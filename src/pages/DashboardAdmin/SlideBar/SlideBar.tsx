@@ -15,6 +15,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { logout } from 'components/UserProvider/userProvider.service';
 import { restAPI } from 'config/api';
 import { toast } from 'react-toastify';
+import IconBan from '../../../images/ban.png';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -54,6 +55,24 @@ const Sidebar = ({
               <PersonIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>User</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            selected={selectedIndex === 4}
+            onClick={(event): void => {
+              handleListItemClick(event, 4);
+              navigate(PATH_NAME.DashboardAdminBanUser);
+            }}
+          >
+            <ListItemIcon>
+              <img
+                src={IconBan}
+                alt=""
+                srcSet=""
+                style={{ width: 30, height: 30 }}
+              />
+            </ListItemIcon>
+            <ListItemText>Ban User</ListItemText>
           </ListItem>
           <ListItem
             button

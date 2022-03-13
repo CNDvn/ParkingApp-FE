@@ -6,6 +6,7 @@ import ProfileLogic from 'pages/DashboardAdmin/MainLayout/Dashboard/Profile/Prof
 import TableParking from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/TableParking';
 import TableParkingProcess from 'pages/DashboardAdmin/MainLayout/Dashboard/TableParking/tableParkingProcess';
 import TablePayment from 'pages/DashboardAdmin/MainLayout/Dashboard/TablePayment/tablePayment';
+import TableBanUser from 'pages/DashboardAdmin/MainLayout/Dashboard/TableUser/tableBanUser';
 import TableUser from 'pages/DashboardAdmin/MainLayout/Dashboard/TableUser/tableUser';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import React from 'react';
@@ -85,6 +86,16 @@ const App = (): JSX.Element => {
             <PrivateRoute>
               <AdminTemplate>
                 <TableParkingProcess />
+              </AdminTemplate>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH_NAME.DashboardAdminBanUser}
+          element={
+            <PrivateRoute>
+              <AdminTemplate>
+                <TableBanUser />
               </AdminTemplate>
             </PrivateRoute>
           }
