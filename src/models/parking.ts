@@ -13,7 +13,7 @@ export interface Parking {
   coordinates: Coordinates;
 }
 export interface Coordinates {
-  latitude:  number;
+  latitude: number;
   longitude: number;
 }
 
@@ -22,11 +22,15 @@ export interface Image {
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Business {
-  id:   string;
-    user: User;
+  id: string;
+  user: User;
 }
 
 export interface Role {
   id: string;
   name: string;
+}
+
+export interface Status {
+  status: string;
 }

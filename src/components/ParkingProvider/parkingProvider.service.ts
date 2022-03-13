@@ -24,7 +24,7 @@ export const fetchListParkingProcess = async (restClient: RestClient,token: stri
   const { data: response } = await restClient.get<
     FetchSuccessListParkingPayload | FetchSuccessEmptyParkingPayload
   >(
-    'parkings/processing?sizePage=5&currentPage=1&sort=ASC',
+    'parkings/admin?sizePage=5&currentPage=1&sort=ASC&statusParking=processing',
     { headers: { Authorization: 'Bearer ' + token } }
   );
   return response;

@@ -28,7 +28,8 @@ export default function CardParkingProcess({
               {parking.name}
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-              Host: {parking.business.user.fullName}
+              Host:
+               {parking.business.user.fullName}
             </Typography>
           </Box>
           <Typography variant="body2" color="text.secondary">
