@@ -1,1 +1,1 @@
-export const API_PARKING = 'http://13.70.20.93:5000/api';
+export const API_PARKING = 'https://parkingappbe.eastasia.cloudapp.azure.com/api';
