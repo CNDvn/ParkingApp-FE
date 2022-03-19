@@ -16,6 +16,7 @@ import { logout } from 'components/UserProvider/userProvider.service';
 import { restAPI } from 'config/api';
 import { toast } from 'react-toastify';
 import IconBan from '../../../images/ban.png';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -40,21 +41,25 @@ const Sidebar = ({
   const navigate = useNavigate();
   const drawer = (
     <>
-      <Box sx={{ width: 250, mt: '20px' }} role="presentation">
+      <Box sx={{ width: 400, mt: '20px' }} role="presentation">
         <List>
           <Divider />
           <ListItem
             button
             selected={selectedIndex === 0}
-            onClick={(event): void => {
-              handleListItemClick(event, 0);
-              navigate(PATH_NAME.DashboardAdminUser);
-            }}
+
+            // onClick={(event): void => {
+            //   handleListItemClick(event, 0);
+            //   navigate(PATH_NAME.DashboardAdminUser);
+            // }}
           >
             <ListItemIcon>
               <PersonIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>User</ListItemText>
+            <ListItemIcon>
+              <ArrowDropDownIcon sx={{ fontSize: '32px' }} />
+            </ListItemIcon>
           </ListItem>
           <ListItem
             button

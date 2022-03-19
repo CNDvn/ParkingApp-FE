@@ -50,9 +50,7 @@ import { IUserPagnigation } from 'models/base';
 import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
-import {
-  resetMessage,
-} from 'components/UserProvider/userProvider.slice';
+import { resetMessage } from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
 import { toast } from 'react-toastify';
 import FormAddUserLogic from '../FormAddUser/formAddUser.logic';
@@ -174,7 +172,7 @@ const TableUser = (): JSX.Element => {
 
   return (
     <TableContainer component={Paper}>
-      <Grid container spacing={2} alignItems="center" padding={1}>
+      <Grid container spacing={2} alignItems="center" padding={3}>
         <Grid item xs={4}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GroupIcon sx={{ fontSize: '25px', marginRight: '2px' }} />
@@ -266,7 +264,7 @@ const TableUser = (): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                  {index + sizePage * (numberPage - 1) + 1}
+                    {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
                   <TableCell align="left">
                     <Avatar
