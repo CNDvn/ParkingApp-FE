@@ -8,6 +8,7 @@ import {
   fetchLoginGoogleUser,
   fetchProfileUser,
   fetchUserLogin,
+  updateBanUser,
   updateProfile,
   updateUser,
   uploadAvatar,
@@ -19,6 +20,7 @@ import {
   LoginFailPayload,
   LoginRequestPayload,
   LoginSuccessPayload,
+  PayloadUpdateBanUser,
   ProfileSuccessPayload,
   UpdateProfileRequest,
   UpdateProfileSuccessPayload,
@@ -144,6 +146,36 @@ export const fetchDeleteUser = createAsyncThunk(
     try {
       const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
       const response = await deleteUser(restAPI, id, token);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchUpdateBanUser = createAsyncThunk(
+  '/user/update/status',
+  async (payload: PayloadUpdateBanUser, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
+      const response = await updateBanUser(restAPI, payload, token);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchListBanUser = createAsyncThunk(
+  '/users/ban',
+  async (
+    payload: IUserPagnigation & { search: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const token = JSON.parse(localStorage.getItem(KEYS.token) as string);
+      const response: FetchSuccessPayload | FetchSuccessEmptyPayload =
+        await fetchListUser(restAPI, payload, token);
       return response;
     } catch (error) {
       return rejectWithValue(error);

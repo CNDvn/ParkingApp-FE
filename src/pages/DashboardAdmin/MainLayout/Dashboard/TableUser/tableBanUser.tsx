@@ -10,153 +10,107 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { User } from 'models/user';
 import React, { useState } from 'react';
-
+import { toast } from 'react-toastify';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { stringAvatar } from 'utils/handleAvatar';
+import { useAppSelector } from 'hook/hookRedux';
+import DoneIcon from '@mui/icons-material/Done';
+import {
+  selectCurrentPage,
+  selectListUser,
+  selectMessageBanUser,
+  selectStatusDelete,
+} from 'components/UserProvider/userProvider.selector';
+import { IUserPagnigation } from 'models/base';
+import {
+  fetchListBanUser,
+  fetchListUserAsync,
+  fetchUpdateBanUser,
+} from 'components/UserProvider/userProvider.action';
+import { useDispatch } from 'react-redux';
+import { resetMessage } from 'components/UserProvider/userProvider.slice';
 const TableBanUser = (): JSX.Element => {
-  const [listUser, setListUser] = useState<
-    (User & { bookingCancel: number })[]
-  >([
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'bao@gamil.com',
-      firstName: 'bao',
-      business: {},
-      customer: null,
-      fullName: 'Gia Bảo',
-      lastName: 'Bao',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 10,
-    },
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'tu@gamil.com',
-      firstName: 'tu',
-      business: {},
-      customer: null,
-      fullName: 'Tú Nguyễn',
-      lastName: 'tu',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 5,
-    },
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'trọng@gamil.com',
-      firstName: 'trọng',
-      business: {},
-      customer: null,
-      fullName: 'Thành Trọng',
-      lastName: 'trọng',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 5,
-    },
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'huy@gamil.com',
-      firstName: 'huy',
-      business: {},
-      customer: null,
-      fullName: 'Gia Huy',
-      lastName: 'huy',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 7,
-    },
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'sang@gamil.com',
-      firstName: 'sang',
-      business: {},
-      customer: null,
-      fullName: 'Anh Sang',
-      lastName: 'sang',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 12,
-    },
-    {
-      id: Math.random().toString(),
-      DOB: '20/10/2000',
-      address: 'Hồ Chí Minh',
-      avatar: 'https://picsum.photos/id/237/200/300',
-      email: 'Khoa@gamil.com',
-      firstName: 'Khoa',
-      business: {},
-      customer: null,
-      fullName: 'Đăng Khoa',
-      lastName: 'Khoa',
-      phoneNumber: '0908439882',
-      role: {
-        id: 'abc',
-        name: 'customer',
-      },
-      status: 'active',
-      username: 'hello world',
-      bookingCancel: 9,
-    },
-  ]);
+  const listUser = useAppSelector(selectListUser);
+  const isDelete = useAppSelector(selectStatusDelete);
+  const [sizePage] = React.useState<number>(5);
+  const dispatch = useDispatch();
+  const [numberPage, setNumberPage] = useState<number>(1);
+  const message = useAppSelector(selectMessageBanUser);
+  const currentPage = useAppSelector(selectCurrentPage);
+  // const [userSelect, setUserSelect] = React.useState<User>({
+  //   id: '',
+  //   firstName: '',
+  //   lastName: '',
+  //   DOB: '',
+  //   status: '',
+  //   username: '',
+  //   phoneNumber: '',
+  //   email: '',
+  //   address: '',
+  //   avatar: '',
+  //   customer: null,
+  //   business: {},
+  //   role: { id: '', name: '' },
+  //   fullName: '',
+  // });
+
+  const [pagnigation, setPagnigation] = useState<IUserPagnigation>({
+    sizePage: 5,
+    currentPage: 1,
+    field: 'firstName',
+    role: 'customer',
+    sort: 'DESC',
+    status: 'active',
+  });
+  React.useEffect(() => {
+    dispatch(resetMessage());
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [pagnigation]);
+
+  React.useEffect(() => {
+    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+  }, [isDelete]);
+  React.useEffect(() => {
+    dispatch(fetchListBanUser({ ...pagnigation, search: '' }));
+  }, [pagnigation, message]);
+  React.useEffect(() => {
+    if (message !== '') {
+      toast.success(message, {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+  }, [message]);
   const handleDelete = (id: string): void => {
-    const newList = listUser.filter((item) => item.id !== id);
-    setListUser(newList);
+    dispatch(fetchUpdateBanUser({ id, status: 'ban' }));
   };
-  const [page, setPage] = React.useState(1);
+  const handleActive = (id: string): void => {
+    dispatch(fetchUpdateBanUser({ id, status: 'active' }));
+  };
+  const handleChangeStatusUser = (
+    event: React.MouseEvent<HTMLElement>,
+    value: 'active' | 'ban'
+  ): void => {
+    setPagnigation({ ...pagnigation, status: value });
+  };
   const handleChange = (
     event: React.ChangeEvent<unknown>,
-    value: number
+    numberPage: number
   ): void => {
-    console.log(value);
-
-    const newList = listUser.reverse();
-    setListUser(newList);
-    setPage(value);
+    // const listUser = userSelect.reverse();
+    // setUserSelect(userSelect.reverse());
+    // setPage(value);
+    setPagnigation({ ...pagnigation, currentPage: numberPage });
+    setNumberPage(numberPage);
   };
   return (
     <div>
@@ -164,6 +118,24 @@ const TableBanUser = (): JSX.Element => {
       <Typography variant="h2" textAlign="center">
         Ban List User
       </Typography>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <ToggleButtonGroup
+          color="primary"
+          value={pagnigation.status}
+          exclusive
+          onChange={handleChangeStatusUser}
+        >
+          {[{ status: 'active' }, { status: 'ban' }].map((item, id) => {
+            return (
+              <ToggleButton key={id} value={item.status}>
+                {item.status}
+              </ToggleButton>
+            );
+          })}
+        </ToggleButtonGroup>
+      </Box>
       <Table sx={{ minWidth: '100%' }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -174,53 +146,49 @@ const TableBanUser = (): JSX.Element => {
             <TableCell align="left">Phone</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Role</TableCell>
-            <TableCell align="left">Booking Cancel</TableCell>
+            {/* <TableCell align="left">Booking Cancel</TableCell> */}
             <TableCell align="left">Status</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {listUser.length > 0 &&
-            listUser.map(
-              (item: User & { bookingCancel: number }, index: number) => {
-                return (
-                  <TableRow
-                    key={item.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell align="left">
-                      <Avatar
-                        {...stringAvatar(item.fullName)}
-                        src={item.avatar}
-                      />
-                    </TableCell>
-                    <TableCell align="left">{item.username}</TableCell>
-                    <TableCell align="left">{item.fullName}</TableCell>
-                    <TableCell align="left">{item.phoneNumber}</TableCell>
-                    <TableCell align="left">{item.email}</TableCell>
-                    <TableCell align="left">
-                      {' '}
-                      <Chip
-                        label={item.role.name}
-                        color="primary"
-                        variant="outlined"
-                      />
-                    </TableCell>
-                    <TableCell align="left">
-                      {' '}
-                      <Chip label={item.bookingCancel} color="primary" />
-                    </TableCell>
-                    <TableCell align="left">
-                      {' '}
-                      <Chip label={item.status} color="primary" />
-                    </TableCell>
-                    <TableCell align="left">
-                      <Box
-                        sx={{ display: 'flex', justifyContent: 'space-evenly' }}
-                      >
+            listUser.map((item: User, index: number) => {
+              return (
+                <TableRow
+                  key={item.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + sizePage * (numberPage - 1) + 1}
+                  </TableCell>
+                  <TableCell align="left">
+                    <Avatar
+                      {...stringAvatar(item.fullName)}
+                      src={item.avatar}
+                    />
+                  </TableCell>
+                  <TableCell align="left">{item.username}</TableCell>
+                  <TableCell align="left">{item.fullName}</TableCell>
+                  <TableCell align="left">{item.phoneNumber}</TableCell>
+                  <TableCell align="left">{item.email}</TableCell>
+                  <TableCell align="left">
+                    {' '}
+                    <Chip
+                      label={item.role.name}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    {' '}
+                    <Chip label={item.status} color="primary" />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Box
+                      sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+                    >
+                      {item.status === 'active' ? (
                         <Button
                           onClick={(): void => {
                             handleDelete(item.id);
@@ -231,12 +199,22 @@ const TableBanUser = (): JSX.Element => {
                         >
                           <DeleteIcon />
                         </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              }
-            )}
+                      ) : (
+                        <Button
+                          onClick={(): void => {
+                            handleActive(item.id);
+                          }}
+                          sx={{ width: 10, borderRadius: 50, height: 54 }}
+                          variant="outlined"
+                        >
+                          <DoneIcon />
+                        </Button>
+                      )}
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
       <Stack
@@ -248,7 +226,7 @@ const TableBanUser = (): JSX.Element => {
         }}
       >
         <Pagination
-          page={page}
+          page={currentPage}
           onChange={handleChange}
           count={10}
           color="primary"

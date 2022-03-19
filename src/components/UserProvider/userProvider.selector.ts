@@ -14,6 +14,9 @@ export const selectStatusUpdateProfile = (state: RootState): boolean =>
 export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
 
+export const selectMessageBanUser = (state: RootState): string | undefined =>
+  state.user?.messageBan;
+
 export const selectMessageLogin = (state: RootState): string | undefined =>
   state.user?.messageLogin;
 

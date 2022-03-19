@@ -93,3 +93,8 @@ export function instanceOfFetchEmptyListUser(
 ): data is FetchEmptyListUser {
   return 'message' in data;
 }
+
+export interface PayloadUpdateBanUser {
+  id: string;
+  status: string;
+}
