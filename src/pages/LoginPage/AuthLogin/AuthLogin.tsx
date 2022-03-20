@@ -9,15 +9,11 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import {
-  fetchLoginGoogleAsync,
-  fetchProfileAsync,
-} from 'components/UserProvider/userProvider.action';
+import { fetchLoginGoogleAsync } from 'components/UserProvider/userProvider.action';
 import {
   selectMessageLogin,
   selectStatusLoginUser,
 } from 'components/UserProvider/userProvider.selector';
-import { KEYS } from 'config/key';
 import { PATH_NAME } from 'config/path';
 import { StatusRequest } from 'constants/statusRequest';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
