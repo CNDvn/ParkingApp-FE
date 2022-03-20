@@ -26,6 +26,7 @@ export interface UserSlice {
   user: User;
   message: string | undefined;
   messageBan: string | undefined;
+  messageListUser: string | undefined;
   messageLogin: string | undefined;
   status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
   statusLogin:
@@ -60,6 +61,7 @@ const initialState: UserSlice = {
   },
   message: '',
   messageBan: '',
+  messageListUser:'',
   messageLogin: '',
   status: StatusRequest.PENDING,
   statusLogin: StatusRequest.PENDING,
@@ -108,11 +110,17 @@ export const userSlice = createSlice({
     resetMessage: (state) => {
       state.message = '';
     },
+    resetMessageListUser: (state) => {
+      state.messageListUser = '';
+    },
     resetDelete: (state) => {
       state.isDelete = false;
     },
     resetProfile: (state) => {
       state.statusUploadProfile = false;
+    },
+    resetUpdateUser: (state) => {
+      state.statusUpdateUser = false;
     },
   },
   extraReducers: (builder) => {
@@ -175,19 +183,19 @@ export const userSlice = createSlice({
         state.listUserPagination = action.payload?.result as PagnigationData<
           User[]
         >;
-        state.message = 'Load List User Success';
+        state.messageListUser = 'Load List User Success';
       } else if (
         instanceOfFetchEmptyListUser(
           action.payload?.result as FetchEmptyListUser
         )
       ) {
-        state.message = (action.payload?.result as FetchEmptyListUser).message;
+        state.messageListUser = (action.payload?.result as FetchEmptyListUser).message;
         state.listUserPagination.data = [];
       }
     });
     builder.addCase(fetchListUserAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
-      state.message = (action.payload as ErrorBase<string>).message;
+      state.messageListUser = (action.payload as ErrorBase<string>).message;
     });
     // login google
     builder.addCase(fetchLoginGoogleAsync.pending, (state) => {
@@ -241,7 +249,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageListUser = action.payload.result;
       state.statusUpdateUser = true;
     });
     builder.addCase(fetchUpdateUser.rejected, (state) => {
@@ -254,7 +262,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageListUser = action.payload.result;
       state.isDelete = true;
     });
     builder.addCase(fetchDeleteUser.rejected, (state) => {
@@ -292,6 +300,6 @@ export const userSlice = createSlice({
     });
   },
 });
-export const { resetUser, resetFlag, resetMessage, resetDelete, resetProfile } =
+export const { resetUser,resetFlag, resetUpdateUser,resetMessageListUser,resetMessage, resetDelete, resetProfile } =
   userSlice.actions;
 export default userSlice.reducer;

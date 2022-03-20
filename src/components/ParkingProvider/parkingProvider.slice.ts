@@ -19,6 +19,7 @@ import {
 export interface ParkingSlice {
   parking: Parking;
   message: string | undefined;
+  messageProcess: string | undefined;
   status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
   listParkingPagination: PagnigationData<Parking[]>;
   isImages: boolean;
@@ -70,6 +71,7 @@ const initialState: ParkingSlice = {
     data: [],
   },
   message: '',
+  messageProcess: '',
   status: StatusRequest.PENDING,
   listParkingPagination: {
     count: 0,
@@ -126,6 +128,9 @@ export const parkingSlice = createSlice({
     resetMessage: (state) => {
       state.message = '';
     },
+    resetMessageProcess: (state) => {
+      state.messageProcess = '';
+    },
     resetDelete: (state) => {
       state.isDelete = false;
     },
@@ -143,13 +148,13 @@ export const parkingSlice = createSlice({
       ) {
         state.listParkingPaginationProcess = action.payload
           ?.result as PagnigationData<Parking[]>;
-        state.message = 'Load List Parking Process Success';
+        state.messageProcess = 'Load List Parking Process Success';
       } else if (
         instanceOfFetchEmptyListParking(
           action.payload?.result as FetchEmptyListParking
         )
       ) {
-        state.message = (
+        state.messageProcess = (
           action.payload?.result as FetchEmptyListParking
         ).message;
         state.listParkingPaginationProcess.data = [];
@@ -157,7 +162,7 @@ export const parkingSlice = createSlice({
     });
     builder.addCase(fetchParkingProcess.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
-      state.message = (action.payload as ErrorBase<string>).message;
+      state.messageProcess = (action.payload as ErrorBase<string>).message;
     });
 
     // get list Parking

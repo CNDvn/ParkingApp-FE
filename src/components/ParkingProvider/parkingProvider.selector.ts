@@ -6,6 +6,9 @@ export const selectListParking = (state: RootState): Parking[] =>
 
 export const selectMessageParking = (state: RootState): string | undefined =>
   state.parking?.message;
+  
+export const selectMessageParkingProcess = (state: RootState): string | undefined =>
+  state.parking?.messageProcess;
 
 export const selectLastPage = (state: RootState): number | null =>
   state.parking.listParkingPagination.lastPage;

@@ -13,6 +13,8 @@ export const selectStatusUpdateProfile = (state: RootState): boolean =>
 
 export const selectMessageUser = (state: RootState): string | undefined =>
   state.user?.message;
+export const selectMessageListUser = (state: RootState): string | undefined =>
+  state.user?.messageListUser;
 
 export const selectMessageBanUser = (state: RootState): string | undefined =>
   state.user?.messageBan;

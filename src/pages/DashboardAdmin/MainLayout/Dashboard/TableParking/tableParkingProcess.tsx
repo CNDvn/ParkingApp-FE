@@ -2,7 +2,7 @@
 import { Box, Grid, Typography } from '@mui/material';
 import {
   selectListParkingProcess,
-  selectMessageParking,
+  selectMessageParkingProcess,
 } from 'components/ParkingProvider/parkingProvider.selector';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 const TableParkingProcess = (): JSX.Element => {
   const listParkingProcess = useSelector(selectListParkingProcess);
   const dispatch = useDispatch();
-  const message = useAppSelector(selectMessageParking);
+  const message = useAppSelector(selectMessageParkingProcess);
   const [pagnigation, setPagnigation] = useState<IParkingNotify>({
     sizePage: 5,
     currentPage: 1,
