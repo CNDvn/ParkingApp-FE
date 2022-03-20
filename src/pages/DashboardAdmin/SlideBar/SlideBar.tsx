@@ -47,11 +47,10 @@ const Sidebar = ({
           <ListItem
             button
             selected={selectedIndex === 0}
-
-            // onClick={(event): void => {
-            //   handleListItemClick(event, 0);
-            //   navigate(PATH_NAME.DashboardAdminUser);
-            // }}
+            onClick={(event): void => {
+              handleListItemClick(event, 0);
+              navigate(PATH_NAME.DashboardAdminUser);
+            }}
           >
             <ListItemIcon>
               <PersonIcon sx={{ fontSize: '32px' }} />

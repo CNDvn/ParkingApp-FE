@@ -1,5 +1,4 @@
 import MainLayout from './MainLayout';
-import { fetchProfileAsync } from 'components/UserProvider/userProvider.action';
 import {
   selectMessageUser,
   selectStatusUser,
@@ -41,7 +40,6 @@ const DashboardAdmin = ({ children }: IDashboardAdmin): JSX.Element => {
     console.log('run');
     const token = localStorage.getItem(KEYS.token);
     if (token) {
-      dispatch(fetchProfileAsync(JSON.parse(token)));
       dispatch(
         fetchParkingProcess({
           sizePage: 5,
