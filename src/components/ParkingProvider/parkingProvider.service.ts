@@ -10,7 +10,6 @@ import {
 import { IParkingNotify, IParkingPagnigation } from './../../models/base';
 import { RestClient } from 'config/api';
 
-
 export const fetchParkingDetail = async (
   restClient: RestClient,
   id: string

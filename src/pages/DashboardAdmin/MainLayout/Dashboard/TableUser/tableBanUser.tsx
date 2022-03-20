@@ -24,6 +24,7 @@ import { useAppSelector } from 'hook/hookRedux';
 import DoneIcon from '@mui/icons-material/Done';
 import {
   selectCurrentPage,
+  selectLastPage,
   selectListUser,
   selectMessageBanUser,
   selectStatusDelete,
@@ -40,27 +41,11 @@ const TableBanUser = (): JSX.Element => {
   const listUser = useAppSelector(selectListUser);
   const isDelete = useAppSelector(selectStatusDelete);
   const [sizePage] = React.useState<number>(5);
+  const lastPage = useAppSelector(selectLastPage);
   const dispatch = useDispatch();
   const [numberPage, setNumberPage] = useState<number>(1);
   const message = useAppSelector(selectMessageBanUser);
   const currentPage = useAppSelector(selectCurrentPage);
-  // const [userSelect, setUserSelect] = React.useState<User>({
-  //   id: '',
-  //   firstName: '',
-  //   lastName: '',
-  //   DOB: '',
-  //   status: '',
-  //   username: '',
-  //   phoneNumber: '',
-  //   email: '',
-  //   address: '',
-  //   avatar: '',
-  //   customer: null,
-  //   business: {},
-  //   role: { id: '', name: '' },
-  //   fullName: '',
-  // });
-
   const [pagnigation, setPagnigation] = useState<IUserPagnigation>({
     sizePage: 5,
     currentPage: 1,
@@ -106,9 +91,6 @@ const TableBanUser = (): JSX.Element => {
     event: React.ChangeEvent<unknown>,
     numberPage: number
   ): void => {
-    // const listUser = userSelect.reverse();
-    // setUserSelect(userSelect.reverse());
-    // setPage(value);
     setPagnigation({ ...pagnigation, currentPage: numberPage });
     setNumberPage(numberPage);
   };
@@ -226,9 +208,9 @@ const TableBanUser = (): JSX.Element => {
         }}
       >
         <Pagination
+          count={lastPage as number}
           page={currentPage}
           onChange={handleChange}
-          count={10}
           color="primary"
         />
       </Stack>

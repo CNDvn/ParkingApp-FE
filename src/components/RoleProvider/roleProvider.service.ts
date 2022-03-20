@@ -12,4 +12,3 @@ export const fetchListRole = async (
   );
   return response;
 };
-
