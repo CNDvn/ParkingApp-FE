@@ -14,7 +14,7 @@ const CarouselParking: React.FC<ICarouselParking> = ({
         {images.map((item, index) => {
           return (
             <div key={index}>
-              <img src={item.url} height={500} />
+              <img src={item.url} height={400} />
             </div>
           );
         })}

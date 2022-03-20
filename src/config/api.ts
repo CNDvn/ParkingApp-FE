@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import * as URL from './url';
 
 export const restAPI: AxiosInstance = axios.create({
-  baseURL: `${URL.API_PARKING}/v1`,
+  baseURL: `${URL.API_PARKING}/api/v1`,
 });
 
 export type RestClient = typeof restAPI;

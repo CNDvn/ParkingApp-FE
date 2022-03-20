@@ -84,36 +84,33 @@ const TableParking = (): JSX.Element => {
   };
 
   React.useEffect(() => {
-    dispatch(resetMessage());
     dispatch(fetchListParkingAsync({ ...pagnigation, search: '' }));
+    return (): void => {
+      dispatch(resetMessage());
+    };
   }, [pagnigation]);
 
   React.useEffect(() => {
-    dispatch(resetMessage());
     dispatch(fetchListParkingAsync({ ...pagnigation, search: search }));
+    return (): void => {
+      dispatch(resetMessage());
+    };
   }, [debouncedSearch]);
 
   React.useEffect(() => {
-    dispatch(fetchListParkingAsync({ ...pagnigation, search: '' }));
+    if (isDelete) {
+      dispatch(fetchListParkingAsync({ ...pagnigation, search: '' }));
+    }
   }, [isDelete]);
 
   React.useEffect(() => {
     if (message !== '') {
-      if (message === 'Load List Parking Success') {
-        toast.success(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      } else {
-        toast.success(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      }
+      toast.success(message, {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   }, [message]);
 

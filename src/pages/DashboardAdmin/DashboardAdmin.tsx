@@ -1,5 +1,4 @@
 import MainLayout from './MainLayout';
-import { fetchProfileAsync } from 'components/UserProvider/userProvider.action';
 import {
   selectMessageUser,
   selectStatusUser,
@@ -15,6 +14,8 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
 import { KEYS } from 'config/key';
+import { fetchParkingProcess } from 'components/ParkingProvider/parkingProvider.action';
+
 interface IDashboardAdmin {
   children: JSX.Element | JSX.Element[];
 }
@@ -39,7 +40,15 @@ const DashboardAdmin = ({ children }: IDashboardAdmin): JSX.Element => {
     console.log('run');
     const token = localStorage.getItem(KEYS.token);
     if (token) {
-      dispatch(fetchProfileAsync(JSON.parse(token)));
+      dispatch(
+        fetchParkingProcess({
+          sizePage: 5,
+          currentPage: 1,
+          field: 'firstName',
+          sort: 'DESC',
+          status: 'processing',
+        })
+      );
       showToast();
       if (pathname !== PATH_NAME.DashboardAdminUser) {
         navigate(PATH_NAME.DashboardAdminUser);

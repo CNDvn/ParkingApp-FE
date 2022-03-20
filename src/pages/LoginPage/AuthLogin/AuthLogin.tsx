@@ -48,9 +48,7 @@ const AuthLogin = (): JSX.Element => {
     const provider = new GoogleAuthProvider();
     const data = await signInWithPopup(auth, provider);
     showToast();
-    await dispatch(
-      fetchLoginGoogleAsync({ token: await data.user.getIdToken() })
-    );
+    dispatch(fetchLoginGoogleAsync({ token: await data.user.getIdToken() }));
   };
   return (
     <>

@@ -20,6 +20,7 @@ import {
   selectCurrentPage,
   selectLastPage,
   selectListUser,
+  selectMessageListUser,
   selectMessageUser,
   selectStatusDelete,
   selectStatusUpdate,
@@ -51,7 +52,10 @@ import { fetchListRole } from 'components/RoleProvider/roleProvider.service';
 import { restAPI } from 'config/api';
 import useDebounce from 'hook/useDebounce';
 import {
+  resetDelete,
   resetMessage,
+  resetMessageListUser,
+  resetUpdateUser,
 } from 'components/UserProvider/userProvider.slice';
 import EditIcon from '@mui/icons-material/Edit';
 import { toast } from 'react-toastify';
@@ -63,7 +67,7 @@ const TableUser = (): JSX.Element => {
   const isDelete = useAppSelector(selectStatusDelete);
   const isUpdate = useAppSelector(selectStatusUpdate);
   const count = useAppSelector(selectCount);
-  const message = useAppSelector(selectMessageUser);
+  const message = useAppSelector(selectMessageListUser);
   const currentPage = useAppSelector(selectCurrentPage);
   const [openForm, setOpenForm] = React.useState<boolean>(false);
   const [numberPage, setNumberPage] = useState<number>(1);
@@ -122,22 +126,37 @@ const TableUser = (): JSX.Element => {
   };
 
   React.useEffect(() => {
-    dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    return (): void => {
+      dispatch(resetMessageListUser());
+    };
   }, [pagnigation]);
 
   React.useEffect(() => {
-    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    if (isDelete) {
+      dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+    }
+    return (): void => {
+      dispatch(resetMessageListUser());
+      dispatch(resetDelete());
+    };
   }, [isDelete]);
 
   React.useEffect(() => {
-    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
-    handleCloseForm();
+    if (isUpdate) {
+      dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
+      handleCloseForm();
+    }
+    return (): void => {
+      dispatch(resetMessageListUser());
+    };
   }, [isUpdate]);
 
   React.useEffect(() => {
-    dispatch(resetMessage());
     dispatch(fetchListUserAsync({ ...pagnigation, search: search }));
+    return (): void => {
+      dispatch(resetMessageListUser());
+    };
   }, [debouncedSearch]);
 
   React.useEffect(() => {
@@ -150,21 +169,12 @@ const TableUser = (): JSX.Element => {
 
   React.useEffect(() => {
     if (message !== '') {
-      if (message === 'Load List User Success') {
-        toast.success(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      } else {
-        toast.success(message, {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-        });
-      }
+      toast.success(message, {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   }, [message]);
 
@@ -174,7 +184,7 @@ const TableUser = (): JSX.Element => {
 
   return (
     <TableContainer component={Paper}>
-      <Grid container spacing={2} alignItems="center" padding={1}>
+      <Grid container spacing={2} alignItems="center" padding={3}>
         <Grid item xs={4}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GroupIcon sx={{ fontSize: '25px', marginRight: '2px' }} />
@@ -266,7 +276,7 @@ const TableUser = (): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                  {index + sizePage * (numberPage - 1) + 1}
+                    {index + sizePage * (numberPage - 1) + 1}
                   </TableCell>
                   <TableCell align="left">
                     <Avatar

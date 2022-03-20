@@ -1,6 +1,5 @@
-
 import { Parking } from 'models/parking';
-export type FetchSuccessPayloadParkingDetail = BaseResponse<Parking>
+export type FetchSuccessPayloadParkingDetail = BaseResponse<Parking>;
 import { Error } from 'models/error';
 export interface PagnigationData<T> {
   count: number;
@@ -20,9 +19,12 @@ export interface BaseResponse<T> {
 
 export type DeleteParkingPayload = BaseResponse<string>;
 
+export type UpdateStatusParking = BaseResponse<string>;
+
 export type FetchSuccessListParkingPayload = BaseResponse<
   PagnigationData<Parking[]>
 >;
+
 export type FetchSuccessEmptyParkingPayload =
   BaseResponse<FetchEmptyListParking>;
 

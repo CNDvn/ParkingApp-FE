@@ -15,6 +15,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { logout } from 'components/UserProvider/userProvider.service';
 import { restAPI } from 'config/api';
 import { toast } from 'react-toastify';
+import IconBan from '../../../images/ban.png';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 interface ISidebar {
   handleLeftDrawerToggle: VoidFunction;
   leftDrawerOpened: boolean;
@@ -39,7 +41,7 @@ const Sidebar = ({
   const navigate = useNavigate();
   const drawer = (
     <>
-      <Box sx={{ width: 250, mt: '20px' }} role="presentation">
+      <Box sx={{ width: 400, mt: '20px' }} role="presentation">
         <List>
           <Divider />
           <ListItem
@@ -54,6 +56,27 @@ const Sidebar = ({
               <PersonIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>User</ListItemText>
+            <ListItemIcon>
+              <ArrowDropDownIcon sx={{ fontSize: '32px' }} />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem
+            button
+            selected={selectedIndex === 4}
+            onClick={(event): void => {
+              handleListItemClick(event, 4);
+              navigate(PATH_NAME.DashboardAdminBanUser);
+            }}
+          >
+            <ListItemIcon>
+              <img
+                src={IconBan}
+                alt=""
+                srcSet=""
+                style={{ width: 30, height: 30 }}
+              />
+            </ListItemIcon>
+            <ListItemText>Ban User</ListItemText>
           </ListItem>
           <ListItem
             button

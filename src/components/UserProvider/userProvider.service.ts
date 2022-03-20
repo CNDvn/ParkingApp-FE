@@ -9,6 +9,7 @@ import {
   LoginRequestPayload,
   LoginSuccessPayload,
   LogoutSuccessPayload,
+  PayloadUpdateBanUser,
   ProfileSuccessPayload,
   UpdateProfileRequest,
   UpdateProfileSuccessPayload,
@@ -114,6 +115,19 @@ export const deleteUser = async (
 ): Promise<DeleteUserPayload> => {
   const { data: response } = await restClient.delete<DeleteUserPayload>(
     `/users/${id}`,
+    { headers: { Authorization: 'Bearer ' + token } }
+  );
+  return response;
+};
+
+export const updateBanUser = async (
+  restClient: RestClient,
+  payload: PayloadUpdateBanUser,
+  token: string
+): Promise<DeleteUserPayload> => {
+  const { data: response } = await restClient.put<DeleteUserPayload>(
+    `/users/${payload.id}/status?status=${payload.status}`,
+    null,
     { headers: { Authorization: 'Bearer ' + token } }
   );
   return response;

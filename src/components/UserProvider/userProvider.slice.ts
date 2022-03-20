@@ -5,10 +5,12 @@ import { ErrorBase } from 'models/error';
 import { User } from 'models/user';
 import {
   fetchDeleteUser,
+  fetchListBanUser,
   fetchListUserAsync,
   fetchLoginAsync,
   fetchLoginGoogleAsync,
   fetchProfileAsync,
+  fetchUpdateBanUser,
   fetchUpdateProfile,
   fetchUpdateUser,
   fetchUploadAvatar,
@@ -23,6 +25,8 @@ import {
 export interface UserSlice {
   user: User;
   message: string | undefined;
+  messageBan: string | undefined;
+  messageListUser: string | undefined;
   messageLogin: string | undefined;
   status: StatusRequest.PENDING | StatusRequest.SUCCESS | StatusRequest.FAILED;
   statusLogin:
@@ -56,6 +60,8 @@ const initialState: UserSlice = {
     username: '',
   },
   message: '',
+  messageBan: '',
+  messageListUser:'',
   messageLogin: '',
   status: StatusRequest.PENDING,
   statusLogin: StatusRequest.PENDING,
@@ -104,14 +110,31 @@ export const userSlice = createSlice({
     resetMessage: (state) => {
       state.message = '';
     },
+    resetMessageListUser: (state) => {
+      state.messageListUser = '';
+    },
     resetDelete: (state) => {
       state.isDelete = false;
     },
     resetProfile: (state) => {
       state.statusUploadProfile = false;
     },
+    resetUpdateUser: (state) => {
+      state.statusUpdateUser = false;
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchUpdateBanUser.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchUpdateBanUser.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      state.messageBan = action.payload.result;
+    });
+    builder.addCase(fetchUpdateBanUser.rejected, (state, action) => {
+      state.status = StatusRequest.FAILED;
+      state.messageBan = (action.payload as ErrorBase<string>).message;
+    });
     // login
     builder.addCase(fetchLoginAsync.pending, (state) => {
       state.statusLogin = StatusRequest.PENDING;
@@ -160,19 +183,19 @@ export const userSlice = createSlice({
         state.listUserPagination = action.payload?.result as PagnigationData<
           User[]
         >;
-        state.message = 'Load List User Success';
+        state.messageListUser = 'Load List User Success';
       } else if (
         instanceOfFetchEmptyListUser(
           action.payload?.result as FetchEmptyListUser
         )
       ) {
-        state.message = (action.payload?.result as FetchEmptyListUser).message;
+        state.messageListUser = (action.payload?.result as FetchEmptyListUser).message;
         state.listUserPagination.data = [];
       }
     });
     builder.addCase(fetchListUserAsync.rejected, (state, action) => {
       state.status = StatusRequest.FAILED;
-      state.message = (action.payload as ErrorBase<string>).message;
+      state.messageListUser = (action.payload as ErrorBase<string>).message;
     });
     // login google
     builder.addCase(fetchLoginGoogleAsync.pending, (state) => {
@@ -226,7 +249,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageListUser = action.payload.result;
       state.statusUpdateUser = true;
     });
     builder.addCase(fetchUpdateUser.rejected, (state) => {
@@ -239,14 +262,44 @@ export const userSlice = createSlice({
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageListUser = action.payload.result;
       state.isDelete = true;
     });
     builder.addCase(fetchDeleteUser.rejected, (state) => {
       state.status = StatusRequest.FAILED;
     });
+
+    builder.addCase(fetchListBanUser.pending, (state) => {
+      state.status = StatusRequest.PENDING;
+    });
+    builder.addCase(fetchListBanUser.fulfilled, (state, action) => {
+      state.status = StatusRequest.SUCCESS;
+      if (
+        instanceOfPagnigationData(
+          action.payload?.result as PagnigationData<User[]>
+        )
+      ) {
+        state.listUserPagination = action.payload?.result as PagnigationData<
+          User[]
+        >;
+        state.messageBan = 'Load List User Process Success';
+      } else if (
+        instanceOfFetchEmptyListUser(
+          action.payload?.result as FetchEmptyListUser
+        )
+      ) {
+        state.messageBan = (
+          action.payload?.result as FetchEmptyListUser
+        ).message;
+        state.listUserPagination.data = [];
+      }
+    });
+    builder.addCase(fetchListBanUser.rejected, (state, action) => {
+      state.status = StatusRequest.FAILED;
+      state.messageBan = (action.payload as ErrorBase<string>).message;
+    });
   },
 });
-export const { resetUser, resetFlag, resetMessage, resetDelete, resetProfile } =
+export const { resetUser,resetFlag, resetUpdateUser,resetMessageListUser,resetMessage, resetDelete, resetProfile } =
   userSlice.actions;
 export default userSlice.reducer;
