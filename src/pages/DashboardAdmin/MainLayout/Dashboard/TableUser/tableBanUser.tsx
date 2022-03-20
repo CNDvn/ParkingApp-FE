@@ -27,7 +27,6 @@ import {
   selectLastPage,
   selectListUser,
   selectMessageBanUser,
-  selectStatusDelete,
 } from 'components/UserProvider/userProvider.selector';
 import { IUserPagnigation } from 'models/base';
 import {
@@ -39,7 +38,6 @@ import { useDispatch } from 'react-redux';
 import { resetMessage } from 'components/UserProvider/userProvider.slice';
 const TableBanUser = (): JSX.Element => {
   const listUser = useAppSelector(selectListUser);
-  const isDelete = useAppSelector(selectStatusDelete);
   const [sizePage] = React.useState<number>(5);
   const lastPage = useAppSelector(selectLastPage);
   const dispatch = useDispatch();
@@ -59,9 +57,6 @@ const TableBanUser = (): JSX.Element => {
     dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
   }, [pagnigation]);
 
-  React.useEffect(() => {
-    dispatch(fetchListUserAsync({ ...pagnigation, search: '' }));
-  }, [isDelete]);
   React.useEffect(() => {
     dispatch(fetchListBanUser({ ...pagnigation, search: '' }));
   }, [pagnigation, message]);
