@@ -36,6 +36,7 @@ import {
 } from 'components/UserProvider/userProvider.action';
 import { useDispatch } from 'react-redux';
 import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import BlockIcon from '@mui/icons-material/Block';
 const TableBanUser = (): JSX.Element => {
   const listUser = useAppSelector(selectListUser);
   const [sizePage] = React.useState<number>(5);
@@ -123,7 +124,7 @@ const TableBanUser = (): JSX.Element => {
             <TableCell align="left">Phone</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Role</TableCell>
-            {/* <TableCell align="left">Booking Cancel</TableCell> */}
+            <TableCell align="left">Booking Cancel</TableCell>
             <TableCell align="left">Status</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
@@ -157,7 +158,11 @@ const TableBanUser = (): JSX.Element => {
                       variant="outlined"
                     />
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
+                    {' '}
+                    {Math.floor(Math.random() * 10) + 1}
+                  </TableCell>
+                  <TableCell align="center">
                     {' '}
                     <Chip label={item.status} color="primary" />
                   </TableCell>
@@ -174,7 +179,7 @@ const TableBanUser = (): JSX.Element => {
                           variant="outlined"
                           color="error"
                         >
-                          <DeleteIcon />
+                          <BlockIcon />
                         </Button>
                       ) : (
                         <Button
