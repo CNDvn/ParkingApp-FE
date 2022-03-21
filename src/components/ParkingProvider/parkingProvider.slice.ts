@@ -216,7 +216,7 @@ export const parkingSlice = createSlice({
     });
     builder.addCase(updateParkingConfirm.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageProcess = action.payload.result;
     });
     builder.addCase(updateParkingConfirm.rejected, (state) => {
       state.status = StatusRequest.FAILED;
@@ -227,7 +227,7 @@ export const parkingSlice = createSlice({
     });
     builder.addCase(updateParkingReject.fulfilled, (state, action) => {
       state.status = StatusRequest.SUCCESS;
-      state.message = action.payload.result;
+      state.messageProcess = action.payload.result;
     });
     builder.addCase(updateParkingReject.rejected, (state) => {
       state.status = StatusRequest.FAILED;
