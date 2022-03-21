@@ -36,6 +36,7 @@ import {
 } from 'components/UserProvider/userProvider.action';
 import { useDispatch } from 'react-redux';
 import { resetMessage } from 'components/UserProvider/userProvider.slice';
+import BlockIcon from '@mui/icons-material/Block';
 const TableBanUser = (): JSX.Element => {
   const listUser = useAppSelector(selectListUser);
   const [sizePage] = React.useState<number>(5);
@@ -178,7 +179,7 @@ const TableBanUser = (): JSX.Element => {
                           variant="outlined"
                           color="error"
                         >
-                          <DeleteIcon />
+                          <BlockIcon />
                         </Button>
                       ) : (
                         <Button
