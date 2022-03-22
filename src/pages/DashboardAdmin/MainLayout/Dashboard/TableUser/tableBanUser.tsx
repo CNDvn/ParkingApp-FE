@@ -18,7 +18,6 @@ import { Box } from '@mui/system';
 import { User } from 'models/user';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { stringAvatar } from 'utils/handleAvatar';
 import { useAppSelector } from 'hook/hookRedux';
 import DoneIcon from '@mui/icons-material/Done';
