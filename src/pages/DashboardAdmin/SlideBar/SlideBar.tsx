@@ -11,7 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router-dom';
 import { PATH_NAME } from 'config/path';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+// import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { logout } from 'components/UserProvider/userProvider.service';
 import { restAPI } from 'config/api';
 import { toast } from 'react-toastify';
@@ -91,7 +91,7 @@ const Sidebar = ({
             </ListItemIcon>
             <ListItemText>Parking</ListItemText>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             button
             selected={selectedIndex === 2}
             onClick={(event): void => {
@@ -103,7 +103,7 @@ const Sidebar = ({
               <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />
             </ListItemIcon>
             <ListItemText>Wallet</ListItemText>
-          </ListItem>
+          </ListItem> */}
           <Divider />
         </List>
       </Box>
